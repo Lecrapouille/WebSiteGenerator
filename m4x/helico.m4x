@@ -1,0 +1,41 @@
+define([HELICO_HTML_BEGIN],[divert(DIVERT_HEADER_CODE)
+
+DEF_TITLE(Quentin Quadrat)
+ifelse(LANG,fr,[DEF_TITLE(Construction d'un hélicoptère quatre rotors)],
+[DEF_TITLE(Construction of a four-rotor heads helicopter)])
+DEF_KEYWORDS(EPITA GISTR draganflyer xufo quatre rotors four-rotor heads RC helicopter
+embedded PIC dsPIC Scilab Scicos SynDEx, Mplab)
+DEF_DESCRIPTION(_META_TITLE_)
+MENU_ACTIF(MENU_EMBARQUE)
+divert])
+
+define([HELICO_SUITE],[LEFT_RUBRIC(
+ifelse(LANG,fr,
+
+[Table des matières,
+Présentation du projet,helico_intro-LANG.html,
+Prévision du déroulement du projet,helico_etapes-LANG.html,
+Partie mécanique,helico_mecanique-LANG.html,
+Partie électronique,helico_electronique-LANG.html,
+Partie logicielle,helico_logiciel-LANG.html,
+Asservissement,helico_asservissement-LANG.html,
+Downloads,helico_download-LANG.html,
+Photos,helico_photos-LANG.html,
+Bibliographie et liens,helico_biblio-LANG.html],
+
+[Table of contents,
+Project presentation,helico_intro-LANG.html,
+Scheduling forecast,helico_etapes-LANG.html,
+Material part,helico_matos-LANG.html,
+Electronical part,helico_electro-LANG.html,
+Software,helico_logiciel-LANG.html,
+Control,helico_asservissement-LANG.html,
+Downloads,helico_download-LANG.html,
+Photos,helico_photos-LANG.html,
+Bibliography and links,helico_biblio-LANG.html]))
+
+dnl <img src="helico/xh4g3.png" width="150" height="250" alt="logo" />
+])
+
+
+define([EN_CONSTRUCTION],[ICON_BUILD ifelse(LANG,fr,[STRONG(ATTENTION : Page en construction et projet en cours de réalisation)],[STRONG(WARNING : This site is under construction and this project is still in progress)])])

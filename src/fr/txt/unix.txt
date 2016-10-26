@@ -1,0 +1,8 @@
+====== Base de connaissance programmation Unix ======
+
+  * Articles Linux Magazine [[http://chl.be/glmf/]].
+  * Programmer le [[Bluetooth]] sous Unix.
+  * Programmer le [[Port série]] sous Unix et pour Windows.
+  * Utiliser un [[joystick]] sous Linux pour vos programmes.
+  * Calculer la [[Racine carrée]] d'un nombre ainsi que son inverse.
+  * Sachez optimiser vos [[boucles conditionnelles]] !

@@ -1,0 +1,72 @@
+====== Qu'est ce qu'un PID ======
+
+FIXME
+
+====== Cours PID ======
+
+PID discret. Cours et implémentation en langage C avec des nombres codés sur 16 bits.
+//Source// : ATMEL
+
+  * {{:atmel_pid.pdf|}}
+  * {{:atmel_pid.zip|}}
+
+====== Lieux d'Evans ======
+
+Trouver les bons coefs du PID avec la methode des lieux d'[[Evans]]
+
+====== Code ======
+
+<code c>
+struct          s_pid
+{
+  float         kp; /**< The Proportional tuning constant. */
+  float         ki; /**< The Integral tuning constant. */
+  float         kd; /**< The Derivate tuning constant. */
+  float         sum_err;  /**< Summation of errors, used for integrate calculations. */
+  float         last_obs; /**< Last process value, used to find derivative of process value. */
+};
+
+/*****************************************************************************/
+void                    pid_init(float                  kp,
+                                 float                  ki,
+                                 float                  kd,
+                                 struct s_pid           *pid)
+{
+  pid->kp = kp;
+  pid->ki = ki;
+  pid->kd = kd;
+  pid->sum_err = 0.0f;
+  pid->last_obs = 0.0f;
+}
+
+/*****************************************************************************/
+void                    pid_reset_integrator(struct s_pid       *pid)
+{
+  pid->sum_err = 0.0f;
+}
+
+/*****************************************************************************/
+float                   discrete_pid(float              consigne,
+                                     float              observation,
+                                     struct s_pid       *pid)
+{
+  float                 out;
+  float                 err;
+
+  err = consigne - observation;
+
+  // Prop
+  out = err * pid->kp;
+
+  // Integrale
+  pid->sum_err += err;
+  out += pid->sum_err * pid->ki;
+
+  // Derivee: l'observ doit etre au prealable filtree
+  out += (pid->last_obs - observation) * pid->kd;
+  pid->last_obs = observation;
+
+  return out;
+}
+</code>
+

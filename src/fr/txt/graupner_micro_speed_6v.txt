@@ -1,0 +1,57 @@
+====== Moteur Graupner Micro Speed 6V ======
+
+{{:moteur:microspeed.jpg?200}}
+
+Aussi connus sous le nom de CN12RXC.
+
+  * Référence Graupner : [[http://shop.graupner.de/webuerp/servlet/AI?ARTN=7280|Micro Speed 6V]]
+  * Référence GWS : [[http://www.gws.com.tw/english/product/powersystem/edp50.htm|EDP-50]]
+
+===== Caractéristiques =====
+
+  * Poids:     15 grammes
+  * hélices:   EP3020 (Diametre: 3 pouces. Pas: 2 pouces)
+
+^ Tension (V) ^ Ampérage (A) ^ Poussée (g) ^ Puissance (w) ^ Efficacité (g/w) ^
+|   6.0   |   1.35   |   51   |   8.10   |   6.30   |
+|   7.2   |   1.66   |   60   |   11.95   |   5.02   |
+
+===== Expériences =====
+
+Expériences sur 2 moteurs. Les moteurs sont alimentés avec du 5V. On fait varier le rapport cyclique du PWM. Fréquence du PWM : 100 KHz.
+
+FIXME Montrer le schéma éléctronique
+
+FIXME Refaire ces expériences avec une tension de l'ordre de 8V.
+
+
+//Note: Alimentation utilisée : (Alim de PC) RECOM 450W avec +5V stabilise (min: 0A, max: 2.5A)//
+
+<code>
+// Code Scilab
+
+// Moteur 1 : PWM --> courant (bleu)
+plot2d([  0, 32, 64, 96,128,160,192,224,256,288,320,333,352,384],
+       [318,306,305,303,301,298,283,270,240,190,135,106, 90, 42],
+       style=2)
+
+// Moteur 1: Regression lineaire
+plot2d([0,192,256,416],[318,284,240,0])
+
+// Moteur 2 : PWM --> courant (vert)
+plot2d([  0, 32, 64, 96,128,160,192,224,256,288,320,333,352,384],
+       [364,354,342,336,330,326,317,310,296,270,225,192,165, 87],
+       style=3)
+
+// Moteur 2 : Regression lineaire
+plot2d([0,250,314,416],[364,300,240,0])
+</code>
+
+Courbes associées (abscisse: PWM ; ordonnées: courant)
+
+{{:moteur:microspeed_nonlin5v.png|}}
+
+===== Infos supplémentaires =====
+
+  * Moteurs utilisés sur le quadri de Crapouille.
+  * Fonctions non linéaires sont utilisées pour l'asservissement.

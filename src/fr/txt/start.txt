@@ -1,0 +1,74 @@
+{{:logo:xbird.gif|}}
+
+Bienvenu à tous (et à toutes ??? ;-)) sur ce wiki consacré aux plate-formes volantes en forme de croix (appelées quadricoptères, quadrirotors ...). Ce wiki est dédié aux forums [[http://www.xbird.fr/]] et [[http://www.mk-fr.info/forum/]] Forum spécialisé, pour le premier, sur la construction des carcasses, développement logiciel et électronique. Forum spécialisé, pour le second, sur le projet le plus aboutit actuellement : Mikrokopter.
+
+Voici le sommaire proposé de ce wiki. Toutes modifications de la forme et du contenu sont les bienvenues. Alors il ne reste plus qu'à compléter les sections manquantes ! Bon travail et surtout bonne lecture. Que la connaissance soit partagée et de libre accès. 
+
+Signé: Crapouille
+
+====== Les projets commerciaux plate-forme volante à quatre rotors ======
+
+  * [[Mikrokopter]] Projet le plus aboutit développés par deux passionnés allemands.
+  * [[UAVP]] Projet open source moins aboutit.
+  * [[NG-UAVP]] Renouveau du projet UAVP.
+  * [[Draganflyer]] Jouet professionnel (drone).
+  * [[Microdrone]] Jouet professionnel (drone).
+  * [[Xufo]] Jouet.
+  * [[JumpJet]] Jouet.
+  * [[Tribelle]] Jouet. 3 rotors au lieu de 4.
+  * [[Yufo]] Jouet. 3 rotors au lieu de 4.
+  * Comparatifs
+
+====== Réalisez votre plate-forme volante ======
+
+ ==== La théorie ====
+
+  * Principe de fonctionnement
+  * Comment bien les piloter
+  * Dimensionner les [[moteurs]]
+  * Choisir les [[hélices]]
+  * La fusion de données des capteurs ([[data fusion]])
+
+ ==== La mécanique ====
+
+  * Structure ALU
+  * Structure Carbone
+  * Structure mixte (ALU + Carbone)
+  * Structure composite
+  * Actuateurs (moteurs brushless, ...)
+
+ ==== L'électronique ====
+
+  * [[Micro-contrôleurs]]
+  * [[Capteurs]] (inertiel, [[GPS]], ...)
+  * [[Contrôleurs moteurs]] (inteface de  puissance)
+  * [[Filtrage analogique]]
+  * Accumulateurs
+
+ ==== Le soft ====
+
+  * [[Régulation]] (pilote auto, asservissement, théorie, ...)
+  * [[Programmation]]
+  * [[Logiciels importants]]
+  * [[Protocole de communication]]
+
+====== Les projets en construction ======
+
+  * Le [[H4H]] de Crapouille
+  * Le [[http://tom.poub.free.fr|STiX]] de Sébastien et Thomas
+
+====== Autre ======
+
+  * [[Flight Gear]]
+  * [[Mecanique Spatiale]]
+
+====== Glossaire et Liens ======
+ 
+  * Glossaire
+  * [[Liens]]
+
+====== Aide wiki ======
+
+  * FIXME Faudra qu'un jour que je me motive pour installer le plugin LaTeX pour dokuwiki afin de mettre des formules de maths !
+  * Aide dokuwiki [[http://www.dokuwiki.org/syntax]]
+  * Entrainez vous à l'édition du wiki grâce au [[Bac à sable]] 

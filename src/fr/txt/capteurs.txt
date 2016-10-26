@@ -1,0 +1,10 @@
+====== Capteurs ======
+
+  * microcontroleurs
+  * [[gyroscopes]]
+  * accéléromètres
+  * [[GPS]]
+  * capteurs de pression
+  * capteurs magnétiques
+  * télémètres optiques
+  * [[Télécommandes]]

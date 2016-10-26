@@ -1,0 +1,89 @@
+====== Filtrage numérique ======
+
+FIXME Le plugin LaTeX permettant d'écrire des formules mathématiques n'est pas encore disponible !!
+
+==== Intégration ====
+
+
+La fonction de transfert (temps continu):
+<code>
+      1
+X = ----- U
+      S
+</code>
+
+La fonction de transfert (temps discret):
+
+$x_{n+1} = h u_{n} + x_{n}$
+
+<code c>
+inline void     discrete_integral(float u, float *x, float h)
+{
+  *x = h * u + *x;
+}
+</code>
+
+==== Filtre passe bas du premier ordre ====
+
+La fonction de transfert (temps continu):
+<code>
+         1
+X = -------------- U
+       1 + S / w_c
+</code>
+
+La fonction de transfert (temps discret):
+
+$x_{n+1} = (1 - a) x_{n} + a u_{n}$
+
+Avec :
+  * $u_{n}$ l'entrée (signal provenant, par exemple, d'un convertisseur analogique) à l'instant $n$.
+  * $x_{n}$ l'état du système (une mémoire) à l'instant $n$.
+  * $x_{n+1}$ comme $x_{n}$ mais à l'instant $n+1$
+  * $a = h w_{c} = 2 h π f_{c}$
+  * $h$ le pas d'échantillonnage (par exemple la vitesse du convertisseur analogique mettant entre $u_{n}$ et $u_{n+1}$). Il doit être petit.
+  * $f_{c}$ la fréquence de coupure.
+
+Voici une implémentation en langage C (avec des float) :
+<code c>
+inline void     low_pass_filter_1st_order(float a, float *x, float u)
+{
+  *x = (1 - a) * *x + a * u;
+}
+</code>
+
+Et son utilisation dans un programme (sur un DSP). Ici, par exemple: f_c = 10 Hz et la fréquence d'échantillonnage de l'ADC = 2KHz (soit h = 1/2000). On calcule : a = 2 * 3.1415 * 10 / 2000 = 0.031415 soit environ $2^{-5}$. On passe en paramètre la valeur 5 dans la fonction
+low_pass_filter_1st_order.
+
+<code c>
+// Variable globale
+static float x = 0.0f;
+
+// Frequence d'appel de la fonction: 2KHz
+void handler_interruption_ADC(void)
+{
+  // Recupere la nouvelle valeur analogique
+  val_adc = ... ;
+
+  // Supprime les frequences > 10 Hz
+  first_order_filter(5, &x, val_adc);
+}
+
+int main(void)
+{
+
+  ...
+
+  init_ADC(FREQUENCE_ECHANTILLONNAGE_2KHZ);
+
+  ...
+
+  while (1)
+  {
+    Attendre_N_secondes(1/2000);
+    UART_send(x);
+  }
+
+  return 0;
+}
+</code>

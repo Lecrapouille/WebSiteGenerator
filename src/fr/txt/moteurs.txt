@@ -1,0 +1,14 @@
+====== Moteurs courant continu à balais ======
+
+  * [[Graupner Speed 195]]
+  * [[Graupner Micro Speed 6V]]
+
+Documents importants :
+
+  * Retrouvez les caractéristiques des moteurs au format Excel : [[http://clayesduciel.free.fr/electrique/volelec1.htm|clayesduciel]]
+
+====== Moteurs Brushless ======
+
+====== Voir aussi ======
+
+  * Liens internes : [[Contrôleurs moteurs]]

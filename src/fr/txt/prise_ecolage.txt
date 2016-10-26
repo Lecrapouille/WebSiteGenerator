@@ -1,0 +1,7 @@
+====== hack de la prise écolage ======
+
+  * [[http://www.digitalspirit.org/wiki/projets/carbooon/fms]]
+  * [[http://silicium31.chez.com/RC2PC/docrc2pc.htm]]
+  * [[http://silicium31.chez.com/les_docs.htm]]
+
+FIXME Note de Crapouille: "Hep les gars je cherche quelqu'un qui a ecrit un bout de code C ou assembleur pour *PIC gérant ce protocole. En effet j'ai une télécommande Futaba et j'aimerai pouvoir communiquer avec elle via la prise ecolage et mon PC (Linux, Mac, PC). Je n'ai malheureusement pas le temps de le faire !"

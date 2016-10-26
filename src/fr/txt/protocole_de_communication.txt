@@ -1,0 +1,7 @@
+====== Protocole de communication ======
+
+  * UART
+  * SPI
+  * I2C
+  * CAN
+  * USB

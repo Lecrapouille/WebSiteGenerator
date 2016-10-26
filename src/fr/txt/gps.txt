@@ -1,0 +1,13 @@
+====== Tout sur le GPS ======
+
+===== Trames NMEA =====
+
+  * Les trames NMEA : [[http://www.gpspassion.com/forumsen/topic.asp?TOPIC_ID=17661]]
+  * Les trames NMEA : [[http://home.mira.net/~gnb/gps/nmea.html]]
+  * Convertisseur de trames NMEA vers fichier Google Earth (kml) : [[http://www.h-schmidt.net/NMEA/]]
+
+===== Calcul Lat/Lon =====
+
+  * Application Java: [[http://williams.best.vwh.net/gccalc.htm]]
+  * Aviation Formulary: [[http://williams.best.vwh.net/avform.htm]]
+  * [[http://www.lion1906.com/Pages/francais/utile/conversion_-_cap.html]]

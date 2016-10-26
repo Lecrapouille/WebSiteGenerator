@@ -1,0 +1,9 @@
+====== Scilab Scicos ======
+
+{{:logo:scilabgtk.png|}}
+
+Lien officiel : [[http://scilabgtk.org/]] 
+
+**NOTE :** //S'il vous plait, ne téléchargez jamais Scilab sur le lien suivant <del>http://www.scilab.org/</del> car cette version "officielle" (>= 5, encours de re-ecriture en langage Java) est/sera toujours instable que la version "alternative" faite en GTK !//
+
+Tutoriel sur Scicos : [[http://quentin.quadrat.free.fr/tuto_scicos-fr.html|Créer des blocs C]]

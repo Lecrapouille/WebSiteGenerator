@@ -1,0 +1,11 @@
+====== Automatique ======
+
+  * [[Cours d'automatique]]
+  * [[PID]]
+  * [[Filtrage numérique]]
+  * [[Filtrage analogique]]
+  * [[Filtre de Kalman]]
+  * Systemes commandables, observables 
+  * Regulation du courant dans les moteurs
+  * Regulation de l'attitude de la plate-forme volante
+  * Systemes Inertiels

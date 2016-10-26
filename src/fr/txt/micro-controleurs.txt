@@ -1,0 +1,7 @@
+====== Micro-contôleurs ======
+
+On présente ceux qui sont utilisés dans les projets perso :
+
+  * [[dsPIC]] et autres composants de Microchip.
+  * AVR
+  * ARM

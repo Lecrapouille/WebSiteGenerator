@@ -1,0 +1,9 @@
+====== Cours d'automatique ======
+
+Excellent cours d'automatique fait par Karl Johan Åström, un grand maître dans le domaine :
+  * [[http://xbird.wiki.free.fr/dokuwiki/BigFiles/AstromCours.pdf|Cours]] (format PDF)
+  * Lien oueb : [[http://www.control.lth.se/~kja/]]
+
+====== Liens internes wiki associés ======
+
+  * [[PID]]

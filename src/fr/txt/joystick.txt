@@ -1,0 +1,182 @@
+====== Programmer un bâton de la joie ======
+
+**ATTENTION:** Le code suivant ne marche que pour Linux (utilise <linux/joystick.h>).
+
+Le fichier UNIX_joystick_driver.c suivant peut être compilé en tant que bibliothèques statique ou partagée.
+
+<code c>
+#include "UNIX_joystick_driver.h"
+
+int             joystick_open(struct s_joystick         *joy,
+                              const char                *device_name,
+                              int                       read_style)
+{
+  /* Open joystick device */
+  if ((joy->fd = open(device_name, O_RDONLY)) == -1)
+    {
+      JOYSTICK_ERROR("Couldn't open joystick\n");
+      return -1;
+    }
+
+  /* Get informations about the joystick */
+  if ((ioctl(joy->fd, JSIOCGAXES, &(joy->num_of_axis)) == -1) ||
+      (ioctl(joy->fd, JSIOCGBUTTONS, &(joy->num_of_buttons)) == -1) ||
+      (ioctl(joy->fd, JSIOCGNAME(JOYSTICK_NAME_LENGTH), joy->name_of_joystick) == -1))
+    {
+      JOYSTICK_ERROR("Couldn't get joystick informations\n");
+      return -1;
+    }
+
+  /* Alloc some memory to save joystick states */
+  joy->axis = (int *) calloc(joy->num_of_axis, sizeof (int));
+  joy->buttons = (char *) calloc(joy->num_of_buttons, sizeof (char));
+  if ((joy->axis == NULL) || (joy->buttons == NULL))
+    {
+      JOYSTICK_ERROR("Couldn't get memory to stock states\n");
+      return -1;
+    }
+
+  /* use non-blocking mode */
+  if (read_style == NONBLOCK)
+    fcntl(joy->fd, F_SETFL, O_NONBLOCK);
+
+  return 0;
+}
+
+void            joystick_read(struct s_joystick                 *joy)
+{
+  /* read the joystick state */
+  read(joy->fd, &(joy->states), sizeof (struct js_event));
+
+  /* see what to do with the event */
+  switch (joy->states.type & ~JS_EVENT_INIT)
+    {
+    case JS_EVENT_AXIS:
+      joy->axis[joy->states.number] = joy->states.value;
+      break;
+    case JS_EVENT_BUTTON:
+      joy->buttons[joy->states.number] = joy->states.value;
+      break;
+    }
+}
+
+void            joystick_close(struct s_joystick                *joy)
+{
+  free(joy->axis);
+  free(joy->buttons);
+  close(joy->fd);
+}
+
+void            joystick_show_infos(FILE                        *stream,
+                                    const struct s_joystick     *joy)
+{
+  fprintf(stream, "Joystick detected: %s\n\t%d axis\n\t%d buttons\n\n",
+          joy->name_of_joystick,
+          joy->num_of_axis,
+          joy->num_of_buttons);
+  fflush(stream);
+}
+
+void            joystick_show_states(FILE                       *stream,
+                                     const struct s_joystick    *joy)
+{
+  int           i;
+
+  /* print axis */
+  for (i = 0; i < joy->num_of_axis; ++i)
+    fprintf(stream, "%c: %6d  ", 'X' + i, joy->axis[i]);
+
+  /* print buttons */
+  for (i = 0; i < joy->num_of_buttons; ++i)
+    fprintf(stream, "B%d: %d  ", i, joy->buttons[i]);
+
+  fprintf(stream, "\r");
+  fflush(stream);
+}
+</code>
+
+Voici le fichier header qui lui est associé :
+<code c>
+#ifndef UNIX_JOYSTICK_DRIVER_H
+#  define UNIX_JOYSTICK_DRIVER_H
+
+#  include <linux/joystick.h>
+#  include <stdio.h>
+#  include <fcntl.h>
+#  include <unistd.h>
+#  include <errno.h>
+#  include <unistd.h>
+#  include <stdlib.h>
+#  include <string.h>
+#  include <sys/ioctl.h>
+
+#  ifndef JOYSTICK_DEVICE
+#    define JOYSTICK_DEVICE "/dev/input/js0"
+#  endif /* JOYSTICK_DEVICE */
+
+#  ifndef JOYSTICK_NAME_LENGTH
+#    define JOYSTICK_NAME_LENGTH  256
+#  endif /* JOYSTICK_NAME_LENGTH */
+
+#  define NONBLOCK 1
+
+#  define JOYSTICK_ERROR(Msg)\
+{\
+  fprintf(stderr, Msg);\
+  fprintf(stderr, strerror(errno));\
+  fprintf(stderr, "\n");\
+  fflush(stderr);\
+}
+
+/** \brief Structure pour la gestion d'un joystick */
+struct  s_joystick
+{
+  int   fd;             /**< File descriptor Joystick/USB. Shall be private */
+  int   num_of_axis;    /**< Number of axes. Shall be private */
+  int   *axis;          /**< Values of each axis. For public use */
+  int   num_of_buttons; /**< Number of buutons. Shall be private */ */
+  char  *buttons;       /**< State of each buttons. For public use */
+  struct js_event states; /**< Get the action on the joystick. Shall be private */
+  char  name_of_joystick[JOYSTICK_NAME_LENGTH]; /**< Information about the joystick. For public use */
+};
+
+int     joystick_open(struct s_joystick                 *joy,
+                      const char                        *device_name,
+                      int                               read_style);
+#define       joystick_qopen(joy) joystick_open(joy, JOYSTICK_DEVICE, NONBLOCK)
+void    joystick_read(struct s_joystick                 *joy);
+void    joystick_close(struct s_joystick                *joy);
+void    joystick_show_infos(FILE                        *stream,
+                            const struct s_joystick     *joy);
+void    joystick_show_states(FILE                       *stream,
+                             const struct s_joystick    *joy);
+
+#endif /* UNIX_JOYSTICK_DRIVER_H */
+</code>
+
+Le programme principal, sous sa forme la plus simple, pourrait ressembler au code suivant :
+
+//Note: Le programme suivant ne permet pas de libérer correctement sa mémoire car il ne s'arrête jamais. A vous de modifier ce programme pour sortir "proprement" de la boucle while.//
+
+<code c>
+#include "UNIX_joystick_driver.h"
+
+
+int                   main(void)
+{
+  static struct s_joystick   joy;
+
+  if (joystick_open(&joy, "/dev/input/js0", NONBLOCK) != -1)
+    {
+      joystick_show_infos(stderr, &joy);
+      while (1)
+        {
+           joystick_read(&joy);
+           joystick_show_states(stderr, &joy);
+        }
+    }
+
+  joystick_close(&joy);
+  return 0;
+}
+</code>

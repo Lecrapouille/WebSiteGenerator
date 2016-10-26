@@ -1,0 +1,11 @@
+====== Moteur Graupner Speed 195 ======
+
+Aussi connus sous le nom EM10.
+
+  * Référence Graupner : [[http://shop.graupner.de/webuerp/servlet/AI?ARTN=6393|Speed 195]]
+  * Référence GWS : [[http://www.gws.com.tw/english/product/powersystem/edp10.htm|EDP-10]]
+
+===== Infos supplémentaires =====
+
+  * Anciennement utilisés sur quadri de Crapouille, mais ils ne sont pas assez puissants pour soulever la carcasse (200 grammes).
+  * Remplacés par [[Graupner Micro Speed 6V]]

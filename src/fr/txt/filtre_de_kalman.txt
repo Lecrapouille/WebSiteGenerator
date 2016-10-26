@@ -1,0 +1,9 @@
+====== Le filtre de Kalman ======
+
+
+Le filtre de Kalman est un estimateur récursif permettant d'estimer certain paramètres d'un système (comme la vitesse ou la position d'un mobile) à l'aide de mesures fortement bruités.
+
+Vous trouverez un article au format pdf expliquant comment, à partir d'un estimateur déterministe "classique" on arrive à une forme de Kalman.
+{{:filtre_de_kalman.pdf|}}
+
+Bonne lecture

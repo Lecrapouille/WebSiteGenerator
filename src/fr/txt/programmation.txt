@@ -1,0 +1,5 @@
+====== Cours, trucs et astuces en programamtion ======
+
+  * [[Unix]],
+  * [[Logiciels importants]]
+  * Protocole de communication (UART, SPI, I2C, ...)

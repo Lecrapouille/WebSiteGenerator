@@ -1,0 +1,7 @@
+====== Programmation Linux et port série ======
+
+Le port série est un port de communication ancien mais toujours utilise ! Tout le monde a besoin d'un port série a portée de main pour debuger une carte électronique. LOL
+
+Voici le lien d'une petite bibliothèque permettant de créer rapidement une application utilisant le port série. Elle fonctionne pour les systèmes Unix et pour Windows :
+
+  * [[http://qextserialport.sourceforge.net/]]

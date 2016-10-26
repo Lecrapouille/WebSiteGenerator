@@ -1,0 +1,12 @@
+Un gyroscope permet d'obtenir la vitesse angulaire [°/sec] d'un mobile selon l'axe de mesure du capteur. Différents types de gyroscopes sont disponibles dans le commerce tels que les gyroscopes mécaniques, les gyroscopes piézo électriques, et les gyroscopes électromécaniques. Ces capteurs appartiennent à la famille des MEMs (Micro Electro Mechanical System).
+
+Intégrer la vitesse angulaire permet d'obtenir la position angulaire du mobile, cependant cette valeur est entachée d'une erreur qui évolue dans le temps. Plusieurs méthodes existent pour supprimer ou bien atténuer cette erreur ([[data fusion]]):
+  - Filtres Analogique/Numérique
+  - Filtre complémentaire
+  - Filtre de Kalman
+
+Les principales références de gyroscopes mems utilisées par les membres du forum sont:
+  * ADSXR300 / ADSXR150
+  * IDG300 (Gyroscope 2 axes)
+  * MLX90609
+

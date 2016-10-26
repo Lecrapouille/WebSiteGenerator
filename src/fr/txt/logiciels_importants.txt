@@ -1,0 +1,8 @@
+====== Logiciels importants ======
+
+  * Du Mikrokopter
+  * [[Scilab/Scicos]]
+  * [[Matlab/Simulink]]
+  * [[SynDEx]]
+  * [[Mplab]]
+  * [[Proteus]]

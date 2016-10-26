@@ -1,0 +1,88 @@
+====== FlightGear ======
+
+===== Présentation =====
+
+  * Lien officiel : [[http://www.flightgear.org]]
+
+  * FlightGear est simulateur de vol open source et multi plate-forme (Windows, Linux, Mac OS X).
+
+===== Vérification des calculs des vraies IMU grâce à FlightGear ? =====
+
+  * Sur le site de [[http://tom.pycke.be/]], sur le thread intitulé "Testing Kalman filters" (Novembre 2007), l'auteur dit qu'on peut récupérer les données inertielles de l'avion (Roulis, tangage, cap, accélération et vitesse angulaire sur les 3 axe, vitesse (note: la quelle ? sûrement la "vitesse vraie" ?!) avec ce simulateur. Ceci peut être utile pour vérifier si nos calculs retournent la même attitude de l'avion que celle observée dans le jeu.
+  * Voici un méthode pour récupérer ces informations (côté Mac OS X) avec FlightGear 1.9.0 :
+    * Supposons que FlightGear a été installé dans le dossier par défaut /Applications/
+    * Bouton droit souris sur l'icone de FlightGear : "Afficher le contenu du paquet"
+    * Allez dans le dossier Contents/Ressources/data/
+    * Ouvrir le fichier preferences.xml
+    * Chercher le tag xml <logging> et commenter tout le code jusqu'à </logging> (il faut mettre les balises <!--- et --->)
+    * Coller le code ci-dessous. Toutes les 100 ms les données seront échantillonnées et sauvegardées dans un fichier log appelé fg_log.csv, les données seront délimitées par un espace (afin de pouvoir être traitées par Scicos). D'autres paramètres peuvent être sauvegardés : se référer au fichier docs\README.properties.
+
+<code>
+<logging>
+  <log n="0">
+   <enabled>true</enabled>
+   <interval-ms>100</interval-ms>
+   <filename>fg_log.csv</filename>
+   <delimiter> </delimiter>
+   <entry n="0">
+    <enabled>true</enabled>
+    <title>AccX</title>
+    <property>/accelerations/pilot/x-accel-fps_sec</property>
+   </entry>
+   <entry n="1">
+    <enabled>true</enabled>
+    <title>AccY</title>
+    <property>/accelerations/pilot/y-accel-fps_sec</property>
+   </entry>
+   <entry n="2">
+    <enabled>true</enabled>
+    <title>AccZ</title>
+    <property>/accelerations/pilot/z-accel-fps_sec</property>
+   </entry>
+   <entry n="3">
+    <enabled>true</enabled>
+    <title>DRoll</title>
+    <property>/orientation/roll-rate-degps</property>
+   </entry>
+   <entry n="4">
+    <enabled>true</enabled>
+    <title>DPitch</title>
+    <property>/orientation/pitch-rate-degps</property>
+   </entry>
+   <entry n="5">
+    <enabled>true</enabled>
+    <title>Roll</title>
+    <property>/orientation/roll-deg</property>
+   </entry>
+   <entry n="6">
+    <enabled>true</enabled>
+    <title>Pitch</title>
+    <property>/orientation/pitch-deg</property>
+   </entry>
+      <entry n="7">
+    <enabled>true</enabled>
+    <title>Heading</title>
+    <property>/orientation/heading-deg</property>
+   </entry>
+   <entry n="8">
+    <enabled>true</enabled>
+    <title>airspeed</title>
+    <property>/velocities/airspeed-kt</property>
+   </entry>
+  </log>
+ </logging>
+</code>
+
+    * N'étant pas encore un expert de FlightGear, je ne sais pas si les 2 points suivants sont optimaux :
+      * Lancer FlightGear et une fois dans le cockpit, cliquer sur le menu "File" puis "Logging". Activer les données à enregistrer et cliquer sur "Enable Logging".
+      * jouer ;-) et un fichier fg_log.csv a du être crée dans le dossier Contents/Ressources/ (je pense que sur les autre architectures, il a du être créé à coté de l'exécutable du simulateur).
+  * Sous Scilab, allez à l'emplacement du fichier fg_log.csv et lancer le script FlightGear_FileCleaner.sci. Penser à changer le nom des variables input_file et output_file. Vous devez obtenir un nouveau fichier log compatible avec le bloc "read from input file".
+  * Sous Scilab, lancer dans le prompt *scicos flightgear_filereader.cos;* puis éditer le bloc "read from input file". Dans le champ "Time record selection" mettez 1 car le temps est la première colonne. Dans le champ "Outputs record selection"mettez 2 3 4 5 6 7 etc pour récupérer les valeurs (Roulis, tangage, cap, accélération et vitesse angulaire sur les 3 axe, vitesse). Changer, ci besoin, le nom du fichier. Laissez les autres champs inchangés. Branchez la sortie événement de ce bloc dans sa propre entrée.
+  * Avant de lancer la simulation, mettez (ou pas) la valeur 1 dans le champ 'Real Time scaling" du menu "Simulate -> Setup".
+
+===== Fichiers associés =====
+
+  * Le fichier de Préférence FlightGear preferences.xml {{:flightgear:preferences.xml|}}
+  * Un fichier log d'exemple généré par FlightGear. Le pas d'échantillonnage est de 100 ms (à plus ou moins des broutilles car mon Mac n'est pas un OS temps réel). L'avion (au sol sans vitesse initiale) décolle sur le côté gauche (car je ne suis pas doué pour le vol :-? donc mon décollage est catastrophique LOL) après je maintient une accélération et un cap fixe (enfin j'essaye) !!! {{:flightgear:flightgear_vol_01.txt|}}
+  * Le fichier flightgear_vol_01.txt tel quel ne peut pas être correctement lu par Scicos (enfin je crois !). J'ai écrit un petit script Scicos (FlightGear_FileCleaner.sci) qui convertit ce fichier en un fichier directement lisible par Scicos {{:flightgear:flightgear_filecleaner.sci|}} A éditer avec un éditeur texte. En gros ce script lit le fichier log, supprime l'entête, tronque le temps par rapport à la date de démarrage et remet les nombre sous une certaines représentation (sinon le bloc Scicos "Lecture d'un fichier" ne marche pas correctement).
+  * Programme exemple Scicos d'extraction des données. {{:flightgear:flightgear_filereader.cos|}} Vous pouvez mettre la simulation en mode temps réel afin de visualiser le "déplacement" de l'avion. Mais si vous faites des calculs dessus je vous conseille de désactiver cette option car si votre vol dure une heure, votre simulation va durer, elle aussi une heure (au lieu de quelques secondes). L'exemple dessine l'accélération selon l'axe X.

@@ -1,0 +1,29 @@
+====== Projets de plate-forme volante ======
+
+  * [[http://www.smartflyer.de/]]
+  * [[http://perso.wanadoo.fr/grzflyer/]]
+  * [[http://tom.poub.free.fr/blog/index.php]]
+  * [[http://quentin.quadrat.free.fr/helico_intro-fr.html]]
+  * FIXME Pas de jaloux les gars ! Mettez vos liens perso FIXME
+  * EPFL
+  * [[http://www.rcgroups.com/forums/showthread.php?s=05bcbf26fe1c60ab6f128e5e38fc88c5&t=297067&pp=15|RCGroups]] de JoseJ
+  * [[http://javiator.cs.uni-salzburg.at/index.php]]
+
+====== Autopilot ======
+
+  * [[http://tom.pycke.be/]]
+
+====== Liens commerciaux ======
+
+  * [[Mikrokopter]]
+  * [[UAVP]]
+  * [[Xufo]]
+  * [[Draganflyer]]
+  * [[Microdrone]]
+  * [[JumpJet]]
+  * [[Tribelle]]
+  * [[Yufo]]
+
+====== Amusants ======
+
+  * [[http://hackedgadgets.com/]]

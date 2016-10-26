@@ -1,0 +1,19 @@
+====== Mikrokopter ======
+
+  * Lien officiel : [[http://www.mikrokopter.de/ucwiki/]]
+  * Forum Xbird francais spécialisé sur le MK : [[http://www.mk-fr.info/forum/]]
+
+====== Wiki Mikrokopter traduit en Fr ======
+
+  * L'ensemble des pages françaises traduites par JiPsi : [[http://www.mikrokopter.de/ucwiki/KategorieFrench]]
+
+Ou bien :
+  * Debuter : [[http://www.mikrokopter.de/ucwiki/fr/Mikrokopter-Debuter]]
+  * Montage : [[http://www.mikrokopter.de/ucwiki/fr/Mikrokopter-Montage]]
+  * NaviCtrl : [[http://www.mikrokopter.de/ucwiki/fr/NaviCtrl]]
+  * La présentation du soft : [[http://www.mikrokopter.de/ucwiki/fr/DUBwise]]
+  * Les différents mobiles testés avec ce soft : [[http://www.mikrokopter.de/ucwiki/fr/DUBwiseMobilesTestes]]
+  * Et le module d'amplification Bluetooth : [[http://www.mikrokopter.de/ucwiki/fr/DUBwiseRangeExtender]]
+  * Follow Me : [[http://www.mikrokopter.de/ucwiki/fr/FollowMe]]
+  * Plateau central : [[http://www.mikrokopter.de/ucwiki/fr/PlateauCentral]]
+  * Cablage : [[http://www.mikrokopter.de/ucwiki/fr/cablage]]

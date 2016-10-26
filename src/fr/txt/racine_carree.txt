@@ -1,0 +1,32 @@
+====== Hack et astuces ======
+
+  * Qui n'a jamais eu besoin de la fonction **racine carrée** et de son inverse ? Toute bonne API a sa fonction racine carrée. Mais que faire si on a besoin de l'inclure pour un système enfoui avec peu de place programme ? Certes, certaines cartes (notamment graphique) ont une cette instruction codée en hardware mais pas tout le monde. Voici une version, en langage C, de l'inverse de la racine carrée, super optimisé (4x plus rapide que l'assembleur, parait'il) et utilisée pour des moteurs de jeu biens connus tels que Doom, Quake, ...
+
+<code c>
+ float Q_rsqrt( float number ){
+   long i;
+   float x2, y;
+   const float threehalfs = 1.5F;
+   
+   x2 = number * 0.5F;
+   y  = number;
+   i  = * ( long * ) &y;  // evil floating point bit level hacking
+   i  = 0x5f3759df - ( i >> 1 ); // what the fuck?
+   y  = * ( float * ) &i;
+   y  = y * ( threehalfs - ( x2 * y * y ) ); // 1st iteration
+   // y  = y * ( threehalfs - ( x2 * y * y ) ); // 2nd iteration, this can be removed
+   
+   #ifndef Q3_VM
+   #ifdef __linux__
+     assert( !isnan(y) ); // bk010122 - FPE?
+   #endif
+   #endif
+   return y;
+ }
+</code> 
+
+Les commentaires sont d'origines 8-)
+
+  * Pour le calcul de la racine carre il suffit de multiplier //y// par //number// 8-)
+
+  * //Source// : [[http://fr.wikipedia.org/wiki/John_Carmack]]

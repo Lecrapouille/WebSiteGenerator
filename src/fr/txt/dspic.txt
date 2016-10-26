@@ -1,0 +1,20 @@
+====== Produits de Microchip ======
+
+===== PIC 16F =====
+
+  * Cours de Bigonoff [[http://www.abcelectronique.com/bigonoff/]] sur l'architecture des PIC 16F84, 16F87x, 18Fxx8.
+
+===== dsPIC 30F =====
+
+  * Mikroelectronika: [[http://www.mikroe.com/en/books/]]
+
+===== PIC 24F dsPIC 33F =====
+
+  * Lecture Notes of Departement of Electrical and Computer Engineering (ECE) sur les 24F : [[http://www.ece.msstate.edu/courses/ece3724/]] et le [[http://www.ece.msstate.edu/courses/ece3724/main_pic24/labs/files/pic24_code_examples.zip|code source]] associé.
+
+===== Bibliothèque =====
+
+  * En installant le compilateur C30 (un GCC pour dsPIC) du site de [[http://www.microchip.com|Microchip]], on peut utiliser une bibliothèque avec des fonctions de haut niveau pour faire fonctionner les périphériques des dsPIC (initialisation SPI, ADC, Timer, ..., lecture val analogique, envoie/réception donnée UART, I2C, SPI ...). Cela évite de connaître tous ces noms de registres et leur fonctionnement.
+  * Document associé : [[http://ww1.microchip.com/downloads/en/DeviceDoc/16bit_Language_Tool_Libraries_51456c.pdf|16bit Language Tool Libraries]]
+
+//Note : Personnellement je n'utilise plus la 16bit Language Tool Libraries car les codes sources fournis par Microchip ne sont pas super intéressants car beaucoup trop simples. Je conseille aussi de vous inspirer du code source (surtout les headers) de l'ECE pour vos projets. //

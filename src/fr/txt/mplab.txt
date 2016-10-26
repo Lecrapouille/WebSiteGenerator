@@ -1,0 +1,9 @@
+====== Mplab IDE ======
+
+{{:logo:microchip.png?200}}
+
+  * [[http://electronique.marcel.free.fr/dsPIC/Docs/Aide_m%E9moire_MPLAB_C30.pdf|Aide mémoire]]
+  * Pin stimulis
+  * [[http://www.xbird.fr/smf/index.php?topic=338.0|Simulation de l'UART]]
+  * [[http://www.xbird.fr/smf/index.php?topic=221.msg1488#msg1488|DsPIC Visual Initializer]]
+  * Programmation avec la bibliothèque [[http://ww1.microchip.com/downloads/en/DeviceDoc/16bit_Language_Tool_Libraries_51456c.pdf|16-BIT LANGUAGE TOOLS]]

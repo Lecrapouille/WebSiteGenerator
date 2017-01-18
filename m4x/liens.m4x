@@ -16,4 +16,3 @@ define([JOSEJ],[EXTLINK(http://www.rcgroups.com/forums/showthread.php?s=05bcbf26
 
 define([EXECV4],[LINK(http://pauillac.inria.fr/cdrom/www/syndex/pub/execv4/execv4.pdf,Modèle d'exécutif distribué temps réel pour SynDEx)])
 define([LINKM4],[EXTLINK(http://www.gnu.org/software/m4/manual/m4.html,GNU M4)])
-define([LINKFORTH],[EXTLINK(http://blog.developpez.com/index.php?blog=80&amp;c=1&amp;page=1&amp;more=1&amp;title=presentation&amp;tb=1&amp;pb=1&amp;disp=single,le blog Forth de Developpez.com)])

@@ -16,23 +16,19 @@ divert(DIVERT_BODY_CODE)
 
 SUBSECTION(ICON_READ[]Présentation,intro)
 
-<p>Ecstasy est un projet réalisé en OpenGl et Delphi. Il a deux buts :
-   le premier est de simuler le plus précisément possible la dynamique
-   d'une voiture (confère MYLINK(tuto_dyna,dynamique)), le deuxième est
-   de représenter en 3D la circulation automobile d'une ville de type
-   américaine (c'est à dire ayant une forme géométrique
-   régulière).</p>
+<p>Ecstasy est un projet d'info sup à EPITA (2002-2003), pour Windows
+   uniquement, réalisé en OpenGl et Delphi et ayant pour buts de
+   simuler la dynamique d'une voiture (confère mon
+   MYLINK(tuto_dyna,document)), et de représenter en 3D la circulation
+   automobile d'une ville de type américaine (c'est à dire ayant une
+   forme géométrique régulière).</p>
 
-<p>Ecstasy est un projet d'info sup à EPITA (2002-2003), vous pouvez
-   le télécharger gratuitement ainsi que ses sources. Les voitures
-   proviennent de nombreux sites web consacrés à Midtown Madness II,
-   elles sont téléchargeables gratuitement, mais si leurs auteurs ne
-   veulent pas les voir dans ce jeu, qu'ils nous fassent signe et nous
-   les retireront aussitôt du programme.</p>
-
-<p>Les auteurs sont :</p>
-LISTE(Anass KADIRI,Quentin QUADRAT)
-
+<p>Les dessins 3D des voitures proviennent de nombreux sites web
+  consacrés au jeu Midtown Madness II, sont téléchargeables
+  gratuitement puis ont été convertis au format 3D Studio Max et enfin
+  exportés au format ASE. Si leurs auteurs ne veulent pas les voir
+  dans ce jeu, qu'ils nous fassent signe et nous les retireront
+  aussitôt du programme.</p>
 
 SUBSECTION(ICON_EYES[]Aperçus du jeu,view)
 
@@ -42,6 +38,11 @@ CAPTION(ecstasy/menu.jpg))
 CENTER(Cliquer sur les images pour les agrandir.)
 
 SUBSECTION(ICON_DOWNLOAD[]Téléchargement,download)
+
+<p>Ce projet n'est plus développé mais le code source est disponible
+sur GITHUB(Lecrapouille/Ecstasy,GitHub). Certaines ressources
+graphiques et sonores n'y ont pas été mises pour des soucis de poids
+mais vous pouvez les télécharger ici:
 
 TABLEAU(3,LINK(ecstasy/ecstasy1_setup.rar,Ecstasy version 0.1),
 LINK(ecstasy/ecstasy1_light.rar,Version légère version 0.1),
@@ -60,7 +61,9 @@ ICON_TGZ,ICON_TGZ,ICON_PDF,
 
 <p>Remarques:</p>
 <ul>
-<li> Dans la version 0.2, les immeubles suivent mieux
+<li>Ce projet fonctionne pour Windows 98, XP mais n'a pas été testé sur
+  des versions plus récentes.</li>
+<li>Dans la version 0.2, les immeubles suivent mieux
   l'altitude de la route, la vitesse du jeu est plus rapide que dans
   la première version et le roulis a été
   rajouté à la voiture du joueur. Toutefois, il subsiste
@@ -68,7 +71,7 @@ ICON_TGZ,ICON_TGZ,ICON_PDF,
   n'y a qu'un seul type de voiture dans cette version (le jeu reste
   tout à fait jouable). </li>
 <li>La version 0.1 contient un setup qui permet d'installer et de
-  désinstaller correctement le jeu (il y aura aucun risque de
+  supprimer correctement le jeu (il y aura aucun risque de
   plantage Windows car l'installation consiste simplement à
   copier l'exécutable à l'endroit désiré par
   l'utilisateur et rien de plus). Dans la version 2, il n'y aura pas
@@ -88,7 +91,7 @@ façon suivante :</p>
 <li>Dessiner une carcasse de voiture avec 3D Studio Max et l'exporter
     au format ASE (ascii) dans le nouveau dossier sous le nom de STRONG(carcasse.ase). La
     voiture doit avoir une longueur de 12 unités et 5
-    unités de largueur et doit avoir sa tête
+    unités de largeur et doit avoir sa tête
     orientée vers la droite dans la fenêtre STRONG(Top)
     (LINK(ecstasy/export0.jpg,voir l'image)). Attention toutes les
     meshes doivent avoir leur texture : si un seul triangle ne
@@ -132,7 +135,8 @@ CENTER(Cliquer sur les images pour les agrandir.)
 SUBSECTION(ICON_GEAR[]Liens utiles pour la programmation OpenGL,links)
 
 
-<p>Voici quelques sites qui ont retenu mon attention concernant OpenGL :</p>
+<p>Voici quelques sites qui ont retenu mon attention concernant OpenGL
+  (la plupart des liens sont malheureusement morts):</p>
 <ul>
   <li>OpenGl et Delphi :
     <ul>

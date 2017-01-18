@@ -20,18 +20,11 @@ SUBSECTION(ICON_READ[]Présentation,intro)
    nombre d'adversaire à zéro ! On peut jouer sur une demi douzaine
    d'univers et de voitures différentes.</p>
 
-<p>Speedway fut, pour l'ensemble de l'équipe, notre premier projet (en
-   équipe) et nos premiers pas dans le monde de la programmation. Ce
-   projet n'est plus développé.</p>
-
-<p>Speedway est un projet EPITA (2001-2002) libre et gratuit, même les
-   sources. Il a été fait en Opengl, Delphi 5 et DirectSound.
-   Fonctionne uniquement pour Windows 95/98/2000/XP.</p>
-
-<p>Les auteurs sont :</p>
-LISTE(Joel GRIGNON,
-Priscillien MEERMANN,
-Quentin QUADRAT.)
+<p>Speedway est un projet EPITA (2001-2002) open source. Il a été fait
+   en Opengl, Delphi 5 et DirectSound et fonctionne uniquement pour
+   Windows 95/98/2000/XP. Speedway fut, pour l'ensemble de l'équipe,
+   notre premier projet (en équipe) et nos premiers pas dans le monde
+   de la programmation.</p>
 
 SUBSECTION(ICON_EYES[]Aperçus du jeu,view)
 
@@ -44,6 +37,10 @@ CAPTION(speedway/tank.jpg))
 CENTER(Cliquer sur les images pour les agrandir.)
 
 SUBSECTION(ICON_DOWNLOAD[]Téléchargement,download)
+
+<p>Ce projet n'est plus développé mais les sources sont disponibles
+   sur GITHUB(Lecrapouille/Speedway,GitHub) sinon ici avec les
+   ressources graphiques et sonores :
 
 TABLEAU(3,LINK(speedway/speedway_soutenance4.pdf,Le
 rapport),LINK(speedway/speedway.rar,SpeedWay version

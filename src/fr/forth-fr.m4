@@ -12,12 +12,75 @@ LEFT_MENU(LEFT_RUBRIC(Sommaire,Introduction,#intro,Aperçus du jeu,#view,Téléchar
 
 divert(DIVERT_BODY_CODE)
 
-SUBSECTION(Histoire du Forth,intro)
+SUBSECTION(ICON_READ[]Références à Forth,ref)
 
-<p>Ce document est une tentative de faire découvrir ou redécouvrir ce
-langage, d'expliquer son fonctionnement interne ainsi que de mieux
-faire comprendre certains mots dits BOLD(de haut niveau) en
-espérant ne pas être un Nième tutoriel.
+<p>Ce document est une tentative de faire découvrir ou faire
+redécouvrir ce langage, d'expliquer son fonctionnement interne ainsi
+que de mieux faire comprendre certains mots dits STRONG(de haut
+niveau). Avant de commencer ce tutoriel, je suggère aux lecteurs qui
+n'ont jamais fait de Forth de s'initier avec le premier lien: Starting
+Forth. Sinon, voici une sélection d'ouvrages et de liens concernant le
+langage Forth que je recommande:
+
+LISTE(
+DRAP_EN EXTLINK(https://www.forth.com/starting-forth/,Starting Forth)
+est le cours d'introduction pédagogique recommandé pour le débutant.,
+
+DRAP_FR EXTLINK(https://www.rfc1149.net/download/documents/ifi/forth.pdf,Un cours)
+sur le Forth.,
+
+DRAP_EN EXTLINK(http://git.annexia.org/?p=jonesforth.git;a=blob;f=jonesforth.S;h=45e6e854a5d2a4c3f26af264dfce56379d401425;hb=HEAD,JonesForth)
+Un excellent tutoriel sur l'implémentation d'un interpéteur Forth
+écrit en assembleur. Cet document complète le livre de W.P. Salman
+pour la clarté de son code assembleur.,
+
+DRAP_EN DRAP_FR EXTLINK(https://www.amazon.com/FORTH-W-P-SALMAN/dp/0387912568/,Forth)
+W.P. Salman[,] O. Tisserand[,] B. Toulout. Edition Macmillan (english
+version) ou Edition Eyrolles (french version) 1983. (ISBN-13:
+978-0387912561[,] ISBN-10: 0387912568) est un excellent livre
+décrivant de façon compléte le fonctionnement d'un interpéteur
+Forth. Avec ce livre seul[,] il est possible de re-créer son propre
+Forth. A noter que la version française 1983 contient quelques erreurs
+de typographie dans du code Forth (probablement corrigés dans la
+version de 1984).,
+
+DRAP_FR EXTLINK(https://www.amazon.fr/Concept-Forth-Langage-syst%C3%A8me-dexploitation/dp/2866990110,
+Le Concept Forth) de Pascal Courtois (français). Explique les mots de
+base[,] comment fonctionne un interpréteur Forth mais est moins
+complet que le livre Forth de W.P. Salman.,
+
+DRAP_FR EXTLINK(http://jpb.forth.free.fr/,Entrer dans le monde du Forth) Très
+belle réalisation de cartes électroniques pour systèmes Forth.,
+
+DRAP_EN EXTLINK(http://thinking-forth.sourceforge.net/,Thinking Forth) Livre
+pour les développeurs débutants donnant des conseils sur comment bien
+programmer et penser son projet en Forth.,
+
+DRAP_EN EXTLINK(http://lars.nocrew.org/forth2012/index.html,forth2012) le
+glossaire Forth ANSI 2012.)
+
+<p>Voici une liste non exhaustive de Forth:
+
+LISTE(
+DRAP_EN EXTLINK(https://www.gnu.org/software/gforth/,gForth) le Forth GNU
+toujours activement développé.,
+
+DRAP_EN EXTLINK(https://thebeez.home.xs4all.nl/4tH/4tHmanual.pdf,4th)
+un Forth considéré comme ne crashant jamais.,
+
+DRAP_EN DRAP_FR EXTLINK(http://christophe.lavarenne.free.fr/ff/,FreeForth) un Forth
+fait par Christophe Lavarenne où le mode exécution n'existe plus et
+est remplacé par la compilation d'un mot anonyme.,
+
+DRAP_EN EXTLINK(http://www.softsynth.com/pforth,pForth) un Forth portable en C.,
+
+DRAP_EN EXTLINK(https://github.com/seanpringle/reforth,reForth) un Forth écrit en C avec des modifications
+  intéressantes vis à vis des Forth standards.,
+
+DRAP_EN DRAP_FR MYLINK(simtadyn, SimTaDyn) mon projet GIS contenant
+  mon propre interpréteur Forth écrit en C++ et compilable en standalone.)
+
+SUBSECTION(ICON_READ[]Histoire du Forth,intro)
 
 <p>Forth est un langage inventé par Charles H. Moore dans les années
 1970 afin de palier la lourdeur des langages de l'époque incompatibles
@@ -26,95 +89,114 @@ l'Observatoire National de Radio-Astronomie des Etats-Unis. Forth a
 été conçu pour être le plus simple et minimaliste possible où avec
 environ 150 mots du langage, un petit système d'exploitation peut être
 créé. Forth fut, par la suite, devenu un langage largement utilisé
-dans ce milieu (comme la NASA) mais aussi pour des machines
-personnelles telle que le Machintosh avec le MacForth (pour ne citer
+dans ce milieu (comme par la NASA) mais aussi pour des machines
+personnelles telles que le Machintosh avec le MacForth (pour ne citer
 que lui). Actuellement, le prix du stockage mémoire ayant fortement
 baissé et la puissance brute en calcul augmentée, l'optimisation des
-ressources en mémoire des systèmes embarqués est devenu moins
-critique, ce langage est devenu beaucoup moins à la mode là où le C
-demeure toujours en maître.
+ressources des systèmes embarqués est devenu moins critique, ce
+langage est devenu beaucoup moins à la mode là où le C demeure
+toujours en maître.
 
-<p>Comme nous le verrons plus tard, faire son propre interpréteur
-Forth est très simple, chacun pouvant posséder le sien mais pas
-forcément compatible avec celui d'un autre. Cela fut un point noir de
-ce language qui malgré plusieurs tentatives de standards (78, 83,
-2012 ...) pour normaliser les mots les plus courants ne furent pas
-forcément bénéfique au langage.
+<p>Comme nous allons le détailler tout le long de ce document, faire
+son propre interpréteur Forth est très simple, chacun pouvant posséder
+le sien mais pas forcément compatible avec celui d'un autre. Cela fut
+un point noir de ce langage qui malgré plusieurs tentatives de
+standards (78, 79, 83, 2012 ...) pour normaliser les mots les plus
+courants ne furent pas forcément bénéfique au langage.
 
 <p>Pour information, Charles H. Moore est toujours actif. Il a quitté
 le consortium, jugeant que cela nuisait à l'innovation, il a ainsi pu
 continuer à simplifier les structures Forth comme expliqué dans
 EXTLINK(https://www.rfc1149.net/download/documents/ifi/forth.pdf,le
-lien suivant) (section Structures simplifiées). Avec
+lien suivant) (confère la section Structures simplifiées). Avec
 EXTLINK(https://blogs.msdn.microsoft.com/ashleyf/2013/11/02/the-beautiful-simplicity-of-colorforth/,colorForth)
 Moore a ajouté un rôle aux mots en leur ajoutant une couleur. Il a
-également fondé GreenArrays Inc qui produit des puces
+également fondé GreenArrays Inc. qui produit des puces
 EXTLINK(http://bitlog.it/programming-languages/getting-started-with-the-ga144-and-arrayforth/,GA144)
-qui contiennent un réseau communicant de sous-processeurs Forth dont
+contenant un réseau communicant de sous-processeurs Forth dont
 le EXTLINK(https://www.google.com/patents/US7752422,brevet) explique
-clairement le fonctionement (et est très lisible pour un brevet).
+clairement le fonctionnement (et est très lisible pour un brevet).
 
 <p>Nous allons, tout au long de ce document, revenir sur chaque
 éléments de la définition, mais en quelques mots Forth peut-être
-résumé à : LISTE(un langage à piles;, à la fois langage bas-niveau
-(manipulant de l'assembleur et des registres hardware) et langage
-haut-niveau (abstraction des données[,] faible couplage[,] etc);, un
-langage auto-évolutif/modifiant (ré-entrance[,] métaprogrammtion);,
-semi-compilé (embarquant son propre compilateur hybridé avec un
-interpréteur);, embarquant sa propre machine virtuelle (servant de
-stockage au byte-code généré par le compilateur et de stockage aux
-ressources du système).)
+résumé à :
 
-SUBSECTION(Forth un langage algébrique,algebre)
+LISTE(un langage à piles;,
+
+un langage extensible et auto-évolutif (ré-entrance[,] métaprogrammtion);,
+
+semi-compilé (embarquant son propre compilateur hybridé avec un interpréteur);,
+
+peut être vu comme un système d'exploitation car il est à la fois un
+langage, une machine virtuelle, sait gèrer sa propre mémoire de masse
+et dispose d'entrées/sorties;,
+
+il est à la fois un langage bas-niveau (manipulant de l'assembleur et
+des registres hardware) et un langage haut-niveau (abstraction des
+données[,] faible couplage[,] etc);,
+
+bien que la plupart des langages soient complets au sens de Turing[,]
+Forth offre à l'utilisateur la possibilité d'accéder directement aux
+différents éléments d'une machine de Turing (ruban infini[,] tête de
+lecture/écriture[,] registre d'état[,] table d'actions.))
+
+SUBSECTION(ICON_EYES[]Forth un langage algébrique,algebre)
 
 <p>Forth un langage algébrique (context-free langage en anglais), qui
 contrairement aux langages tels que le C ou Python, n'a pas de
-  grammaire ambiguë, ne nécessite pas de rétro-action lexicale, etc.
-
-<p>Un script Forth est une simple suite de mots (dont la signification
-est proche de celle du langage naturel) séparés par des
-espaces. L'interpréteur Forth qui va lire un flux d'entrée n'a besoin
-que d'extraire le mot courant (qui doit être un mot connu) et parfois
-le mot suivant (quand celui-ci n'est pas encore connu). Par convention
-un mot Forth est formé de n'importe quelle suite de charactères ASCII
-(historiquement la taille maximale d'un mot Forth est de 31
-charactères ASCII mais cette limitation a disparue sur certains Forth
-tels que gForth).
+grammaire ambiguë, ne nécessite pas de rétro-action lexicale, etc.  Un
+script Forth est une simple suite de mots (dont la signification est
+proche de celle du langage naturel) séparés par des
+espaces. L'interpréteur Forth qui va parser un script (donné sur le
+flux d'entrée) n'a besoin que d'extraire le mot courant (qui doit être
+un mot connu) et parfois le mot suivant (quand celui-ci n'est pas
+encore connu). Par convention un mot Forth est formé de n'importe
+quelle suite de charactères ASCII (historiquement la taille maximale
+d'un mot Forth est de 31 charactères ASCII mais cette limitation a
+disparue sur certains Forth tels que gForth).
 
 <p>Forth utilise la notation polonaise inversée à savoir que les
 opérandes (paramètres) sont notées avant les opérateurs. Cette
 notation évite l'utilisation de parenthèses palliant l'ordre de
 priorité des opérateurs (par exemple mathématique comme la priorité de
 la multiplication sur l'addition) et évitant ainsi l'utilisation d'une
-grammaire inutilement complexes.
+grammaire inutilement complexe.
 
-<p>Le code exemple suivant :
+<p>Le code suivant :
 CODE
-  2 3 4 + *
+2 3 4 + *
 ENDCODE
 <p>équivaut à l'expression arithmétique 2 * (3 + 4) alors que le code
   suivant :
 CODE
-  2 3 4 * +
+2 3 4 * +
 ENDCODE
 <p>équivaut à l'expression arithmétique 2 + (3 * 4).
 
-SUBSECTION(Forth un langage à piles,pile)
+SUBSECTION(ICON_GEAR[]Forth un langage à piles,pile)
 
-<p>Grâce à la notation polonaise inversée les opérandes sont stockés
+<p>Des langages tels que le C ou python cachent délibérément au
+développeur l'utilisation de la pile de données, comme par exemple la
+sauvegarde du contexte (paramètres des fonctions, variables locales)
+lors d'un appel à une fonction. Ceci pouvant entraîner des pénalités
+en temps d'exécution du programme et des débordements de la pile (par
+exemple soit en passant par copie des données trop grosses, soit en
+utilisant la récursivité sur des languages non adaptés à la récursion
+terminale tels que le C).
+
+<p>Avec la notation polonaise inversée, les opérandes sont stockés
 dans une pile de données (structure de type
 dernier-entré-premier-sorti) et les opérateurs (équivalent aux
-fonctions C mais que l'on nommera désormais BOLD(mot) par convention)
-les consomment.
-
-<p>Des langages tels que le C ou python cachent délibérement au
-développeur l'utilisation de cette pile. Par exemple la sauvegarde du
-contexte (paramètres des fonctions, variables locales) lors d'un appel
-à une fonction ce qui peut entrainer des pénalités en temps
-d'éxecution du programme et des débordements de piles (par exemple
-soit en passant par copie des données trop grosses, soit en utilisant
-la récursivité sur des lanaguages non adaptés à la récursion terminale
-tels que le C).
+fonctions C mais que l'on nommera désormais STRONG(mots) par
+convention) les consomment. Par conséquent, contrairement à des
+langages comme le C, la pile évite à Forth l'utilisation de variables
+temporaires nommées (équivalent aux variables locales du C) comme
+moyen de stockage de résultats intermédiaires et de passage aux
+paramètres pour les opérateurs. Néanmoins Forth offre la possibilité
+d'utiliser des constantes et des variables mais qui doivent être vues
+comme des noms sur des emplacements mémoire de longue-durée
+(équivalent aux globales du C) à savoir que leur durée de vie est lié
+à celle du programme.
 
 <p>Le code suivant :
 CODE
@@ -128,54 +210,232 @@ de la pile et les additionnera et remettre le résultat dans la pile
 valeur. Après exécution de ce script, on notera que la profondeur de
 pile des donnée n'a pas été modifiée.
 
-<p>La pile de données des Forth historiques permet de manipuler
-uniquement des entiers signés (et non signés) ou des adresses de la
-machine virtuelle (qui sont finalement vues comme un entier) et ne
-gérent pas nativement les floatants (float et double du langage C) une
-bibliothèque devait être chargées pour cela.
+<p>La pile de données des Forth historiques permet uniquement de
+manipuler des entiers (signés et non signés) ou des adresses de la
+machine virtuelle (qui sont finalement vues comme un entier), les
+Forth historiques ne gérant pas nativement les floatants (float et
+double du langage C) une bibliothèque devait alors être chargée pour
+les gérer.
 
-<p>En fait, Forth n'utilise pas une seule pile mais deux. La deuxième
-appelées pile de retour sert à l'interpréteur Forth pour mémoriser
-l'ordre d'exécution des mots. Cette pile est automatiquement gérée par
-lui mais laisse quand même à l'utilisateur la possibilité de stocker
-temporairement des éléments de la pile de données (ce qui n'est pas
-toujours sans risque). Nous y reviendrons plus tard.
+<p>En fait, Forth n'utilise pas une seule pile mais deux piles. La
+deuxième, appelée pile de retour, sert à l'interpréteur Forth pour
+mémoriser l'ordre d'exécution des mots. Cette pile est automatiquement
+manipulée par lui mais laisse, quand même, à l'utilisateur la
+possibilité de déplacer et stocker temporairement des éléments de la
+pile de données (ce qui n'est pas toujours sans risque). Nous y
+reviendrons plus tard.
 
 <p>Des Forth modernes peuvent ajouter nativement des piles de données
 supplémentaires comme une pile d'entiers (appelés pile alternative)
-et/ou une pile des floatants natifs. En général la pile de donnée
+et/ou une pile des floatants. En général, la pile de donnée
 supplémentaire pour les entiers permet d'éviter l'utilisation
-temporaire de la piles de retour.
+de la pile de retour comme stockage temporaire.
 
 <p>Un système de sécurité permet de vérifier que les piles ne
-débordent pas par le haut ou par le bas (overflow/underflow) et
-prévient l'utiliateur. Charles H. Moore quand à lui préfère utiliser
-un buffer circulaire à la place d'une pile. Il n'y a plus de risque
-possible de débordement de mémoire mais il n'a pas ajouté de système
-pour pévenir l'utilisateur car selon lui le développeur doit maîtriser
-le nombre d'opérandes qu'il manipule. De plus ce système permet de
-décider à tout instant la pile comme étant vide.
+débordent pas (par le haut ou par le bas) et prévient l'utiliateur en
+arrêtant l'exécution du mot en cours. Charles H. Moore quand à lui
+préfère utiliser un buffer circulaire par rapport à une pile. Il n'y a
+plus de risque possible de débordement de mémoire mais il n'a pas
+ajouté de système pour pévenir l'utilisateur car selon lui le
+développeur doit maîtriser le nombre d'opérandes qu'il manipule. De
+plus, ce système permet de décider à tout instant la pile comme étant
+vide.
 
-SUBSECTION(Dictionnaire,dico)
+SUBSECTION(ICON_GEAR[]Dictionnaire Forth: une machine virtuelle,dico)
 
-<p>Forth est un langage qui auto-évolue: à partir de quelques mots de
-base on peut créer un nouveau mot plus évolué. Par exemple, le code
-suivant:
+<p>Forth est un langage extensible : à partir de quelques mots de base
+on peut créer un nouveau mot plus évolué. Par exemple, le code
+suivant :
 
 CODE
 : FOO 2 DUP + . ;
 ENDCODE
 
-Permet de définir un nouveau mot Forth FOO via les mots : et ; qui
-jouent le rôle de début et de fin de définition. Une fois définie, le
-moto FOO quand il sera exécuté affichera la valeur 4.
+<p>Permet de définir un nouveau mot Forth FOO via les mots : et ; qui
+jouent le rôle de début et de fin de définition. Une fois le mot FOO
+défini, quand il sera exécuté, affichera la valeur 4.
 
 <p>Les mots Forth et leur définition sont stockés dans une structure
-de donnée appelée dictionnaire permettant de rechercher la définition
-d'un mot existant, d'ajouter une nouvelle définition et, on le verra
-plus tard, servant également de tas (heap) que les développeurs C/C++
-utilisent connaissent pour allouer/désallouer des ressources. La norme
-Forth n'impose pas
+de donnée appelée par convention dictionnaire. La norme Forth laisse
+libre l'implémentation du dictionnaire. Les premiers Forth
+l'implémente comme une liste chainée; certains Forth séparent les
+entrées des définitions; d'autres utilisent une table de hashage, etc.
+
+<p>Sous la forme d'une liste chainée, le dictionnaire peut être vu
+comme le ruban infini divisé en cases consécutives de Turing :
+
+CODE
+<--- DICTIONARY ENTRY (HEADER) -------->
++--------------+--------+--------------+--------------- - - - -
+| LENGTH/FLAGS | NAME   | [LINK] POINTER | DEFINITION
++--------------+--------+--------------+--------------- - - - -
+ENDCODE
+
+<p>LISTE(
+
+STRONG(LENGTH :) est le nombre de caractères ASCII du nom du
+mot STRONG(NAME) et est codé sur les 5 bits de poids faible;,
+
+STRONG(FLAGS) code sur les 3 bits de poids fort les informations
+suivantes dont nous reviendrons plus tard en détail : LISTE(si le mot
+est bien formé (smudge bit);, si le mot doit être considéré comme
+immédiat;, et le dernier bit toujours à 1 servant de repère pour
+délimiter entre-elles les entrées du dictionnaire.),
+
+STRONG(NAME :) est le nom du mot Forth et le nombre d'octet est
+variable mais allant jusqu'à 2<sup>5</sup>-1 caractères (octets).,
+
+STRONG(lINK POINTER :) est l'adresse de l'entrée précédente du
+dictionnaire (la liste chaînée). L'adresse peut être relative ou
+absolue[,] la première permettant de déplacer des ensembles d'entrées
+sans devoir modifier les adresses. Le nombre d'octets d'une adresse
+dépend de l'architecture choisie.,
+
+STRONG(DEFINITION :) est une suite d'identifiant ou d'adresse du
+dictionnaire pointant sur les mots déjà existants. Le nombre d'octets
+pour coder une adresse ou un indentifiant dépend de l'architecture
+choisie.)
+
+<p>Le dictionnaire possède deux informations supplémentaires dans son
+contexte qui sont eux mêmes des mots Forth :
+
+LISTE(l'emplacement de la dernière définition du dernier mot inséré
+(mot Forth LATEST);,
+
+le premier emplacement libre du dictionnaire qui peut être déplacé
+sorte de tête de lecture/écriture (mots Forth DP et/ou HERE selon le Forth.).)
+
+Par exemple, le code suivant :
+CODE
+: FOO * * ;
+: BAR FOO . ;
+ENDCODE
+
+<p>va créer les deux entrées dans le dictionnaire de la façon suivante :
+CODE
+                   +--------------------+
+                   |              +---- | ----------------------------------------+------------+
+                   v              v     |                                         |            |
+---------------- - - - ---------------- | --------------------------------------- | -----------|------------
+| 0x81 | * |            | 0x83 | FOO |     | DOCOL | * | * | EXIT | 0x83 | BAR |    | DOCOL | FOO | . | EXIT
+---------------- - - - ------------------------|-----|---|----|--------------------------|-------------------
+         ^                                     |     |   |    |                          |
+         |                     <-- - - - ------+     |   |    v          <-- - - - ------+
+         +-------------------------------------------+---+
+ENDCODE
+
+<p>Les flèches représentent les adresses vers les autres mots du
+dictionnaire. Vu que BAR a été inséré dans le dictionnaire après FOO
+son STRONG([link] POINTER) pointe vers FOO et LATEST pointe vers
+BAR. Les littéraux 0x81, 0x83 (notation base 16) sont les tailles des
+mots avec le marqueur de séparation des entrées du dictionnaire. Les
+mots Forth DOCOL et EXIT sont des mots particuliers que l'on décrira
+plus tard.
+
+<p>A chaque fois qu'un mot est inséré à la définition d'un mot, c'est
+le mot HERE qui indique l'emplacement. Après l'ajout HERE est déplacé
+pour toujours pointer sur un emplacement libre.
+
+<p>Forth se prête bien à la récursivité mais la syntaxe varie
+fortement d'un Forth à un autre.
+CODE
+: FACTORIELLE
+ DUP 1 >
+  IF
+   DUP 1 - FACTORIELLE *
+ THEN ;
+ENDCODE
+
+<p>Une recherche dans un dictionnaire se fait linéairement depuis
+LATEST en comparant les noms des mots avec celui à rechercher donc une
+recherche en temps O(n). C'est l'inconvénient majeur de ce type de
+dictionnaire. Pour palier à ce problèmes des mots Forth peuvent être
+regroupés en vocabulaires. Le vocabulaire est l'ancêtre des espaces
+des langages modernes. Un dictionnaire peut être vu comme un arbre où
+une recherche partirait d'un feuille (le vocabulaire spécifié) et se
+terminerait à la racine de l'arbre. Cela à pour inconvénient que si
+l'on cherche depuis le mauvais vocabulaire un mot ne peut pas être
+retrouvé.
+
+<p>Moore avec son colorForth est passé à une table de hashage et pour
+compresser les noms des mots Forth utilise un codage de Huffman.
+
+<p>Rappelons qu'un des flags dans l'entête d'une entrée indique si le
+mot est valide ou non (c'est le smudge bit). S'il est mis, alors il
+sera ignoré lors d'une recherche. Selon le Forth utilisé, lorsqu'une
+entête est créée dans le dictionnaire LATEST ne pointe pas encore
+dessus ou le smudge bit est mis tant que le mot ; n'est pas exécuté
+effaçant le bit. Ceci peut poser des problèmes de syntaxe avec la
+récursivité sur certain Forth (où il faut utiliser le mot SMUDGE dans
+la définition qui commute le flag en question).
+
+<p>La recherche s'arrêtant au premier mot trouvé, on peut donc
+écraser une ancienne définition comme il suit :
+CODE
+: FOO * * ;
+: BAR FOO . ;
+: FOO + + ;
+: BAR FOO . ;
+ENDCODE
+
+<p>Le mot FORGET suivit d'un mot existant (par exemple FORGET FOO)
+permet de tronquer toutes les définitions du dictionnaire jusqu'à ce
+mot. FORGET change simplement la valeur de LATEST. On prendra garde à
+ne pas supprimr tout le dictionnaire en tentant par exemple de
+supprimer le premier mot du dictionaire.
+
+
+SUBSECTION(ICON_GEAR[]Fonctionnement de interpréteur externe,interpreteur)
+
+<p>Un interpréteur Forth fonctionne très simplement : tant que le flux
+d'entrée n'est pas fini, les mots sont lus les uns après les
+autres. L'interpréteur posséde deux modes : soit il est mode
+exécution, soit il est en mode compilation.
+
+<p>En mode EXECUTION : LISTE(Si le mot lu est connu du dictionnaire
+alors il est alors exécuté;, sinon le parseur vérifie que le mot lu
+n'est pas un nombre (dans la base actuelle) : si c'est le cas alors un
+nombre est alors déposé dans la pile de données;, sinon le mot n'est
+pas connu et n'est pas un nombre : une erreur prévient l'utilisateur
+et arrête le processus.)
+
+<p>En mode COMPILATION les mots non-immédiats qui sont lus, s'ils sont
+connus du dictionnaire, sont ajoutés les uns à la suite des autres au
+dans la définition courante du dictionnaire. Si un mot n'est pas connu
+une erreur prévient l'utilisateur et arrête le processus.
+
+<p>Des peux de mots Forth que l'on a vus, c'est le mot : qui force le
+mode COMPILATION de l'interpréteur alors que le mot ; le fait passer
+en mode EXECUTION. On peut déja se poser la question comment l'inter
+peut passer en mode exécution avec le mot ; s'il ne fait que compiler
+tous les mots qu'il voit; logiquement, il ne devrait jamais s'arrêter
+de compiler. La réponse vient du champ STRONG(FLAGS) où l'un des bits
+permet de rendre un mot Forth immédiat. Par immédiat on sous-entend
+que le mot sera immédiatement exécuté même si l'interpréteur est en
+mode compilation. Attention: un mot immédiat ne commute pas le mode de
+l'interpréteur : il est simplement interprété !
+
+On raffine donc le définition et l'on profite pour ajouter un cas
+particulier :
+<p>En mode COMPILATION : LISTE(les mots non immédiats lus[,] s'ils
+sont connus du dictionnaire[,] sont ajoutés les uns à la suite des
+autres au dictionnaire dans la définition courante;, Si le mot est
+immédiat et connu du dictionnaire il est alors interprété;, si le mot
+n'est pas connu il est testé pour savoir si c'est un nombre : si oui,
+il est ajouté à la définition mais on intercalera avant le mot
+LITTERAL pour ne pas l'interpréter comme un mot Forth; sinon le mot
+n'est pas connu une erreur prévient l'utilisateur et arrête le
+processus.)
+
+<p>Si l'inter lit tous les mots les uns apres les autres, avec le code
+CODE
+: FOO * * ;
+ENDCODE
+<p>FOO n'etant pas défini, l'interpréteur devrait déclencher une
+erreur. En fait non, car comme on l'a dit l'interpréteur sait lire le
+mot suivant et le mot : quand il est exécuté va lire le mot suivant, à
+savoir FOO afin de créer une nouvelle entrée dans le dictionaire. Par
+conséquent le mot suivant que l'interpréteur va lire sera *.
 
 <p>L'interpréteur Forth à deux modes (états) soit il est en mode
 interprétation soit en mode compilation. Des mots comme : et ;
@@ -186,112 +446,30 @@ compilation[,] une entête dans le dictionnaire est créée afin de
 permettre de retrouver le nouveau mot[,] puis chaque mot lus[,] s'ils
 ne sont pas considérés comme immédiats[,] sont recherchés dans le
 dictionnaire et leur référence stockée dans la définition du mot en
-cours de définition.)
+  cours de définition.)
 
-<p>Autre exemple plus évolué, s'il l'on suppose que le mot TYPE existe
-  et qu'il ignore les caractères du tampon d'entrée (là où un
-  utilisateur Forth va écrire son code) jusqu'au charactère indiqué,
-  on peut facilement modifier l'interpréteur Forth pour la gestion des
-  commentaires.
+<p>Le mot IMMEDIAT rend immédiat le dernier mot du dictionnaire. Voici
+un exemple plus évolué : on se propose d'ajouter un système de
+commentaires à Forth. Pour cela on suppose que le mot TYPE existe déjà
+(ce qui en général le cas) ce mot permet d'ignorer les caractères du
+tampon d'entrée jusqu'au charactère indiqué comme paramère.
+
 CODE
 : ( ')' TYPE ; IMMEDIATE
 ENDCODE
+
 <p>Dés que le parseur exécutera le mot ( il ignorera tous les mots
-  jusqu'à trouver le mot ) on notera que le mot rendu immédiat via
-  IMMEDIATE sera exécuté lorsqu'il sera rencontré dans une
-  définition. Dans notre cas cela permet d'ajouter des commentaires à
-  l'intérieur
+jusqu'à trouver le mot ) et comme il est immédiat il va fonctionner
+dans une définition (quand l'interpréteur sera en mode
+compilation). Notons qu'il existe un autre type de commentaire Forth
+le mot \ ignore entièrement la ligne courante.
 
+SUBSECTION(ICON_GEAR[]Fonctionnement de interpréteur interne,interpreteur)
 
-<p>Forth peut être vu comme une machine virtuelle
+SUBSECTION(ICON_GEAR[]Variables et constante,var)
 
-
-
-SUBSECTION(Langage évolutif,evol)
-
-<p>Forth est un langage qui auto-évolue: à partir de quelques mots de
-base on peut créer un nouveau mot plus évolué.
-
-
-
-  qui, par exemple pourra
-éventuellement modifier le comportement de l'interpéteur, ou créer sa
-propre structure de langage comme ajouter les IF THEN ELSE, boucle FOR
-WHILE.
-
-
-
-SUBSECTION(Références,ref)
-
-Voici une sélection d'ouvrages et de liens concernant le langage Forth que je
-recommande: le parseur séparant les
-
-LISTE(
-EXTLINK(https://www.forth.com/starting-forth/,Starting Forth)
-est le cours d'introduction pédagogique recommandé pour le débutant.,
-
-EXTLINK(https://www.amazon.fr/Concept-Forth-Langage-syst%C3%A8me-dexploitation/dp/2866990110,
-Le Concept Forth) de Pascal Courtois (français). Explique les mots de
-base[,] comment fonctionne un interpréteur Forth mais est moins
-complet que le livre Forth de W.P. Salman.,
-
-EXTLINK(http://lars.nocrew.org/forth2012/index.html,forth2012) le
-glossaire Forth ANSI 2012.,
-
-EXTLINK(https://www.amazon.com/FORTH-W-P-SALMAN/dp/0387912568/,Forth)
-W.P. Salman[,] O. Tisserand[,] B. Toulout. Edition Macmillan (english
-version) ou Edition Eyrolles (french version) 1983. (ISBN-13:
-978-0387912561[,] ISBN-10: 0387912568) est un excellent livre
-décrivant de façon compléte le fonctionnement d'un interpéteur
-Forth. Avec ce livre seul[,] il est possible de re-créer son propre
-Forth. A noter que la version française 1983 contient quelques erreurs
-de typographie dans le code Forth (probablement corrigés dans la
-version de 1984).,
-
-EXTLINK(http://git.annexia.org/?p=jonesforth.git;a=blob;f=jonesforth.S;h=45e6e854a5d2a4c3f26af264dfce56379d401425;hb=HEAD,JonesForth)
-Un excéllent tutoriel sur l'implémentation d'un interpéteur Forth
-écrit en assembleur. Cet document compléte le livre de W.P. Salman
-pour la clareté de son code assembleur.,
-
-EXTLINK(http://jpb.forth.free.fr/,Entrer dans le monde du Forth) Très
-belle réalisation de cartes électroniques pour systèmes Forth.,
-
-EXTLINK(http://thinking-forth.sourceforge.net/,Thinking Forth) Livre
-pour les développeurs débutants donnant des conseils sur comment bien
-programmer et penser son projet en Forth.,
-
-EXTLINK(https://blogs.msdn.microsoft.com/ashleyf/2013/11/02/the-beautiful-simplicity-of-colorforth/,ColorForth)
-Charles H. Moore, l'inventeur de ce langage, ayant décidé de quitter
-le consortium car selon lui la normalisation du lanaguage empêchait
-d'innover, a développé
-
-EXTLINK(http://christophe.lavarenne.free.fr/ff/,FreeForth) un Forth fait
-par Christophe Lavarenne.
-)
-
-SUBSECTION(Au coeur du Forth,heart)
-
-
-
-SUBSECTION(Téléchargement,download)
-
-TABLEAU(3,LINK(myforth/quentin_quadrat-myforth_0.3.tar.bz2,Version 0.3),
-LINK(myforth/quentin_quadrat-myforth_0.2.tar.bz2,Version 0.2),
-LINK(myforth/quentin_quadrat-myforth_0.1.tar.bz2,Version 0.1),
-ICON_TGZ,ICON_TGZ,ICON_TGZ,
-2 Mo --- format BZ2,
-2 Mo --- format BZ2,
-2 Mo --- format BZ2)
-
-SUBSECTION(Liens)
-
-<p>Vous pouvez telecharger le livre BOLD(Le concept FORTH) de Pascal COURTOIS (avec son aimable autorisation) sur :
-LINKFORTH.</p>
-<p>D'autres liens intéréssants :</p>
-LISTE(
-LINK(http://jpb.forth.free.fr/,Entrer dans le monde du Forth) Très belle carte électronique.,
-LINK(http://christophe.lavarenne.free.fr/ff/,FreeForth) fait par Christophe Lavarenne.,
-LINK(http://forth.free.fr/,Site sur le Forth) où on peut télécharger les scans du livre BOLD(Le concept FORTH).)
+<p>Nous avons vu que Forth permet de stocker des
+dnl https://fr.wikiversity.org/wiki/Forth/Conserver_des_donn%C3%A9es
 
 divert(DIVERT_FOOTER_CODE)
 

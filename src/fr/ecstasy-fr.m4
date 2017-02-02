@@ -16,19 +16,20 @@ divert(DIVERT_BODY_CODE)
 
 SUBSECTION(ICON_READ[]Présentation,intro)
 
-<p>Ecstasy est un projet d'info sup à EPITA (2002-2003), pour Windows
-   uniquement, réalisé en OpenGl et Delphi et ayant pour buts de
-   simuler la dynamique d'une voiture (confère mon
-   MYLINK(tuto_dyna,document)), et de représenter en 3D la circulation
+<p>Ecstasy est un projet étudiant d'info-sup fait à l'école EPITA
+   (2002-2003), réalisé en OpenGl et Borland Delphi et ayant pour buts
+   de simuler la dynamique d'une voiture (confère mon
+   MYLINK(tuto_dyna,tutoriel)), et de représenter en 3D la circulation
    automobile d'une ville de type américaine (c'est à dire ayant une
    forme géométrique régulière).</p>
 
 <p>Les dessins 3D des voitures proviennent de nombreux sites web
-  consacrés au jeu Midtown Madness II, sont téléchargeables
-  gratuitement puis ont été convertis au format 3D Studio Max et enfin
-  exportés au format ASE. Si leurs auteurs ne veulent pas les voir
-  dans ce jeu, qu'ils nous fassent signe et nous les retireront
-  aussitôt du programme.</p>
+  consacrés au jeu
+  EXTLINK(https://fr.wikipedia.org/wiki/Midtown_Madness_2,Midtown
+  Madness II), sont téléchargeables gratuitement puis ont été
+  converties au format 3D Studio Max et enfin exportées au format
+  ASE. Si leurs auteurs ne veulent pas les voir dans ce jeu, qu'ils
+  me fasse signe et je les retirerais aussitôt du programme.</p>
 
 SUBSECTION(ICON_EYES[]Aperçus du jeu,view)
 
@@ -40,9 +41,10 @@ CENTER(Cliquer sur les images pour les agrandir.)
 SUBSECTION(ICON_DOWNLOAD[]Téléchargement,download)
 
 <p>Ce projet n'est plus développé mais le code source est disponible
-sur GITHUB(Lecrapouille/Ecstasy,GitHub). Certaines ressources
-graphiques et sonores n'y ont pas été mises pour des soucis de poids
-mais vous pouvez les télécharger ici:
+sur GITHUB(Lecrapouille/Ecstasy,GitHub). Il vous faudra un Delphi
+Borland (version 5 de mémoire) pour compiler les sources. Certaines
+ressources graphiques et sonores n'y ont pas été mises sur le repo git
+(pour des soucis de poids) mais vous pouvez les télécharger ci-dessous.
 
 TABLEAU(3,LINK(ecstasy/ecstasy1_setup.rar,Ecstasy version 0.1),
 LINK(ecstasy/ecstasy1_light.rar,Version légère version 0.1),
@@ -63,20 +65,24 @@ ICON_TGZ,ICON_TGZ,ICON_PDF,
 <ul>
 <li>Ce projet fonctionne pour Windows 98, XP mais n'a pas été testé sur
   des versions plus récentes.</li>
-<li>Dans la version 0.2, les immeubles suivent mieux
-  l'altitude de la route, la vitesse du jeu est plus rapide que dans
-  la première version et le roulis a été
-  rajouté à la voiture du joueur. Toutefois, il subsiste
-  une erreur dans la dynamique des voitures et c'est pour cela, qu'il
-  n'y a qu'un seul type de voiture dans cette version (le jeu reste
-  tout à fait jouable). </li>
+<li>Ce projet n'a pas été conçu pour fonctionner pour Linux, Mac OS
+  X (Window étant imposé par nos professeurs).</li>
+<li>Programmeurs novices à l'époque, nous n'avons omis de mettre
+  un cadenceur pour la boucle d'itération du jeu (en général 30 ou 60
+  images par secondes). Donc, selon la puissance de votre PC, le jeu
+  peut être extrémement rapide, le rendant injouable.</li>
+<li>Dans la version 0.2, les immeubles suivent mieux l'altitude de la
+  route, la vitesse du jeu est plus rapide que dans la première
+  version et le roulis a été rajouté à la voiture du
+  joueur. Toutefois, il subsiste une erreur dans la dynamique des
+  voitures et c'est pour cela, qu'il n'y a qu'un seul type de voiture
+  dans cette version (le jeu reste tout à fait jouable). </li>
 <li>La version 0.1 contient un setup qui permet d'installer et de
-  supprimer correctement le jeu (il y aura aucun risque de
-  plantage Windows car l'installation consiste simplement à
-  copier l'exécutable à l'endroit désiré par
-  l'utilisateur et rien de plus). Dans la version 2, il n'y aura pas
-  de setup (vu que je n'ai pas le temps de recréer le
-  setup).</li>
+  supprimer correctement le jeu (il y aura aucun risque de plantage
+  pour votre Windows car l'installation consiste simplement à copier
+  l'exécutable à l'endroit désiré par l'utilisateur et rien de
+  plus). Dans la version 2, il n'y aura pas de setup (vu que je n'ai
+  pas le temps de recréer le setup).</li>
 </ul>
 
 
@@ -135,8 +141,9 @@ CENTER(Cliquer sur les images pour les agrandir.)
 SUBSECTION(ICON_GEAR[]Liens utiles pour la programmation OpenGL,links)
 
 
-<p>Voici quelques sites qui ont retenu mon attention concernant OpenGL
-  (la plupart des liens sont malheureusement morts):</p>
+<p>Voici quelques sites qui ont retenu mon attention concernant
+  OpenGL.  La plupart des liens sont malheureusement morts, mais je
+  les laisse au cas ou:</p>
 <ul>
   <li>OpenGl et Delphi :
     <ul>

@@ -22,9 +22,9 @@ la manipuler comme une feuille de tableur en faisant dessus des
 calculs complexes grâce à un langage interprété tel que
   MYLINK(forth,Forth) remplaçant avantageusement Visual Basic.</p>
 
-<p>Des exemples typiques de SimTaDyn seraient: LISTE(la résolution de
+<p>Des exemples typiques de SimTaDyn seraient:</p> LISTE(la résolution de
 système par la méthode des éléments finis;,refaire un SimCity;,faire un
-outil de bloc diagrammes façon SCICOS;, et bien d'autres.)</p>
+outil de bloc diagrammes façon SCICOS;, et bien d'autres.)
 
 <p>SimTaDyn est à l'origine un projet info spé EPITA (2003-2004) écrit
 en C, Gtk+2.0, Opengl (Legacy), Forth et MySQL mais depuis fin 2016,
@@ -85,7 +85,7 @@ cellules contiennent aussi plusieurs champs, dont certains peuvent
   interprété de type Forth qui a été adapté pour le projet. Forth
   étant un langage minimaliste mais très puissant car auto-évoluant,
   il remplace Visual Basic. Mon MYLINK(forth,document) est une
-  introduction à ce langage.
+  introduction à ce langage.</p>
 
 SUBSECTION(ICON_DOWNLOAD[]Téléchargement,download)
 
@@ -94,12 +94,12 @@ GITHUB(Lecrapouille/SimTaDyn,GitHub). La branche git master pointe sur
 la version 2016 de SimTaDyn en cours de développement (mieux codée
 mais pour le moment l'IDE étant incomplète) alors que la branche git
 Original-Version-EPITA-2004 pointe sur la version legacy de SimTaDyn
-(mal codée mais fonctionnelle) et sert de démonstrateur.
+(mal codée mais fonctionnelle) et sert de démonstrateur.</p>
 
 <p>Les sources de la version legacy de SimTaDyn peuvent également être
 téléchargés ici. Cette version fonctionne sur une Ubuntu 16.04 et à
 l'époque sur Mac Os X 10.3 avec X11. La compilation n'a jamais été
-testé pour Windows.
+testé pour Windows.</p>
 
 TABLEAU(2,LINK(simtadyn/simtadyn_soutenance4.pdf,Le rapport),
 LINK(simtadyn/simtadyn_sources.tar.gz,Les Sources de SimTaDyn 2004),
@@ -111,7 +111,7 @@ SUBSECTION(ICON_GEAR[]Avancement,avancement)
 
 <p>Le projet étant relancé et en cours de re-écriture, voici les
 fonctionnalités qui doivent être développés dans la nouvelle version
-alors qu'elles étaient présentes dans la version legacy:
+alors qu'elles étaient présentes dans la version legacy:</p>
 
 LISTE(STRONG(Interpréteur Forth:) fonctionnel mais manque encore des mots de
   haut niveau pour être pleinement utilisable seul ainsi que

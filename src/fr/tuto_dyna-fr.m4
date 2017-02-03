@@ -18,12 +18,12 @@ SUBSECTION(ICON_READ[]Présentation,intro)
 l'implémenter dans un jeu ?  Attention : ceci n'est pas un cours de
 modélisation d'une voiture réelle, mais juste une aide pour un
 simulateur très simple. Pour voir un effet de cette dynamique vous
-pouvez télécharger mon jeu : LINK(dyna-LANG.html,Ecstasy).
+pouvez télécharger mon jeu : LINK(dyna-LANG.html,Ecstasy).</p>
 
 <p>Je tiens à remercier mon père pour m'avoir expliqué le principe de
-la moindre action.
+la moindre action.</p>
 
-<p>Vous trouverez sur cette page, de difficulté croissante :
+<p>Vous trouverez sur cette page, de difficulté croissante :</p>
 
 LISTE(Une brève introduction au LINK(dyna/dyna_action.pdf,principe de
       la moindre action)[,] avec un exemple le plus simple possible.,
@@ -57,8 +57,8 @@ CENTER(Cliquer sur les images pour les agrandir.)
 
 SUBSECTION(ICON_DOWNLOAD[]Téléchargement,download)
 
-Les documents ont été écrits en LaTex et les codes sources sont
-disponibles sur GITHUB(Lecrapouille/PrincipeMoindreAction,GitHub).
+<p>Les documents ont été écrits en LaTex et les codes sources sont
+disponibles sur GITHUB(Lecrapouille/PrincipeMoindreAction,GitHub).</p>
 
 TABLEAU(3,
 LINK(dyna/dyna_action.pdf,principe de la moindre action),

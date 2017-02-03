@@ -44,7 +44,7 @@ SUBSECTION(ICON_DOWNLOAD[]Téléchargement,download)
 sur GITHUB(Lecrapouille/Ecstasy,GitHub). Il vous faudra un Delphi
 Borland (version 5 de mémoire) pour compiler les sources. Certaines
 ressources graphiques et sonores n'y ont pas été mises sur le repo git
-(pour des soucis de poids) mais vous pouvez les télécharger ci-dessous.
+(pour des soucis de poids) mais vous pouvez les télécharger ci-dessous.</p>
 
 TABLEAU(3,LINK(ecstasy/ecstasy1_setup.rar,Ecstasy version 0.1),
 LINK(ecstasy/ecstasy1_light.rar,Version légère version 0.1),

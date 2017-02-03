@@ -10,7 +10,7 @@ M4X_FILES=$(M4X_PATH)/oueb.m4x $(M4X_PATH)/helico.m4x $(M4X_PATH)/liens.m4x
 
 VPATH=$(BUILD):$(BUILD)/css
 
-all: $(OBJS) css img
+all: $(OBJS) css img proper
 
 %.html: %.m4
 	@echo "Generating file $@"
@@ -24,6 +24,9 @@ css:
 img:
 	@echo "Copying pictures files" 
 	@cp -r ../../data/img/* $(BUILD)/img
+
+proper:
+	@rm -fr $(BUILD)/*~
 
 $(OBJS): | $(BUILD)
 $(BUILD):

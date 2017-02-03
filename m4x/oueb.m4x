@@ -275,7 +275,7 @@ define([MENU_DU_HAUT],[HEADER_MENU1(ITEM_HOME,index,ITEM_EMBARQUE,helico_intro,I
 define([MENU_HOME],[HEADER_MENU2(Home,index,Plan du site,plansite,Mises à jour,maj,C.V.,cv)])
 define([MENU_EMBARQUE],[HEADER_MENU2(Hélicoptère 4 rotors,helico_intro,Voiture CyCab,stages_travail2)])
 define([MENU_3D],[HEADER_MENU2(Ecstasy,ecstasy,SpeedWay,speedway,SimTaDyn,simtadyn,Interpréteur Forth,forth)])
-define([MENU_TUTO],[HEADER_MENU2(Logiciels Scilab/Scicos,tuto_scicos,Logiciel SynDEx,tuto_syndex,Port série,comm_rs232,BSP,tuto_bsp,ASE,tuto_ase,Dynamique d'une voiture,tuto_dyna,)])
+define([MENU_TUTO],[HEADER_MENU2(Logiciels Scilab/Scicos,tuto_scicos,Logiciel SynDEx,tuto_syndex,BSP,tuto_bsp,Dynamique d'une voiture,tuto_dyna,)])
 define([MENU_CV],[HEADER_MENU2(Mon C.V.,cv,Mes stages à l'INRIA,stages_travail2)])
 
 dnl #####################################################################
@@ -357,10 +357,10 @@ _HTML_HEADER_
   <tr>
     <td colspan="2">
       <div id="header1">
-	<!-- BEGIN USER HEADER 1 -->
-	_META_TITLE_
-	<!-- END USER HEADER 1 -->
-	</div>
+        <!-- BEGIN USER HEADER 1 -->
+        _META_TITLE_
+        <!-- END USER HEADER 1 -->
+        </div>
     </td>
   </tr>
 
@@ -380,20 +380,20 @@ _HTML_HEADER_
   <!-- SKELETON BEGIN NAVIGATION MENU -->
   <tr>
     <td id="navigation">
-	<!-- BEGIN USER NAVIGATION MENU -->
-	undivert(DIVERT_NAVIGATION_CODE)
-	<!-- END USER NAVIGATION MENU -->
+        <!-- BEGIN USER NAVIGATION MENU -->
+        undivert(DIVERT_NAVIGATION_CODE)
+        <!-- END USER NAVIGATION MENU -->
     </td>
     <!-- SKELETON END NAVIGATION MENU -->
 
 
     <!-- SKELETON BEGIN BODY -->
     <td id="content">
-	<!-- BEGIN USER BODY -->
+        <!-- BEGIN USER BODY -->
 
-	undivert(DIVERT_BODY_CODE)
+        undivert(DIVERT_BODY_CODE)
         </div>
-	<!-- END USER BODY -->
+        <!-- END USER BODY -->
     </td>
   </tr>
   <!-- SKELETON END BODY -->
@@ -401,10 +401,10 @@ _HTML_HEADER_
   <!-- SKELETON BEGIN FOOTER -->
   <tr>
     <td colspan="2" id="footer">
-	  <!-- BEGIN USER FOOTER -->
-	  undivert(DIVERT_FOOTER_CODE)
+          <!-- BEGIN USER FOOTER -->
+          undivert(DIVERT_FOOTER_CODE)
           FINALBOX($@)
-	  <!-- END USER FOOTER -->
+          <!-- END USER FOOTER -->
     </td>
   </tr>
   <!-- SKELETON END FOOTER -->

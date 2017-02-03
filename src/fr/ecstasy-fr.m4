@@ -141,9 +141,9 @@ CENTER(Cliquer sur les images pour les agrandir.)
 SUBSECTION(ICON_GEAR[]Liens utiles pour la programmation OpenGL,links)
 
 
-<p>Voici quelques sites qui ont retenu mon attention concernant
-  OpenGL.  La plupart des liens sont malheureusement morts, mais je
-  les laisse au cas ou:</p>
+<p>Voici quelques sites qui ont retenu mon attention concernant OpenGL
+  et Delphi. La plupart des liens sont malheureusement morts, mais je
+  les laisse au cas ou.</p>
 <ul>
   <li>OpenGl et Delphi :
     <ul>

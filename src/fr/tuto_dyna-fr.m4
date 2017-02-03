@@ -7,7 +7,8 @@ MENU_ACTIF(MENU_TUTO)
 
 divert(DIVERT_NAVIGATION_CODE)
 
-LEFT_MENU(BANNIERES)
+LEFT_MENU(LEFT_RUBRIC(Raccourcis,Introduction,#intro,
+Aperçus,#view,Téléchargement,#download), BANNIERES)
 
 divert(DIVERT_BODY_CODE)
 

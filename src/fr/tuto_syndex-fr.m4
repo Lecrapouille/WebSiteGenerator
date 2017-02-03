@@ -8,7 +8,7 @@ MENU_ACTIF(MENU_TUTO)
 
 divert(DIVERT_NAVIGATION_CODE)
 
-ICON_NEW STRONG(Page en cours de rédaction).
+dnl ICON_NEW STRONG(Page en cours de rédaction).
 
 LEFT_MENU(LEFT_RUBRIC(Découverte du logiciel SynDEx,
 Qu'est ce que la méthodologie AAA ?,#aaa,

@@ -20,11 +20,11 @@ SUBSECTION(ICON_READ[]Présentation,intro)
    nombre d'adversaire à zéro ! On peut jouer sur une demi douzaine
    d'univers et de voitures différentes.</p>
 
-<p>Speedway est un projet EPITA (2001-2002) open source. Il a été fait
-   en Opengl, Delphi 5 et DirectSound et fonctionne uniquement pour
-   Windows 95/98/2000/XP. Speedway fut, pour l'ensemble de l'équipe,
-   notre premier projet (en équipe) et nos premiers pas dans le monde
-   de la programmation.</p>
+<p>Speedway est un projet étudiant à l'école EPITA (2001-2002) open
+   source. Il a été fait en Opengl, Delphi Delphi et DirectSound et
+   fonctionne uniquement pour Windows 95/98/2000/XP. Speedway fut,
+   pour l'ensemble de l'équipe, notre premier projet (en équipe) et
+   nos premiers pas dans le monde de la programmation.</p>
 
 SUBSECTION(ICON_EYES[]Aperçus du jeu,view)
 
@@ -39,8 +39,11 @@ CENTER(Cliquer sur les images pour les agrandir.)
 SUBSECTION(ICON_DOWNLOAD[]Téléchargement,download)
 
 <p>Ce projet n'est plus développé mais les sources sont disponibles
-   sur GITHUB(Lecrapouille/Speedway,GitHub) sinon ici avec les
-   ressources graphiques et sonores :
+   sur GITHUB(Lecrapouille/Speedway,GitHub). Il vous faudra un Delphi
+   Borland (version 5 de mémoire) pour compiler les sources. Certaines
+   ressources graphiques et sonores n'y ont pas été mises sur le repo
+   git (pour des soucis de poids) mais vous pouvez les télécharger
+   ci-dessous.
 
 TABLEAU(3,LINK(speedway/speedway_soutenance4.pdf,Le
 rapport),LINK(speedway/speedway.rar,SpeedWay version
@@ -50,6 +53,17 @@ RAR, 750 Ko --- format RAR )
 
 
 SUBSECTION(ICON_GEAR[]Au coeur de SpeedWay,heart)
+
+<p>Ce projet fonctionne pour Windows 98, XP mais n'a pas été testé sur
+  des versions plus récentes.</p>
+
+<p>Ce projet n'a pas été conçu pour fonctionner pour Linux, Mac OS X
+  (Window étant imposé par nos professeurs).</p>
+
+<p>Programmeurs novices à l'époque, le jeu est très lent même avec un
+    PC actuel. Cela est du aux nombreux tests de collisions non
+    optimisés car testé sur tous les triangles de la scène. Un arbre
+    BSP ou un Quad-Tree aurait aidé le jeu à aller plus vite.</p>
 
 <p>Les éléments de programmation du jeu sont :</p>
 LISTE(Dessins (voitures et cartes) dessinés grâce au
@@ -92,7 +106,10 @@ LISTE(STRONG(HAUT/BAS/DROIT/GAUCHE) : avance/recule/droite/gauche.,
 
 SUBSECTION(ICON_GEAR[]Liens utiles pour la programmation OpenGL,links)
 
-<p>Voici quelques sites qui ont retenu mon attention concernant OpenGL :</p>
+<p>Voici quelques sites qui ont retenu mon attention concernant OpenGL
+   et Delphi. La plupart des liens sont malheureusement morts, mais je
+   les laisse au cas ou.</p>
+
 LISTE(OpenGl et Delphi :
       LISTE(Le site de Martin Beaudet : utile pour apprendre à créer
            sa première fenêtre et ses primitives en OpenGl-Delphi :

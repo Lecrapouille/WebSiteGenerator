@@ -27,7 +27,8 @@ les plus proche. Ce procédé est utilisé par des
 jeux tels que Half-Life ou Doom.</p>
 
 <p>Ce rapport a été réalisé, en français, pour le cours de micro
-informatique Epita (2001-2002).</p>
+informatique EPITA (2001-2002). Il a été écrit en LaTex et le code
+source est disponibles sur GITHUB(Lecrapouille/BSPtree,GitHub).</p>
 
 
 SUBSECTION(ICON_READ[]Sommaire du rapport,som)

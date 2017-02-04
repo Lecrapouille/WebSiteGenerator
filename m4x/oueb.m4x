@@ -1,3 +1,4 @@
+dnl -*- m4 -*- Coloration Syntaxique pour Emacs
 dnl #################################################################
 dnl M4 preferences
 dnl #################################################################
@@ -14,6 +15,7 @@ define([DIVERT_HEADER_CODE],[46])
 dnl #################################################################
 dnl # Macros utiles
 dnl #################################################################
+define([CONCAT],[$1$2])
 define([UPPER],[translit([$1],[a-z],[A-Z])])
 define([LOWER],[translit([$1],[A-Z],[a-z])])
 define([forloop], [pushdef([$1], [$2])_forloop([$1], [$2], [$3], [$4])popdef([$1])])
@@ -128,8 +130,6 @@ dnl #####################################################################
 define([SECTION],[_SECTION1_(h1,$@)])
 define([SUBSECTION],[_SECTION2_(h2,$@)])
 define([SUBSUBSECTION],[_SECTION2_(h3,$@)])
-define([CODE],[<div class="code"><pre><code>])
-define([ENDCODE],[</code></pre></div>])
 define([BOX],[<div class="boite">])
 define([ENDBOX],[RIGHT(LINK(#gotoup,ARROW_UP)) </div>])
 
@@ -161,8 +161,10 @@ define([_THE_SECTION_],
 [<a id="$3" name="$3"></a><$1><a href="$4-]LANG[.html">$2</a></$1>])])])
 
 define([_IEME_SECTION_],[0])
+
+
 define([_SECTION2_],[ifelse(_IEME_SECTION_,0,,[ENDBOX])
-<!-- Section -->
+<!-- Subsection -->
 _THE_SECTION_($@)BOX[]define([_IEME_SECTION_],[1])])
 
 define([_SECTION1_],[ifelse(_IEME_SECTION_,0,,[ENDBOX])
@@ -236,6 +238,34 @@ define([REMARQUE],[<strong>Remarque :</strong>])
 define([CENTER],[<div class="centrer">$@</div>])
 define([RIGHT],[<div class="right">$@</div>])
 define([HUDGE],[<div class="hudge">$@</div>])
+
+dnl #####################################################################
+dnl Couleur
+dnl #####################################################################
+define([COLOR_],[<font color="$1"><strong>$2</strong></font>])
+define([COLOR],[<font color="#$1"><strong>$2</strong></font>])
+define([BLACK],[COLOR_(black,$1)])
+dnl define([BLEU],[COLOR_(blue,$1)])
+define([BLEU],[COLOR_(2100ae,$1)])
+define([ROSE],[COLOR_(fuchsia,$1)])
+define([GRIS],[COLOR_(grey,$1)])
+define([VERT],[COLOR_(green,$1)])
+define([MARON],[COLOR_(maroon,$1)])
+define([JAUNE],[COLOR_(yellow,$1)])
+define([ORANGE],[COLOR_(ff9900,$1)])
+define([BLANC],[COLOR_(white,$1)])
+define([ROUGE],[COLOR_(red,$1)])
+
+dnl #####################################################################
+dnl CODE SOURCE: C/FORTH
+dnl #####################################################################
+define([CODE],[define([CODE_],[$1])][<div class="code"><pre><code>])
+define([ENDCODE],[</code></pre></div>define([CODE_],)])
+
+define([_FOR],[STRONG(for)])dnl genric form
+define([C_FOR],[BLEU(_FOR)])dnl C code
+define([FORTH_FOR],[ROUGE(_FOR)])dnl Firth code
+define([FOR],[CONCAT(CODE_,[_FOR])])
 
 dnl #####################################################################
 dnl Icones

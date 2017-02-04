@@ -90,6 +90,12 @@ DRAP_EN EXTLINK(https://github.com/ekoeppen/CoreForth, CoreForth) un
   Forth pour Cortex M0 et M3. Fonctionne chez moi avec une carte
   EXTLINK(https://www.arduino.cc/en/Main/arduinoBoardDue,Arduino Due).)
 
+<p>Pour ce document, nous allons prendre une convention (non
+officielle) concernant la coloration syntaxique :</p>
+LISTE(ROUGE(En rouge) les litteraux;,VERT(En vert) la définition d'un
+  nouveau mot;,ORANGE(les mots immédiats);,BLEU(En bleu) les mots de
+  structure conditionnelle;,GRIS(En gris) les commentaires.)
+
 SUBSECTION(ICON_READ[]Histoire du Forth,intro)
 
 <p>Forth est un langage inventé par Charles H. Moore dans les années
@@ -179,13 +185,14 @@ EXTLINK(https://en.wikipedia.org/wiki/Abstract_syntax_tree,
 main-gauche).</p>
 
 <p>Le code suivant :</p>
-CODE
-2 3 4 + *
+CODE(FORTH)
+ROUGE(2 3 4) + *
 ENDCODE
+
 <p>équivaut à l'expression arithmétique 2 * (3 + 4) alors que le code
   suivant :</p>
 CODE
-2 3 4 * +
+ROUGE(2 3 4) * +
 ENDCODE
 
 <p>équivaut à l'expression arithmétique 2 + (3 * 4) et si l'on désire
@@ -209,7 +216,7 @@ ENDCODE
 
 <p>mais en forth cela s'écrit simplement par :</p>
 CODE
-2 3 4 * + .
+ROUGE(2 3 4) * + .
 ENDCODE
 
 SUBSECTION(ICON_GEAR[]Dictionnaire Forth: une machine virtuelle,dico)
@@ -219,7 +226,7 @@ on peut créer un nouveau mot plus évolué. Par exemple, le code
 suivant :</p>
 
 CODE
-: FOO 2 DUP + . ;
+VERT(: FOO) ROUGE(2) DUP + . ORANGE(;)
 ENDCODE
 
 <p>Permet de définir un nouveau mot Forth FOO via les mots : et ; qui
@@ -253,13 +260,14 @@ mot STRONG(NAME) et est codé sur les 5 bits de poids faible;,
 STRONG(FLAGS) code sur les 3 bits de poids fort les informations
 suivantes dont nous reviendrons en détail plus tard : LISTE(si le mot
 est bien formé (smudge bit);, si le mot doit être considéré comme
-immédiat;, et le dernier bit toujours à 1 servant de séparateur entre
-les entrées du dictionnaire.),
+immédiatement exécutable ORANGE(immediat bit);, et le dernier bit
+toujours à 1 servant de séparateur entre les entrées du dictionnaire
+(soit valant 80 en base 16).),
 
 STRONG(NAME :) est le nom du mot Forth et le nombre d'octet est
 variable mais allant jusqu'à 2<sup>5</sup>-1 caractères (octets).,
 
-STRONG(lINK POINTER :) est l'adresse de l'entrée précédente du
+STRONG(L)STRONG(INK POINTER :) est l'adresse de l'entrée précédente du
 dictionnaire (la liste chaînée). L'adresse peut être relative ou
 absolue[,] la première permettant de déplacer des ensembles d'entrées
 sans devoir modifier les adresses. Le nombre d'octets d'une adresse
@@ -286,8 +294,8 @@ dictionnaire.)
 
 <p>Par exemple, le code suivant :</p>
 CODE
-: FOO * * ;
-: BAR FOO . ;
+VERT(: FOO) * * ORANGE(;)
+VERT(: BAR) FOO . ORANGE(;)
 ENDCODE
 
 <p>va créer les deux entrées dans le dictionnaire de la façon suivante :</p>
@@ -305,7 +313,7 @@ ENDCODE
 
 <p>Les flèches représentent les adresses vers les autres mots du
 dictionnaire. Vu que BAR a été inséré dans le dictionnaire après FOO
-son STRONG([link] POINTER) pointe vers FOO et LATEST pointe vers
+son STRONG(L)STRONG(INK POINTER) pointe vers FOO et LATEST pointe vers
 BAR. Les littéraux 0x81, 0x83 (notation base 16) sont les tailles des
 mots avec le marqueur de séparation des entrées du dictionnaire. Les
 mots Forth DOCOL et EXIT sont des mots particuliers que l'on décrira
@@ -323,10 +331,10 @@ si les addresses sont relatives et non absolues). La recherche
 s'arrêtant au premier mot trouvé, on peut donc écraser une ancienne
 définition comme il suit :</p>
 CODE
-: FOO * * ;
-: BAR FOO . ;
-: FOO + + ;
-: BAR FOO . ;
+VERT(: FOO) * * ORANGE(;)
+VERT(: BAR) FOO . ORANGE(;)
+VERT(: FOO) + + ORANGE(;)
+VERT(: BAR) FOO . ORANGE(;)
 ENDCODE
 
 <p>L'inconvénient majeur est que la recherche se fait avec une
@@ -362,11 +370,11 @@ que le mot ; n'est pas exécuté effaçant le bit. Le mot SMUDGE doit
 
 <p>Voici un exemple de recursivité :</p>
 CODE
-: FACTORIELLE
- DUP 1 >
-  IF
-   DUP 1 - FACTORIELLE *
- THEN ;
+VERT(: FACTORIELLE)
+ DUP ROUGE(1) >
+  BLEU(IF)
+   DUP ROUGE(1) - FACTORIELLE *
+ BLEU(THEN) ORANGE(;)
 ENDCODE
 
 SUBSECTION(ICON_GEAR[]Forth un langage à piles,pile)
@@ -396,7 +404,7 @@ comme des noms sur des emplacements mémoire de longue-durée
 
 <p>Le code suivant :</p>
 CODE
-2 DUP + .
+ROUGE(2) DUP + .
 ENDCODE
 
 <p>Va empiler l'opérande 2 dans la pile. Le mot DUP va le consommer
@@ -488,7 +496,7 @@ processus.)
 
 <p>Si l'inter lit tous les mots les uns apres les autres, avec le code</p>
 CODE
-: FOO * * ;
+VERT(: FOO) * * ORANGE(;)
 ENDCODE
 <p>FOO n'etant pas défini, l'interpréteur devrait déclencher une
 erreur. En fait non, car comme on l'a dit l'interpréteur sait lire le
@@ -507,13 +515,13 @@ ne sont pas considérés comme immédiats[,] sont recherchés dans le
 dictionnaire et leur référence stockée dans la définition du mot en
   cours de définition.)
 
-<p>Le mot IMMEDIAT rend immédiat le dernier mot du dictionnaire. Voici
+<p>Le mot ORANGE(IMMEDIAT) rend immédiat le dernier mot du dictionnaire. Voici
 un exemple plus évolué : on se propose d'ajouter un système de
 commentaires à Forth. Pour cela on suppose que le mot TYPE existe déjà
 (ce qui en général le cas) ce mot permet d'ignorer les caractères du
 tampon d'entrée jusqu'au charactère indiqué comme paramère.</p>
 CODE
-: ( ')' TYPE ; IMMEDIATE
+VERT(: &#40;) '&#41;' TYPE ORANGE(; IMMEDIATE)
 ENDCODE
 
 <p>Dés que le parseur exécutera le mot ( il ignorera tous les mots

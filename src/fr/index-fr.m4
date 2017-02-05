@@ -3,8 +3,9 @@ divert(DIVERT_HEADER_CODE)
 
 dnl DEF_TITLE(Quentin QUADRAT - Ingénieur informaticien des systèmes temps réel (EPITA))
 DEF_TITLE(Page personelle de Quentin QUADRAT)
-DEF_KEYWORDS()
-DEF_DESCRIPTION()
+DEF_KEYWORDS(Programmation temps réel systeme embarque tutorial Scicos SynDEx
+Scilab jeux 3D opengl delphi forth quadrirotor quadricoptere drone)
+DEF_DESCRIPTION(Page personelle de Quentin QUADRAT)
 MENU_ACTIF(MENU_HOME)
 
 divert(DIVERT_NAVIGATION_CODE)

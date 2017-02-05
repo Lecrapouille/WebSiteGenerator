@@ -2,8 +2,8 @@ dnl -*- html -*- Coloration Syntaxique pour Emacs
 divert(DIVERT_HEADER_CODE)
 
 DEF_TITLE(Projet Ecstasy)
-DEF_KEYWORDS()
-DEF_DESCRIPTION()
+DEF_KEYWORDS(3D game)
+DEF_DESCRIPTION(3D game in opengl and delphi)
 MENU_ACTIF(MENU_3D)
 
 divert(DIVERT_NAVIGATION_CODE)

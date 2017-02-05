@@ -2,8 +2,8 @@ dnl -*- html -*- Coloration Syntaxique pour Emacs
 divert(DIVERT_HEADER_CODE)
 
 DEF_TITLE(Les arbres de partitionnement binaire de l'espace (BSP))
-DEF_KEYWORDS()
-DEF_DESCRIPTION()
+DEF_KEYWORDS(BSP binary space partition tree)
+DEF_DESCRIPTION(binary space partition trees)
 MENU_ACTIF(MENU_TUTO)
 
 divert(DIVERT_NAVIGATION_CODE)

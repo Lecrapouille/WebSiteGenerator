@@ -2,8 +2,8 @@ dnl -*- html -*- Coloration Syntaxique pour Emacs
 divert(DIVERT_HEADER_CODE)
 
 DEF_TITLE(Projet SimTaDyn : Simulation Tableur Dynamique)
-DEF_KEYWORDS()
-DEF_DESCRIPTION()
+DEF_KEYWORDS(GIS qgis mapinfo openstreetmap simcity geography spreadsheet forth gtkmm cpp)
+DEF_DESCRIPTION(A GIS in a spreadsheet)
 MENU_ACTIF(MENU_3D)
 
 divert(DIVERT_NAVIGATION_CODE)

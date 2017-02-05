@@ -1,8 +1,8 @@
 divert(DIVERT_HEADER_CODE)
 
 DEF_TITLE(Dynamique d'une voiture et principe de la moindre action)
-DEF_KEYWORDS()
-DEF_DESCRIPTION()
+DEF_KEYWORDS(principle of least action)
+DEF_DESCRIPTION(Dynamics of a car with the principle of least action)
 MENU_ACTIF(MENU_TUTO)
 
 divert(DIVERT_NAVIGATION_CODE)

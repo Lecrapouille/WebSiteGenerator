@@ -279,8 +279,7 @@ commentaires entre-eux. Et il ne faut pas oublier les espaces car
 &#40; est un mot Forth comme un autre. Ce type de commentaire est
 préféré pour indiquer les paramètres d'un mot Forth. Pour plus de
 renseignements sur la norme de la notation des paramétres
-EXTLINK(http://www.forth.org/forth_style.html,voir ce site).
-
+EXTLINK(http://www.forth.org/forth_style.html,voir ce site).</p>
 CODE[]: DIVISION ( n1 n2 -- n1/n2 ) / ;
 ENDCODE
 
@@ -300,7 +299,7 @@ SWAP permute le sommet de la pile avec l'avant dernier, le mot
 
 <p>STRONG(Mémoire :) Le mot @ permet d'accéder au contenu d'une
 adresse. Le mot ! permet de stocker une valeur dans une adresse. Une
-  variable en Forth est une mémoire nommée. Exemple :
+  variable en Forth est une mémoire nommée. Exemple :</p>
 CODE[]15 VARIABLE TOTO
 TOTO @ .
 14 TOTO !
@@ -314,7 +313,7 @@ l'affiche. La troisième ligne change la valeur de TOTO avec la valeur
 affichera la valeur 14.</p>
 
 <p>STRONG(Base :) Forth permet d'afficher les nombres dans la base
-désirée. Exemple amusant :
+désirée. Exemple amusant :</p>
 CODE[]: HEX 16 BASE ! ;
 a .
 HEX
@@ -365,7 +364,7 @@ signé, opération booléene. Point important : contrairement à des
 langage tel que C où le faux vaut 0 et le vrai vaut toutes valeurs
 différentes de 0 (mais où 1 est en général retourné), en forth le faux
 vaut -1. Le EXTLINK(http://wiki.c2.com/?BooleanRepresentation,lien) en
-parle plus longuement. Sinon, voici un exemple :</p> CODE[]ROUGE(1 0) <> . ENDCODE
+parle plus longuement. Sinon, voici un exemple :</p> CODE[]ROUGE(1 0) &#60;&#62; . ENDCODE
 
 <p>La pile de données des Forth permet uniquement de manipuler des
 entiers (signés et non signés) ou des adresses de la machine virtuelle
@@ -542,9 +541,9 @@ donné par le mot Forth HERE. HERE est mis à jour automatiquement aprés
 l'insertion d'une entrée ou d'un CFA. Il existe sur certain Forth un
 mot Forth appelé DP pour Dictionary Pointer[,] faisant partie des
 variables utilisateur[,] qui permet de changer l'emplacement indiqué
-par HERE (comme une tête de lecture/écriture).
+par HERE (comme une tête de lecture/écriture).)
 
-<p>A chaque fois qu'un mot est inséré à la définition d'un mot, c'est
+<p>A chaque fois qu'un mot est inséré à la définition d'un mot[,] c'est
 le mot HERE qui indique l'emplacement. Après l'ajout du mot, HERE est
 autamatiquement déplacé pour toujours pointer sur un emplacement
 libre mais des mots comme ALLOC permettant de reserver de la mémoire
@@ -553,7 +552,7 @@ déplace simplement HERE.</p>
 <p>Deux avantages de cette structure de donnée sont :</p>
 LISTE(la non segmentation de la mémoire : déplacer un bloc d'entrée en
 mémoire est trivial (surtout si les addresses sont relatives et non
-absolues). On pensera à la concaténation de dictionnaires entre eux).;,
+absolues; on pensera à la concaténation de dictionnaires entre eux).;,
 
 La recherche s'arrêtant au premier mot trouvé, on peut donc écraser une ancienne
 définition comme il suit :)
@@ -708,24 +707,24 @@ Forth (non officiel) 0BRANCH qui fait un saut relatif à la
 condition que le sommet de la pile vaut 0.</p>
 CODE[]VERT(: DO)
   COMPILE SWAP
-  COMPILE >R
-  COMPILE >R
+  COMPILE &#62;R
+  COMPILE &#62;R
   HERE
 ORANGE(; IMMEDIATE)
 
 VERT(: LOOP)
-  COMPILE R>
+  COMPILE R&#62;
   COMPILE 1+
-  COMPILE R>
+  COMPILE R&#62;
   COMPILE 2DUP
-  COMPILE >R
-  COMPILE >R
-  COMPILE <
+  COMPILE &#62;R
+  COMPILE &#62;R
+  COMPILE &#60;
   COMPILE 0=
   COMPILE 0BRANCH
   HERE - ,
-  COMPILE R>
-  COMPILE R>
+  COMPILE R&#62;
+  COMPILE R&#62;
   COMPILE 2DROP
 ORANGE(; IMMEDIATE)
 ENDCODE
@@ -745,15 +744,15 @@ retour et de les comparer entr eux. S'ils sont égaux 0BRANCH laisse pa
 
 Voici en mémoire comment est l emot
 ROUGE(10 0)
-SWAP >R >R
+SWAP &#62;R &#62;R
 ROUGE(1) .
-R> 1+ R> 2DUP >R >R < 0= 0BRANCH ROUGE(0xe8) R> R> 2DROP
+R&#62; 1+ R&#62; 2DUP &#62;R &#62;R &#60; 0= 0BRANCH ROUGE(0xe8) R&#62; R&#62; 2DROP
 EXIT
   Nous voyons les mots en provenance du mot DO:
-  SWAP >R >R
+  SWAP &#62;R &#62;R
 
   Nous voyons les mots en provenance du mot LOOP:
-  R> 1+ R> 2DUP >R >R < 0= 0BRANCH ROUGE(0xe8) R> R> 2DROP
+  R&#62; 1+ R&#62; 2DUP &#62;R &#62;R &#60; 0= 0BRANCH ROUGE(0xe8) R&#62; R&#62; 2DROP
 Où 0xe8 et la difference d'addresse entre le HERE du DO et le HERE du
     LOOP permettant d'iterer le calcul.
 
@@ -778,7 +777,7 @@ indique le premier emplacement libre. Par conséquent on peut se
 reserver des emplacements mémoires et l'idéal est de donner un nom aux
 emplacemets.</p>
 
-</p>Le mot ALLOC permet de déplacer DP du nombre d'octet voulu (un
+<p>Le mot ALLOC permet de déplacer DP du nombre d'octet voulu (un
 ALLOC pour 1 cellule est le mot ,)</p>
 
 dnl https://fr.wikiversity.org/wiki/Forth/Conserver_des_donn%C3%A9es

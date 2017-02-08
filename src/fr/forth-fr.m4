@@ -243,13 +243,19 @@ de liste chainée entre les mots; d'autres utilisent une table de
 hashage, etc.</p>
 
 <p>Sous la forme d'une liste chainée, le dictionnaire peut être vu
-comme le ruban infini divisé en cases consécutives de Turing :</p>
+comme le ruban infini divisé en cases consécutives de Turing (par
+convention on nomme cellule une case mémoire dont le nombre d'octet
+dépend de l'architecture de la cible: 8, 16 ou 32 bits (pour rappel
+Forth étant né dans les années 70):</p>
 
 CODE
-&lt;--- DICTIONARY ENTRY (HEADER) -------->
-+--------------+--------+--------------+--------------- - - - -
-| LENGTH/FLAGS | NAME   | [LINK] POINTER | DEFINITION
-+--------------+--------+--------------+--------------- - - - -
+ &lt;--- DICTIONARY ENTRY (HEADER) -------->
+ +--------------+--------+--------------+--------------- - - - -
+ | LENGTH/FLAGS | NAME   | [LINK] POINTER | DEFINITION
+ +--------------+--------+--------------+--------------- - - - -
+ ^                       ^              ^     ^
+ |                       |              |     |
+NFA                     LFA            CFA   PFA
 ENDCODE
 
 LISTE(
@@ -258,52 +264,72 @@ STRONG(LENGTH :) est le nombre de caractères ASCII du nom du
 mot STRONG(NAME) et est codé sur les 5 bits de poids faible;,
 
 STRONG(FLAGS) code sur les 3 bits de poids fort les informations
-suivantes dont nous reviendrons en détail plus tard : LISTE(si le mot
-est bien formé (smudge bit);, si le mot doit être considéré comme
-immédiatement exécutable ORANGE(immediat bit);, et le dernier bit
-toujours à 1 servant de séparateur entre les entrées du dictionnaire
-(soit valant 80 en base 16).),
+suivantes dont nous reviendrons en détail plus tard :
+
+LISTE(STRONG(Smudge bit :) indique si le mot doit ignoré lors d'une
+recherche dans le dictionnaire (il est caché). Deux cas d'usage : --
+soit l'utilisateur l'a décidé; -- soit d'une définition abortée
+(l'utilisateur a fait une erreur comme une typo sur un mot de la définition).;,
+
+ORANGE(immediat bit :) si le mot doit être immédiatement interprété
+(exécuté) dés que l'interpréteur lit ce mot lors de la compilation
+d'une définition;,
+
+et le dernier bit toujours à 1 servant de séparateur entre les entrées
+du dictionnaire (soit valant 80 en base 16).),
 
 STRONG(NAME :) est le nom du mot Forth et le nombre d'octet est
 variable mais allant jusqu'à 2<sup>5</sup>-1 caractères (octets).,
 
 STRONG(L)STRONG(INK POINTER :) est l'adresse de l'entrée précédente du
-dictionnaire (la liste chaînée). L'adresse peut être relative ou
-absolue[,] la première permettant de déplacer des ensembles d'entrées
-sans devoir modifier les adresses. Le nombre d'octets d'une adresse
-dépend de l'architecture choisie.,
+dictionnaire (liste chaînée d'entrées). L'adresse peut être relative
+ou absolue (la première a la bonne propriété de permettre de déplacer
+un bloc d'entrées sans devoir modifier les adresses). Le nombre
+d'octets d'une adresse dépend de l'architecture choisie.,
 
-STRONG(DEFINITION :) est une suite d'identifiant ou d'adresse du
-dictionnaire pointant sur les mots déjà existants. Le nombre d'octets
-pour coder une adresse ou un indentifiant dépend de l'architecture
-choisie et au final la taille total du dictionnaire.)
+STRONG(DEFINITION :) est une suite d'adresses pointant sur les mots
+déjà existants du dictionnaire, que l'on nommera par convention Code
+Field Address (CFA). Le nombre d'octets pour coder une adresse ou un
+indentifiant dépend de l'architecture choisie et au final la taille
+total du dictionnaire.)
 
-<p>Le dictionnaire possède deux informations supplémentaires qui sont
-eux mêmes vus comme des mots Forth (ils font partis de ce que l'on
-appelle des variables utilisateurs) :</p>
+<p>Certaines adresses sont importantes en Forth et posséde un nom :</p>
 
-LISTE(l'emplacement de l'entrée du dernier mot inséré dans le
-dictionnaire (mot Forth LATEST parfois nommé LAST);,
+LISTE(STRONG(NFA :) pour Name Field Address pointe sur l'entrée d'un
+mot;,
 
-le premier emplacement libre du dictionnaire (en général aprés le
-dernier mot inséré) mais qui peut être contrôlé et déplacé façon tête
-de lecture/écriture (mots Forth DP et/ou HERE selon le Forth.),
+STRONG(LFA :) pour Link Field Address pointe sur l'emplacement
+contenant l'adresse du mot précédent. On rappelle qu'elle sert à
+parcourit les entrées du dictionnaire.;,
 
-LATEST[,] DP et HERE sont bien des mots Forth donc aussi stocké dans le
-dictionnaire.)
+STRONG(CFA :) pour Code Field Address pointe sur le début de la
+définition d'un mot. Il ne faut pas le confondre avec LFA car il sert
+à déplacer le pointeur d'interprétation de l'interpréteur (pointeur
+sur le mot à interprété). Il faut le voir comme une sorte
+d'identifiant sur les mots sorte de bytecode/opcode d'une machine
+virtuelle java;,
 
-<p>Par exemple, le code suivant :</p>
+STRONG(PFA :) pour Parameter Field Address pointe sur le second
+emplacement de la définition.)
+
+<p>A partir d'un CFA donné, grâce au bit toujours mis à 1, il est
+possible d'atteindre le début de l'entrée en décrementant la valeur de
+l'addresse et en appliquant au contenu de l'addresse l'opération OU
+bit à bit avec la valeur hexadécimale 80.</p>
+
+<p>Le scriptsuivant :</p>
 CODE
 VERT(: FOO) * * ORANGE(;)
 VERT(: BAR) FOO . ORANGE(;)
 ENDCODE
 
-<p>va créer les deux entrées dans le dictionnaire de la façon suivante :</p>
+<p>va créer deux nouvelles entrées dans le dictionnaire comme indiqué
+dans la figure ci-dessous :</p>
 CODE
                    +--------------------+
                    |              +---- | ----------------------------------------+------------+
                    v              v     |                                         |            |
----------------- - - - ---------------- | --------------------------------------- | -----------|------------
+---------------- - - - ---------------- | --------------------------------------- | -----------|-------------
 | 0x81 | * |            | 0x83 | FOO |     | DOCOL | * | * | EXIT | 0x83 | BAR |    | DOCOL | FOO | . | EXIT
 ---------------- - - - ------------------------|-----|---|----|--------------------------|-------------------
          ^                                     |     |   |    |                          |
@@ -311,13 +337,30 @@ CODE
          +-------------------------------------------+---+
 ENDCODE
 
-<p>Les flèches représentent les adresses vers les autres mots du
-dictionnaire. Vu que BAR a été inséré dans le dictionnaire après FOO
-son STRONG(L)STRONG(INK POINTER) pointe vers FOO et LATEST pointe vers
-BAR. Les littéraux 0x81, 0x83 (notation base 16) sont les tailles des
+<p>Les flèches représentent les adresses (LFA ou CFA) vers les mots
+existants du dictionnaire. Vu que BAR a été inséré dans le
+dictionnaire après FOO son LFA pointe vers FOO et le dictionnaire
+mémorise son LFA pour faire ses recherches sur les mots existants (la
+fameuse liste chainée).</p>
+
+<p>Les littéraux 0x81, 0x83 (notation base 16) sont les tailles des
 mots avec le marqueur de séparation des entrées du dictionnaire. Les
 mots Forth DOCOL et EXIT sont des mots particuliers que l'on décrira
-plus tard.</p>
+plus tard. HERE pointe sur l'emplacement apres EXIT du mot BAR.</p>
+
+<p>Le dictionnaire possède deux informations supplémentaires qui sont
+eux-mêmes des mots Forth (donc aussi stockés dans le
+dictionnaire) :</p>
+
+LISTE(le LFA du dernier mot inséré dans le dictionaire. C'est le mot
+Forth LAST (ancienement nommé LATEST) qui joue ce rôle;,
+
+le premier emplacement libre du dictionnaire pour prochain mot est
+donné par le mot Forth HERE. HERE est mis à jour automatiquement aprés
+l'insertion d'une entrée ou d'un CFA. Il existe sur certain Forth un
+mot Forth appelé DP pour Dictionary Pointer[,] faisant partie des
+variables utilisateur[,] qui permet de changer l'emplacement indiqué
+par HERE (comme une tête de lecture/écriture).
 
 <p>A chaque fois qu'un mot est inséré à la définition d'un mot, c'est
 le mot HERE qui indique l'emplacement. Après l'ajout du mot, HERE est
@@ -325,11 +368,14 @@ autamatiquement déplacé pour toujours pointer sur un emplacement
 libre mais des mots comme ALLOC permettant de reserver de la mémoire
 déplace simplement HERE.</p>
 
-<p>L'avantage de cette structure de donnée est la non segmentation de
-la mémoire : déplacer un dictionnaire en mémoire est trivial (surtout
-si les addresses sont relatives et non absolues). La recherche
-s'arrêtant au premier mot trouvé, on peut donc écraser une ancienne
-définition comme il suit :</p>
+<p>Deux avantages de cette structure de donnée sont :</p>
+LISTE(la non segmentation de la mémoire : déplacer un bloc d'entrée en
+mémoire est trivial (surtout si les addresses sont relatives et non
+absolues). On pensera à la concaténation de dictionnaires entre eux).;,
+
+La recherche s'arrêtant au premier mot trouvé, on peut donc écraser une ancienne
+définition comme il suit :)
+
 CODE
 VERT(: FOO) * * ORANGE(;)
 VERT(: BAR) FOO . ORANGE(;)
@@ -337,15 +383,18 @@ VERT(: FOO) + + ORANGE(;)
 VERT(: BAR) FOO . ORANGE(;)
 ENDCODE
 
-<p>L'inconvénient majeur est que la recherche se fait avec une
-complexité linéaire que l'on note O(n). Pour palier à ce problèmes des
-mots Forth de même nature peuvent être regroupés en vocabulaires. Le
-vocabulaire est l'ancêtre des espaces de nommages des langages
-modernes (comme en C++ avec par exemple std::cout). Un vocabulaire est
-un mot Forth gérant un index de LAST mais pointant sur des mots
-choisis par le développeur. On a donc une sorte d'arbre où une
-recherche partirait d'un feuille (d'un vocabulaire spécifié, donc un
-mot équivalent à LAST) et se terminerait à la racine de l'arbre.</p>
+<p>Interpréter BAR appelera deux additions.</p>
+
+<p>L'inconvénient majeur de cette structure de donnée est que la
+recherche se fait avec une complexité linéaire que l'on note
+O(n). Pour palier à ce problèmes des mots Forth de même nature peuvent
+être regroupés en vocabulaires. Le vocabulaire est l'ancêtre des
+espaces de nommages des langages modernes (comme en C++ avec par
+exemple std::cout). Un vocabulaire est un mot Forth gérant un index de
+LAST mais pointant sur des mots choisis par le développeur. On a donc
+une sorte d'arbre où une recherche partirait d'un feuille (d'un
+vocabulaire spécifié, donc un mot équivalent à LAST) et se terminerait
+à la racine de l'arbre.</p>
 
 <p>Moore avec son colorForth est passé à une table de hashage et pour
 sauver de la mémoire il compresse les noms des mots Forth avec un
@@ -467,11 +516,12 @@ pas connu et n'est pas un nombre : une erreur prévient l'utilisateur
 et arrête le processus.)
 
 <p>En mode COMPILATION les mots non-immédiats qui sont lus, s'ils sont
-connus du dictionnaire, sont ajoutés les uns à la suite des autres au
-dans la définition courante du dictionnaire. Si un mot n'est pas connu
-une erreur prévient l'utilisateur et arrête le processus.</p>
+connus du dictionnaire, leurs CFA sont ajoutés les uns à la suite des
+autres au dans la définition courante du dictionnaire. Si un mot n'est
+pas connu une erreur prévient l'utilisateur et arrête le
+processus.</p>
 
-<p>Des peux de mots Forth que l'on a vus, c'est le mot : qui force le
+<p>Du peu de mots Forth que l'on a vus, c'est le mot : qui force le
 mode COMPILATION de l'interpréteur alors que le mot ; le fait passer
 en mode EXECUTION. On peut déja se poser la question comment l'inter
 peut passer en mode exécution avec le mot ; s'il ne fait que compiler
@@ -507,22 +557,25 @@ conséquent le mot suivant que l'interpréteur va lire sera *.</p>
 <p>L'interpréteur Forth à deux modes (états) soit il est en mode
 interprétation soit en mode compilation. Des mots comme : et ;
 permettent respectivement de passer en mode compilation puis
-interprétation.</p> LISTE(En mode interprétation[,] la définition des
-mots lus sont recherchés dans le dictionnaire puis exécutés., En mode
-compilation[,] une entête dans le dictionnaire est créée afin de
-permettre de retrouver le nouveau mot[,] puis chaque mot lus[,] s'ils
-ne sont pas considérés comme immédiats[,] sont recherchés dans le
-dictionnaire et leur référence stockée dans la définition du mot en
-  cours de définition.)
+interprétation.</p>
 
-<p>Le mot ORANGE(IMMEDIAT) rend immédiat le dernier mot du dictionnaire. Voici
-un exemple plus évolué : on se propose d'ajouter un système de
-commentaires à Forth. Pour cela on suppose que le mot TYPE existe déjà
-(ce qui en général le cas) ce mot permet d'ignorer les caractères du
-tampon d'entrée jusqu'au charactère indiqué comme paramère.</p>
-CODE
-VERT(: &#40;) '&#41;' TYPE ORANGE(; IMMEDIATE)
-ENDCODE
+LISTE(En mode interprétation[,] la définition des mots lus sont
+recherchés dans le dictionnaire puis exécutés., En mode compilation[,]
+une entête dans le dictionnaire est créée afin de permettre de
+retrouver le nouveau mot[,] puis chaque mot lus[,] s'ils ne sont pas
+considérés comme immédiats[,] sont recherchés dans le dictionnaire et
+leur référence stockée dans la définition du mot en cours de
+définition.)
+
+<p>Le mot ORANGE(IMMEDIAT) rend immédiat le dernier mot du
+dictionnaire. Pour rappel un mot immédiat n'est pas compilable mais
+directement interprété quand l'intrépéteur est en mode
+compilation. Voici un exemple plus évolué de mot immédiat : on se
+propose d'ajouter un système de commentaires à Forth. Pour cela on
+suppose que le mot TYPE existe déjà (ce qui en général le cas) ce mot
+permet d'ignorer les caractères du tampon d'entrée jusqu'au charactère
+indiqué comme paramère.</p> CODE VERT(: &#40;) '&#41;' TYPE ORANGE(;
+IMMEDIATE) ENDCODE
 
 <p>Dés que le parseur exécutera le mot ( il ignorera tous les mots
 jusqu'à trouver le mot ) et comme il est immédiat il va fonctionner
@@ -530,14 +583,104 @@ dans une définition (quand l'interpréteur sera en mode
 compilation). Notons qu'il existe un autre type de commentaire Forth
 le mot \ ignore entièrement la ligne courante.</p>
 
+<p>Si l'on désire rendre immédiat un certains nombre de mots de façon
+temporaire dans une définition il faut les délimiter par les mots &#91;
+et #&#93;. Ces mots modifient l'état de l'interpréteur: interprétation
+ou compilation mais ne changent pas le smudge bit des mots.</p>
+
+<p>Si l'on désire compiler un mot immédiat il faut placer avant le mot
+&#91;COMPILE#&#93; (qui lui aussi est immediat). Le mot COMPILE joue
+le même rôle que &#91;COMPILE#&#93; mais est non immédiat. Il permet
+de ... TODO A FINIR ... Notons que ces mots sont désués à cause du
+risque de confusion pour les développeurs pour se souvenir de qui est
+immédiat, par conséquent on utilisera plutôt le mot POSTPONE qui
+appelle l'un ou l'autre automatiquement selon le caractère immédiat du
+mot qui lui succéde.</p>
+
+<p>On se propose de crééer deux nouveaux Forth : DO et LOOP qui
+permettent de faire une boucle. On supposera l'existence d'un mot
+Forth (non officiel) 0BRANCH qui fait un saut relatif à la
+condition que le sommet de la pile vaut 0.</p>
+CODE
+VERT(: DO)
+  COMPILE SWAP
+  COMPILE >R
+  COMPILE >R
+  HERE
+ORANGE(; IMMEDIATE)
+
+VERT(: LOOP)
+  COMPILE R>
+  COMPILE 1+
+  COMPILE R>
+  COMPILE 2DUP
+  COMPILE >R
+  COMPILE >R
+  COMPILE <
+  COMPILE 0=
+  COMPILE 0BRANCH
+  HERE - ,
+  COMPILE R>
+  COMPILE R>
+  COMPILE 2DROP
+ORANGE(; IMMEDIATE)
+ENDCODE
+
+<p>Voici un exemple typique de ces mots qui affiche ...</p>
+CODE
+: DECADE 10 0 DO  1 . LOOP ;
+ENDCODE
+
+Détaillons le code Forth:
+DO: les 2 param: fin et debut d'iteration. Sont commutes puis stockés dans
+la pile de retour.
+
+LOOP: les 2 param sont remis dans la pile de donnees et l'iterateur
+est incremente. Le 2DUP permet de remettre les param dans la pile de
+retour et de les comparer entr eux. S'ils sont égaux 0BRANCH laisse pa
+
+
+Voici en mémoire comment est l emot
+ROUGE(10 0)
+SWAP >R >R
+ROUGE(1) .
+R> 1+ R> 2DUP >R >R < 0= 0BRANCH ROUGE(0xe8) R> R> 2DROP
+EXIT
+  Nous voyons les mots en provenance du mot DO:
+  SWAP >R >R
+
+  Nous voyons les mots en provenance du mot LOOP:
+  R> 1+ R> 2DUP >R >R < 0= 0BRANCH ROUGE(0xe8) R> R> 2DROP
+Où 0xe8 et la difference d'addresse entre le HERE du DO et le HERE du
+    LOOP permettant d'iterer le calcul.
+
+    et 1 . le code du calcul.
+
+
+
 SUBSECTION(ICON_GEAR[]Fonctionnement de interpréteur interne,interpreteur)
 
-dnl parler du code assembleur dans le Forth
+                                    dnl parler du code assembleur dans le Forth
+
+                                    Expliquer le mot COMPILE
 
 SUBSECTION(ICON_GEAR[]Variables et constante,var)
 
-<p>Nous avons vu que Forth permet de stocker des</p>
+dnl a placer apres le dico
+
+<p>Nous avons vu que Forth permet de stocker des mots Forth mais il
+peut également servir à stocker de la mémoire. En effet on a dit dans
+une section précédente que la variable DP permet de changer où HERE
+indique le premier emplacement libre. Par conséquent on peut se
+reserver des emplacements mémoires et l'idéal est de donner un nom aux
+emplacemets.</p>
+
+</p>Le mot ALLOC permet de déplacer DP du nombre d'octet voulu (un
+ALLOC pour 1 cellule est le mot ,)</p>
+
 dnl https://fr.wikiversity.org/wiki/Forth/Conserver_des_donn%C3%A9es
+
+dnl assembleur
 
 divert(DIVERT_FOOTER_CODE)
 

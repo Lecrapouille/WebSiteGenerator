@@ -118,19 +118,19 @@ son propre interpréteur Forth est très simple, chacun pouvant posséder
 le sien mais pas forcément compatible avec celui d'un autre. Cela fut
 un point noir de ce langage qui malgré plusieurs tentatives de
 standards (78, 79, 83, 2012 ...) pour normaliser les mots les plus
-courants ne furent pas forcément bénéfique au langage.</p>
-
-<p>Pour information, Charles H. Moore est toujours actif. Il a quitté
-le consortium, jugeant que cela nuisait à l'innovation, il a ainsi pu
-continuer à simplifier les structures Forth comme expliqué dans
+courants ne furent pas forcément bénéfique au langage. Pour
+information, Charles H. Moore est toujours actif. Il a quitté le
+consortium, jugeant que la normalisation nuisait à l'innovation de
+nouveaux Forth. Il a ainsi pu continuer à simplifier les structures
+Forth comme expliqué dans
 EXTLINK(https://www.rfc1149.net/download/documents/ifi/forth.pdf,le
 lien suivant) (confère la section Structures simplifiées). Avec
 EXTLINK(https://blogs.msdn.microsoft.com/ashleyf/2013/11/02/the-beautiful-simplicity-of-colorforth/,colorForth)
 Moore a ajouté un rôle aux mots en leur ajoutant une couleur. Il a
 également fondé GreenArrays Inc. qui produit des puces
 EXTLINK(http://bitlog.it/programming-languages/getting-started-with-the-ga144-and-arrayforth/,GA144)
-contenant un réseau communicant de sous-processeurs Forth dont
-le EXTLINK(https://www.google.com/patents/US7752422,brevet) explique
+contenant un réseau communicant de sous-processeurs Forth dont le
+EXTLINK(https://www.google.com/patents/US7752422,brevet) explique
 clairement le fonctionnement (et est très lisible pour un brevet).</p>
 
 <p>Nous allons, tout au long de ce document, revenir sur chaque
@@ -144,8 +144,8 @@ un langage extensible et auto-évolutif (ré-entrance[,] métaprogrammtion);,
 semi-compilé (embarquant son propre compilateur hybridé avec un interpréteur);,
 
 peut être vu comme un système d'exploitation car il est à la fois un
-langage[,] une machine virtuelle[,] sait gèrer sa propre mémoire de masse
-et dispose d'entrées/sorties;,
+langage[,] une machine virtuelle et sait gèrer sa propre mémoire de
+masse et dispose d'entrées/sorties;,
 
 il est à la fois un langage bas-niveau (manipulant de l'assembleur et
 des registres hardware) et un langage haut-niveau (abstraction des
@@ -177,35 +177,34 @@ opérandes (paramètres) sont notées avant les opérateurs. Cette
 notation évite l'utilisation de parenthèses palliant l'ordre de
 priorité des opérateurs (par exemple en mathématique la priorité de la
 multiplication sur celle de l'addition) et évitant ainsi l'utilisation
-d'une grammaire inutilement complexe et qui implique, au final, la
-création d'un arbre de syntaxe abstraite (AST en anglais) où les
-noeuds de l'arbre sont les opérateurs et les feuilles les opérandes et
-que l'on exécute avec un parcourt
-EXTLINK(https://en.wikipedia.org/wiki/Abstract_syntax_tree,
+d'une grammaire complexe impliquant la création d'un arbre de syntaxe
+abstraite (AST en anglais) où les noeuds de l'arbre sont les
+opérateurs et les feuilles les opérandes et que l'on exécute avec un
+parcourt EXTLINK(https://en.wikipedia.org/wiki/Abstract_syntax_tree,
 main-gauche).</p>
 
 <p>Le code suivant :</p>
-CODE(FORTH)
-ROUGE(2 3 4) + *
+CODE[]ROUGE(2 3 4) + *
 ENDCODE
 
 <p>équivaut à l'expression arithmétique 2 * (3 + 4) alors que le code
   suivant :</p>
-CODE
-ROUGE(2 3 4) * +
+CODE[]ROUGE(2 3 4) * +
 ENDCODE
 
 <p>équivaut à l'expression arithmétique 2 + (3 * 4) et si l'on désire
-afficher à l'écran le résultat de 2 + (3 * 4), en langage C on
-écrirait :</p>
-CODE
-display(2 + (3 * 4))
+afficher à l'écran le résultat de 2 + (3 * 4), en langage C on aurait
+écrit quelque chose d'approchant à :</p>
+CODE[]display(2 + 3 * 4);
 ENDCODE
 
-<p>Et ce qu'aurait généré comme AST un compilateur du genre de GCC
-pour obtenir le résultat:</p>
-CODE
-    display
+<p>Un compilateur, lors d'une première passe, aurait rajouté des
+parenthéses :</p>
+CODE[]display(2 + (3 * 4));
+ENDCODE
+
+<p>Puis aurait généré un AST similaire à:</p>
+CODE[]    display
        /
       +
      / \
@@ -214,10 +213,197 @@ CODE
   3    4
 ENDCODE
 
-<p>mais en forth cela s'écrit simplement par :</p>
-CODE
-ROUGE(2 3 4) * + .
+<p>Puis aurait parsé l'AST un certain nombre de fois pour générer des
+AST avec des pseudo-instructions de plus en plus proche de
+l'assembleur de la machine cible. Il aurait généré un graphe colirié
+afin de connaitre le nombre minimal de registres pour les variables,
+etc.</p>
+
+<p>En forth, le même code s'écrit simplement par :</p>
+CODE[]ROUGE(2 3 4) * + display
 ENDCODE
+
+<p>Le travail de l'interpréteur Forth est, en comparaison, trés
+simple : il extrait lexicons à la volée de gauche à droite, il empile
+les nombres qu'il rencontre et éxecute les opérandes qui vont
+consommer les nombres de la pile.</p>
+
+SUBSECTION(ICON_GEAR[]Forth un langage à piles,pile)
+
+<p>Des langages tels que le C ou python cachent délibérément au
+développeur l'utilisation de la pile de données, comme par exemple la
+sauvegarde du contexte (paramètres des fonctions, variables locales et
+bien d'autres encore) lors d'un appel à une fonction. Ceci pouvant
+entraîner des pénalités en temps d'exécution du programme et des
+débordements de la pile (par exemple soit en passant par copie des
+données trop grosses, soit en utilisant la récursivité sur des
+languages nal adaptés à la récursion terminale tels que le C).</p>
+
+<p>Avec la notation polonaise inversée, les opérandes sont stockés
+dans une pile de données (structure de type
+dernier-entré-premier-sorti) et les opérateurs (équivalent aux
+fonctions C mais que l'on nommera désormais STRONG(mots) par
+convention) les consomment. Par conséquent, contrairement à des
+langages comme le C, la pile évite à Forth l'utilisation de variables
+temporaires nommées (équivalent aux variables locales du C) comme
+moyen de stockage de résultats intermédiaires et de passage aux
+paramètres pour les opérateurs. Néanmoins Forth offre la possibilité
+d'utiliser des constantes et des variables mais qui doivent être vues
+comme des noms sur des emplacements mémoire de longue-durée
+(équivalent aux globales du C) à savoir que leur durée de vie est lié
+à celle du programme.</p>
+
+<p>Le code suivant :</p>
+CODE[]ROUGE(2) DUP + .
+ENDCODE
+
+<p>Va empiler l'opérande 2 dans la pile. Le mot DUP va le consommer
+puis le dupliquer (donc remis dans la pile de données). Le mot +
+consommera les deux valeurs de la pile, les additionnera et empilera
+le résultat (soit la valeur 4). Finalement le mot . consommera le
+sommet de la pile affichera sa valeur à l'écran.</p>
+
+<p>Je décris rapidement les différents catégories de mot sachant que
+le lien EXTLINK(https://www.forth.com/starting-forth/,Starting Forth)
+les expliquera mieux :</p>
+
+LISTE(Gestion des piles, gestion
+numérique,arithmétique,structure de contrôle,action sur la
+mémoire,gestion des entrées-sorties,convertion,mots de haut niveau)
+
+<p>STRONG(Commentaires :) il existe deux types de commentaires en
+Forth. Le premier type est le mot Forth immédiat ORANGE(&#40;) qui
+ignore tout charactère jusqu'au premier charactère &#41;
+rencontré. Par conséquent il est donc impossible d'imbriquer des
+commentaires entre-eux. Et il ne faut pas oublier les espaces car
+&#40; est un mot Forth comme un autre. Ce type de commentaire est
+préféré pour indiquer les paramètres d'un mot Forth. Pour plus de
+renseignements sur la norme de la notation des paramétres
+EXTLINK(http://www.forth.org/forth_style.html,voir ce site).
+
+CODE[]: DIVISION ( n1 n2 -- n1/n2 ) / ;
+ENDCODE
+
+<p>Indique que DIVISION va consommer deux nombres signés où n1 est
+déposé dans la pile avant n2 (dans l'ordre de gauche à droite) et
+retourner le résultat dans la pile. Pour preuve ROUGE(1 0) DIVISION doit
+retourner une exception tentative de division par zéro.</p>
+
+<p>Le deuxième type de commentaire (ajouté tardivement) est le mot
+ORANGE(&#92;) qui ignore la ligne entière. Il est utilisé pour de
+vrais commentaires autre que le renseignements de paramétres.</p>
+
+<p>STRONG(Gestion de la pile :) permet de commuter l'ordre des données
+dans la pile. Par exemple DUP duplique le sommet, DROP le supprime,
+SWAP permute le sommet de la pile avec l'avant dernier, le mot
+. consomme et affiche le sommet de la pile, etc.</p>
+
+<p>STRONG(Mémoire :) Le mot @ permet d'accéder au contenu d'une
+adresse. Le mot ! permet de stocker une valeur dans une adresse. Une
+  variable en Forth est une mémoire nommée. Exemple :
+CODE[]15 VARIABLE TOTO
+TOTO @ .
+14 TOTO !
+: ? @ . ;
+TOTO ?
+ENDCODE
+<p>La première ligne créé une variable nommée TOTO avec la valeur
+15. La deuxième ligne permet d'accéder au contenu de la variable puis
+l'affiche. La troisième ligne change la valeur de TOTO avec la valeur
+14. La quatrième ligne crée un mot couramment utilisé. La derniére
+affichera la valeur 14.</p>
+
+<p>STRONG(Base :) Forth permet d'afficher les nombres dans la base
+désirée. Exemple amusant :
+CODE[]: HEX 16 BASE ! ;
+a .
+HEX
+BASE ?
+a .
+10 BASE !
+BASE
+a .
+ENDCODE
+
+<p>La première ligne redéfinit un mot courant du Forth permettant de
+passer en base 16 (héxadécimal). Par défaut Forth est en base 10
+(décimale) donc la deuxième ligne doit générée une erreur
+(l'utilisateur voulait empiler le nombre a en base 16 (valant 10 en
+base 10) mais comme nous sommes en base 10 Forth détecte que ce mot
+lui est inconnu. Les lignes 3 à 5 permet de vérifier que nous sommes
+en base 16, la ligne 5 ne doit plus générer d'erreur. Ligne 7 à 9,
+l'utilisateur tente naivement de repasser en base décimale mais cela
+échoue car le nombre 10 est interpréte en base héxadécimale vallant 16
+en base décimale. Donc il n'y a pas eu de changement de base</p>
+
+<p>STRONG(Mots de structure :) les classiques structures de contrôle
+connues des autres langages (comme le C) sont : le test conditionel
+if-then-else, la boucle do-loop, la boiucle for, etc. Comme Forth
+utilise le système polonais inversé même le if-then-else du C devient
+IF ELSE THEN. Cela peut perturber le débutant mais on peut renommer
+THEN par FI ou ENDIF ce qui aidera les débutants.</p>
+CODE[]VERT(: ENDIF) ORANGE(&#91;COMPILE&#93; THEN ; IMMEDIATE)
+ENDCODE
+
+<p>De plus IF ELSE THEN doivent obligatoirement être utilisés dans une
+définition sinon le compilateur échouera. En mode interprétation if
+faudra utiliser les mots [IF] [ELSE] [THEN] qui équivaut au #if #else
+#endif du langage C. Le lien
+EXTLINK(https://www.rfc1149.net/download/documents/ifi/forth.pdf,suivant)
+explique en quoi Moore a encore réduit le nombre de mots de
+structure. Par exemple le ELSE n'existe plus. Avant :</p>
+CODE[]VERT(: MOT) TEST BLEU(IF) ACTION1 BLEU(ELSE) ACTION2 BLEU(THEN) ACTION3 ;
+ENDCODE
+
+<p>Devient :</p>
+CODE[]VERT(: SOUS-MOT) TEST BLEU(IF) ACTION1 EXIT BLEU(THEN) ACTION2 ;
+VERT(: MOT) SOUS-MOT ACTION3 ;
+ENDCODE
+
+<p>STRONG(Arithémtique :) addition, convertion entier signé et non
+signé, opération booléene. Point important : contrairement à des
+langage tel que C où le faux vaut 0 et le vrai vaut toutes valeurs
+différentes de 0 (mais où 1 est en général retourné), en forth le faux
+vaut -1. Le EXTLINK(http://wiki.c2.com/?BooleanRepresentation,lien) en
+parle plus longuement. Sinon, voici un exemple :</p> CODE[]ROUGE(1 0) <> . ENDCODE
+
+<p>La pile de données des Forth permet uniquement de manipuler des
+entiers (signés et non signés) ou des adresses de la machine virtuelle
+(qui sont finalement vues comme un entier), les valeurs en floatants
+(float et double du langage C) ne sont pas gérées nativement, une
+bibliothèque devant alors être chargée pour les gérer.</p>
+
+<p>En fait, par défaut, Forth n'utilise pas une seule pile mais deux
+piles. La deuxième, appelée pile de retour, sert à l'interpréteur
+Forth pour mémoriser l'ordre d'exécution des mots appellant d'autres
+mots. Cette pile est automatiquement manipulée par lui mais laisse,
+quand même, à l'utilisateur la possibilité de déplacer et stocker
+temporairement des éléments de la pile de données (ce qui n'est pas
+toujours sans risque). Nous y reviendrons plus tard.</p>
+
+<p>Des Forth modernes peuvent ajouter nativement des piles de données
+supplémentaires comme une pile d'entiers (appelés pile alternative)
+et/ou une pile des floatants. En général, la pile de donnée
+supplémentaire permet d'éviter l'utilisation de la pile de retour
+comme stockage temporaire et rendant l'interpéteur Forth plus fiable
+aux erreurs de programmation.</p>
+
+<p>Un système de sécurité permet de vérifier que les piles ne
+débordent pas (par le haut ou par le bas) et prévient l'utiliateur en
+arrêtant l'exécution du mot en cours. Charles H. Moore quand à lui
+préfère utiliser un buffer circulaire par rapport à une pile. Il n'y a
+plus de risque possible de débordement de mémoire mais il n'a pas
+ajouté de système pour pévenir l'utilisateur car selon lui le
+développeur doit maîtriser le nombre d'opérandes qu'il manipule. De
+plus, ce système permet de décider à tout instant la pile comme étant
+vide.</p>
+
+<p>On constatera après l'exécution du dernier exemple, que la
+profondeur de pile des donnée n'a pas été changée. Ceci n'est pas une
+contrainte mais le standard Forth impose de laisser intact la
+profondeur des piles pour au moins deux cas :</p> LISTE(lors des
+définitions d'un nouveau mot Forth, et la fin d'un fichier quand il
+est inclus par un autre fichier.)
 
 SUBSECTION(ICON_GEAR[]Dictionnaire Forth: une machine virtuelle,dico)
 
@@ -225,8 +411,7 @@ SUBSECTION(ICON_GEAR[]Dictionnaire Forth: une machine virtuelle,dico)
 on peut créer un nouveau mot plus évolué. Par exemple, le code
 suivant :</p>
 
-CODE
-VERT(: FOO) ROUGE(2) DUP + . ORANGE(;)
+CODE[]VERT(: FOO) ROUGE(2) DUP + . ORANGE(;)
 ENDCODE
 
 <p>Permet de définir un nouveau mot Forth FOO via les mots : et ; qui
@@ -248,8 +433,7 @@ convention on nomme cellule une case mémoire dont le nombre d'octet
 dépend de l'architecture de la cible: 8, 16 ou 32 bits (pour rappel
 Forth étant né dans les années 70):</p>
 
-CODE
- &lt;--- DICTIONARY ENTRY (HEADER) -------->
+CODE[]&lt;--- DICTIONARY ENTRY (HEADER) -------->
  +--------------+--------+--------------+--------------- - - - -
  | LENGTH/FLAGS | NAME   | [LINK] POINTER | DEFINITION
  +--------------+--------+--------------+--------------- - - - -
@@ -318,15 +502,13 @@ l'addresse et en appliquant au contenu de l'addresse l'opération OU
 bit à bit avec la valeur hexadécimale 80.</p>
 
 <p>Le scriptsuivant :</p>
-CODE
-VERT(: FOO) * * ORANGE(;)
+CODE[]VERT(: FOO) * * ORANGE(;)
 VERT(: BAR) FOO . ORANGE(;)
 ENDCODE
 
 <p>va créer deux nouvelles entrées dans le dictionnaire comme indiqué
 dans la figure ci-dessous :</p>
-CODE
-                   +--------------------+
+CODE[]                   +--------------------+
                    |              +---- | ----------------------------------------+------------+
                    v              v     |                                         |            |
 ---------------- - - - ---------------- | --------------------------------------- | -----------|-------------
@@ -376,8 +558,7 @@ absolues). On pensera à la concaténation de dictionnaires entre eux).;,
 La recherche s'arrêtant au premier mot trouvé, on peut donc écraser une ancienne
 définition comme il suit :)
 
-CODE
-VERT(: FOO) * * ORANGE(;)
+CODE[]VERT(: FOO) * * ORANGE(;)
 VERT(: BAR) FOO . ORANGE(;)
 VERT(: FOO) + + ORANGE(;)
 VERT(: BAR) FOO . ORANGE(;)
@@ -418,87 +599,12 @@ que le mot ; n'est pas exécuté effaçant le bit. Le mot SMUDGE doit
 être utilisé dans la définition pour commuter le flag en question.</p>
 
 <p>Voici un exemple de recursivité :</p>
-CODE
-VERT(: FACTORIELLE)
+CODE[]VERT(: FACTORIELLE)
  DUP ROUGE(1) >
   BLEU(IF)
    DUP ROUGE(1) - FACTORIELLE *
  BLEU(THEN) ORANGE(;)
 ENDCODE
-
-SUBSECTION(ICON_GEAR[]Forth un langage à piles,pile)
-
-<p>Des langages tels que le C ou python cachent délibérément au
-développeur l'utilisation de la pile de données, comme par exemple la
-sauvegarde du contexte (paramètres des fonctions, variables locales et
-bien d'autres encore) lors d'un appel à une fonction. Ceci pouvant
-entraîner des pénalités en temps d'exécution du programme et des
-débordements de la pile (par exemple soit en passant par copie des
-données trop grosses, soit en utilisant la récursivité sur des
-languages nal adaptés à la récursion terminale tels que le C).</p>
-
-<p>Avec la notation polonaise inversée, les opérandes sont stockés
-dans une pile de données (structure de type
-dernier-entré-premier-sorti) et les opérateurs (équivalent aux
-fonctions C mais que l'on nommera désormais STRONG(mots) par
-convention) les consomment. Par conséquent, contrairement à des
-langages comme le C, la pile évite à Forth l'utilisation de variables
-temporaires nommées (équivalent aux variables locales du C) comme
-moyen de stockage de résultats intermédiaires et de passage aux
-paramètres pour les opérateurs. Néanmoins Forth offre la possibilité
-d'utiliser des constantes et des variables mais qui doivent être vues
-comme des noms sur des emplacements mémoire de longue-durée
-(équivalent aux globales du C) à savoir que leur durée de vie est lié
-à celle du programme.</p>
-
-<p>Le code suivant :</p>
-CODE
-ROUGE(2) DUP + .
-ENDCODE
-
-<p>Va empiler l'opérande 2 dans la pile. Le mot DUP va le consommer
-puis le dupliquer (donc remis dans la pile de données). Le mot +
-consommera les deux valeurs de la pile, les additionnera et empilera
-le résultat (soit la valeur 4). Finalement le mot . consommera le
-sommet de la pile affichera sa valeur à l'écran.</p>
-
-<p>La pile de données des Forth permet uniquement de manipuler des
-entiers (signés et non signés) ou des adresses de la machine virtuelle
-(qui sont finalement vues comme un entier), les valeurs en floatants
-(float et double du langage C) ne sont pas gérées nativement, une
-bibliothèque devant alors être chargée pour les gérer.</p>
-
-<p>En fait, par défaut, Forth n'utilise pas une seule pile mais deux
-piles. La deuxième, appelée pile de retour, sert à l'interpréteur
-Forth pour mémoriser l'ordre d'exécution des mots appellant d'autres
-mots. Cette pile est automatiquement manipulée par lui mais laisse,
-quand même, à l'utilisateur la possibilité de déplacer et stocker
-temporairement des éléments de la pile de données (ce qui n'est pas
-toujours sans risque). Nous y reviendrons plus tard.</p>
-
-<p>Des Forth modernes peuvent ajouter nativement des piles de données
-supplémentaires comme une pile d'entiers (appelés pile alternative)
-et/ou une pile des floatants. En général, la pile de donnée
-supplémentaire permet d'éviter l'utilisation de la pile de retour
-comme stockage temporaire et rendant l'interpéteur Forth plus fiable
-aux erreurs de programmation.</p>
-
-<p>Un système de sécurité permet de vérifier que les piles ne
-débordent pas (par le haut ou par le bas) et prévient l'utiliateur en
-arrêtant l'exécution du mot en cours. Charles H. Moore quand à lui
-préfère utiliser un buffer circulaire par rapport à une pile. Il n'y a
-plus de risque possible de débordement de mémoire mais il n'a pas
-ajouté de système pour pévenir l'utilisateur car selon lui le
-développeur doit maîtriser le nombre d'opérandes qu'il manipule. De
-plus, ce système permet de décider à tout instant la pile comme étant
-vide.</p>
-
-<p>On constatera après l'exécution du dernier exemple, que la
-profondeur de pile des donnée n'a pas été changée. Ceci n'est pas une
-contrainte mais le standard Forth impose de laisser intact la
-profondeur des piles pour au moins deux cas :</p> LISTE(lors des
-définitions d'un nouveau mot Forth, et la fin d'un fichier quand il
-est inclus par un autre fichier.)
 
 
 SUBSECTION(ICON_GEAR[]Fonctionnement de interpréteur externe,interpret)
@@ -545,8 +651,7 @@ n'est pas connu une erreur prévient l'utilisateur et arrête le
 processus.)
 
 <p>Si l'inter lit tous les mots les uns apres les autres, avec le code</p>
-CODE
-VERT(: FOO) * * ORANGE(;)
+CODE[]VERT(: FOO) * * ORANGE(;)
 ENDCODE
 <p>FOO n'etant pas défini, l'interpréteur devrait déclencher une
 erreur. En fait non, car comme on l'a dit l'interpréteur sait lire le
@@ -574,7 +679,7 @@ compilation. Voici un exemple plus évolué de mot immédiat : on se
 propose d'ajouter un système de commentaires à Forth. Pour cela on
 suppose que le mot TYPE existe déjà (ce qui en général le cas) ce mot
 permet d'ignorer les caractères du tampon d'entrée jusqu'au charactère
-indiqué comme paramère.</p> CODE VERT(: &#40;) '&#41;' TYPE ORANGE(;
+indiqué comme paramère.</p> CODE[]VERT(: &#40;) '&#41;' TYPE ORANGE(;
 IMMEDIATE) ENDCODE
 
 <p>Dés que le parseur exécutera le mot ( il ignorera tous les mots
@@ -601,8 +706,7 @@ mot qui lui succéde.</p>
 permettent de faire une boucle. On supposera l'existence d'un mot
 Forth (non officiel) 0BRANCH qui fait un saut relatif à la
 condition que le sommet de la pile vaut 0.</p>
-CODE
-VERT(: DO)
+CODE[]VERT(: DO)
   COMPILE SWAP
   COMPILE >R
   COMPILE >R
@@ -627,8 +731,7 @@ ORANGE(; IMMEDIATE)
 ENDCODE
 
 <p>Voici un exemple typique de ces mots qui affiche ...</p>
-CODE
-: DECADE 10 0 DO  1 . LOOP ;
+CODE[]: DECADE ROUGE(10 0) DO  ROUGE(1) . LOOP ;
 ENDCODE
 
 Détaillons le code Forth:

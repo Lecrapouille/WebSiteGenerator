@@ -1,0 +1,143 @@
+dnl -*- m4 -*- Coloration Syntaxique pour Emacs
+dnl #################################################################
+dnl HTML layout style 01
+dnl #################################################################
+
+dnl #####################################################################
+dnl Head menu.
+dnl The head menu is composed of two horizontal menus: the primary and
+dnl the secondary. The primary showdisplays the website categories while
+dnl the secondary displays differents articles.
+dnl #####################################################################
+dnl Helper macros for building head menu (primary and secondary)
+define([display_all_menu_elements_],[ifelse($2,,,$2,THISFILE,[<li id="_which_menu_item_active_">$1</li> display_all_menu_elements_(shift(shift($@)))],
+[<li><a href="$2-]LANG[.html">$1</a></li>
+display_all_menu_elements_(shift(shift($@)))])])dnl
+define([HEAD_MENU],[<div id="$1">
+<ul class="$2">
+define([_which_menu_item_active_],[$3])
+display_all_menu_elements_(shift(shift(shift($@))))
+undefine([_which_menu_item_active_])
+</ul>
+</div>])dnl
+dnl ---------------------------------------------------------------------
+define([primary_head_menu],[<!-- Primary Memu --> HEAD_MENU(header2,rubriques2,actif2,$@)])
+define([secondary_head_menu],[<!-- Secondary Memu Haut --> HEAD_MENU(header3,rubriques3,actif3,$@)])
+dnl ---------------------------------------------------------------------
+dnl Define head menu items
+define([ITEM_HOME],[ICON_HOME[]TRANSLATE([Accueil],[Home])])
+define([ITEM_EMBARQUE],[ICON_GEAR[]TRANSLATE([Systèmes embarqués],[Embedded systems])])
+define([ITEM_3D],[ICON_EYES[]TRANSLATE([Projets informatiques],[3D])])
+define([ITEM_CV],[ICON_READ[]TRANSLATE([Stages &amp; CV],[Internships &amp; CV])])
+define([ITEM_TUTO],[ICON_READ[]TRANSLATE([Tutoriels],[Tutorials])])
+dnl ---------------------------------------------------------------------
+dnl Define different menus
+define([PRIMARY_HEAD_MENU_1],[primary_head_menu(ITEM_HOME,index,ITEM_EMBARQUE,helico_intro,ITEM_3D,ecstasy,ITEM_TUTO,tuto_scicos)])
+define([SECONDARY_HEAD_MENU_HOME],[secondary_head_menu(Home,index,Plan du site,plansite,Mises à jour,maj,C.V.,cv)])
+define([SECONDARY_HEAD_MENU_EMBARQUE],[secondary_head_menu(Hélicoptère 4 rotors,helico_intro,Voiture CyCab,stages_travail2)])
+define([SECONDARY_HEAD_MENU_3D],[secondary_head_menu(Ecstasy,ecstasy,SpeedWay,speedway,SimTaDyn,simtadyn,Interpréteur Forth,forth)])
+define([SECONDARY_HEAD_MENU_TUTO],[secondary_head_menu(Logiciels Scilab/Scicos,tuto_scicos,Logiciel SynDEx,tuto_syndex,BSP,tuto_bsp,Dynamique d'une voiture,tuto_dyna,)])
+define([SECONDARY_HEAD_MENU_CV],[secondary_head_menu(Mon C.V.,cv,Mes stages à l'INRIA,stages_travail2)])
+dnl ---------------------------------------------------------------------
+dnl Select the desired menu with this macro
+define([SECONDARY_HEAD_MENU],[define([_SECONDARY_HEAD_MENU_],[$1])])dnl
+define([PRIMARY_HEAD_MENU],[define([_PRIMARY_HEAD_MENU_],[$1])])dnl
+PRIMARY_HEAD_MENU(PRIMARY_HEAD_MENU_1)dnl Ok there is no selection possible for the moment
+dnl #####################################################################
+dnl Left menu.
+dnl The left menu is a set of rubriques. A rubrique is a list of items.
+dnl An example of rubrique is the table of contents where items are links
+dnl to sections of the document.
+dnl #####################################################################
+dnl ---------------------------------------------------------------------
+define([display_all_items_],[ifelse($2,,,[<li><a href="$2"><img class="icone7" src="img/bullet.gif" alt=""/>$1.</a></li>
+display_all_items_(shift(shift($@)))])])
+dnl ---------------------------------------------------------------------
+define([LEFT_RUBRIQUE],[<!-- Left Rubrique -->
+ifelse($1,,[],[<h1>$1 :</h1>])
+<ul class="items">
+display_all_items_(shift($@))
+</ul>])
+dnl ---------------------------------------------------------------------
+define([display_all_rubriques_],[ifelse([$1],,,[$1 display_all_rubriques_(shift($@))])])
+dnl ---------------------------------------------------------------------
+define([LEFT_MENU],[<!-- Left menu -->
+<div id="menu">
+display_all_rubriques_($@)
+</div>])
+dnl #####################################################################
+dnl Banner, Logos, Licence
+dnl #####################################################################
+define([BANNIERES],[<hr/><!-- Bannieres menu -->
+CREATIVECOMMONS LICENSE_CODE <table width="10BA0%" align="center">
+<tr><td rowspan="3">LICENSE_LOGO</td><td>XHTML_VALIDATOR</td></tr>
+<tr><td>CSS_VALIDATOR</td></tr>
+<tr><td>PHPMYVISITE</td></tr>
+</table>DISP_UPDATE<hr/>])
+dnl #####################################################################
+dnl HTML template
+dnl #####################################################################
+define([BEGIN_BODY],[divert(DIVERT_BODY_CODE)])
+define([END_BODY],[divert(DIVERT_FOOTER_CODE)
+divert
+HTML_HEADER
+<table id="page">
+  <!-- SKELETON BEGIN HEADER -->
+  <tr>
+    <td colspan="2">
+      <div id="header1">
+        <!-- BEGIN USER HEADER 1 -->
+        _META_TITLE_
+        <!-- END USER HEADER 1 -->
+        </div>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2">
+      _PRIMARY_HEAD_MENU_
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2">
+      _SECONDARY_HEAD_MENU_
+    </td>
+  </tr>
+  <!-- SKELETON END HEADER -->
+
+  <!-- SKELETON BEGIN NAVIGATION MENU -->
+  <tr>
+    <td id="navigation">
+        <!-- BEGIN USER NAVIGATION MENU -->
+        undivert(DIVERT_NAVIGATION_CODE)
+        <!-- END USER NAVIGATION MENU -->
+    </td>
+    <!-- SKELETON END NAVIGATION MENU -->
+
+
+    <!-- SKELETON BEGIN BODY -->
+    <td id="content">
+        <!-- BEGIN USER BODY -->
+        undivert(DIVERT_BODY_CODE)
+        </div>
+        <!-- END USER BODY -->
+    </td>
+  </tr>
+  <!-- SKELETON END BODY -->
+
+  <!-- SKELETON BEGIN FOOTER -->
+  <tr>
+    <td colspan="2" id="footer">
+          <!-- BEGIN USER FOOTER -->
+          undivert(DIVERT_FOOTER_CODE)
+          FOOTER_BOX($@)
+          <!-- END USER FOOTER -->
+    </td>
+  </tr>
+  <!-- SKELETON END FOOTER -->
+               undivert(DIVERT_TABLE_OF_CONTENT)
+</table>
+HTML_FOOTER
+<!-- EOF -->])dnl
+divert(DIVERT_HEADER_CODE)dnl

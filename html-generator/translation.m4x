@@ -1,0 +1,38 @@
+dnl -*- m4 -*- Coloration Syntaxique pour Emacs
+dnl #####################################################################
+dnl Default language for my website is french. Foreign language is english.
+dnl Generated html pages have a link to their equivalent in foreign language.
+dnl Note: only one foreign language is managed. For multiple translations you'll
+dnl to rework macros.
+dnl #####################################################################
+ifdef([LANG],,[define([LANG],[fr])])dnl Default lang is french
+dnl ---------------------------------------------------------------------
+dnl Draw an icon refering to the html page translated in the second language
+define([CHANGE_LANGUAGE],[<p>ifelse(LANG,fr,[ICON_FR LINK(THISFILE-en.html,ICON_EN)],[LINK(THISFILE-fr.html,ICON_FR)
+DRAP_EN])</p>])dnl
+dnl ---------------------------------------------------------------------
+define([FRENCH_PAGE],[ifelse(LANG,fr,
+[<a href="$1.html"><img src="img/fr.png" style="border:0;" alt="fr"/></a>],
+[<img src="img/fr.png" style="border:0;" alt="FR" />]) ifelse(LANG,en,
+[<a href="$1.html"><img src="img/en.png" style="border:0;" alt="en"/></a>],
+[<img src="img/en.png" style="border:0;" alt="EN" />])])
+dnl ---------------------------------------------------------------------
+define([ENGLISH_PAGE],[ifelse(LANG,en,
+[<a href="$1.html"><img src="img/en.png" style="border:0;" alt="en"/></a>],
+[<img src="img/en.png" style="border:0;" alt="EN" />]) ifelse(LANG,fr,
+[<a href="$1.html"><img src="img/fr.png" style="border:0;" alt="fr"/></a>],
+[<img src="img/fr.png" style="border:0;" alt="FR" />])])
+dnl #####################################################################
+dnl Translations
+dnl #####################################################################
+define([TRANSLATE],[ifelse(LANG,fr,[$1],[$2])])dnl
+define([DISP_PREV],[TRANSLATE([Page précédente],[Previous page:])])dnl
+define([DISP_HOME],[TRANSLATE([Page d'accueil],[Home page:])])dnl
+define([DISP_UP],[TRANSLATE([Aller en haut],[Go up:])])dnl
+define([DISP_NEXT],[TRANSLATE([Page suivante],[Next page:])])dnl
+define([DISP_UPDATE],[TRANSLATE([Mise à jour : ],[Last update: ])DATE])dnl
+define([DISP_IN_BUILDING],[TRANSLATE([en construction],[in construction])])dnl
+define([EN_CONSTRUCTION],[ICON_BUILD ifelse(LANG,fr,[STRONG(ATTENTION : Page en construction et projet en cours de realisation)],
+[STRONG(WARNING : This site is under construction and this project is not running yet)])])dnl
+define([DISP_LICENCE],[TRANSLATE([Les documents (PDF, codes sources, programmes, ...) fournis sur ce site sont mis à disposition sous licence ],
+[The documents (PDF, programs, ...) on this site are licensed under the ])CREATIVECOMMONS])dnl

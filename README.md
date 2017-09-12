@@ -2,9 +2,11 @@
 
 ### Introduction
 
-This is my basic m4 tools for generating my web page in html (but why not to adapt them for your web page). M4 is a macro processing tool: it substitutes piece of text by another. In my case it allows me to simply write articles for my web sites without html markups and the m4 job is to produce all these ugly html markups. The first main goal is to avoid managing html markups by hand, which is error prone, or using a commercial and complex web tool generator producing overkill html code. The second main goal is from the initial code, I can generate other code like LaTeX, while I did not made it. Therefore, initial code is almost pure human text, and final code is a complex code to maintain that we do not have to care of.
+This is my basic m4 tools for generating static web pages in html. I use it for my personal website. Why not to adapt this tool for your web pages ?
 
-**Note:** this tool was created when markdown started to be popular. This tools is in the same way that Linux tools for generating documentation or man pages (while I have never generated my own documentation).
+M4 is a macro processing tool: it substitutes piece of text by another. It allows me to simply write my articles without html markups and it's the m4 job to produce for me all these ugly html markups. The first main goal of this tool is to avoid managing html markups by hand, which is error prone, or avoid using a commercial and complex web tool generator producing overkill html code. The second main goal is from the initial m4 code, it could generate other documents like LaTeX. Therefore, m4 code is almost pure human text, and the final html code is a complex code to maintain that we do not have to care of.
+
+**Note:** this tool was created when markdown started to be popular and is used in the same idea than Linux tools for generating documentation or man pages (which I have never used personaly).
 
 ### Architecture
 
@@ -13,7 +15,7 @@ Files extension convention (this is not conventional but very useful):
 * .m4: is used for input files to be macro-processed. So all my website articles.
 
 Project directories:
-* xxx-generator: contains all m4x files for producing the output files. Here xxx is html, feel free to add other language like latex ... It also contains an emacs .el file (I'm not the author) for traducing french accents to correct html markups.
+* xxx-generator: contains all m4x files for producing the output files. Here xxx is html, but feel free to add other language like LaTeX ... It also contains an emacs .el file (I'm not the author) for traducing french accents to correct html codes.
 * icons: plenty of icons for my personal uses (I think all are in public domain).
 * layout-xx: why limiting ourself to a single html theme ? :) It contains css files and m4x file for constructing the skull of the html page (frames).
 * src/xx: contains all my .m4 articles where xx is the desired language (fr, en, ...). You'll not need them for our web pages. They can serve you as example. You can delete all of them and place your own code. Do not forget to add the '-xx' in the filename (like foo-xx.m4) and do not delete Makefiles they are used for building the web site. Makefiles are different depending on the selected tongue (I did not make a global Makefile) for example, in french, it also call emacs script for converting accents.
@@ -39,9 +41,13 @@ fr
 Mise &agrave; jour le : Lun 11 sep 17 (12h09)
 ````
 
+### Macros
+
+todo
+
 ### Remarks
 
-* Beware of extra new lines generated. M4 language is pain for that. That is why you'll not see extra lines in m4x and macros finishing with the dnl token.
+* Beware of extra new lines generated. M4 language is pain for that. That is why you'll not see extra lines in m4x and macros finishing with the `dnl` token. I add some shell commands in the Makefile to kill them.
 * Be sure m4x files are coded in iso-latin-1 but not UTF-8, Emacs script will not correctly convert accents.
 * Beware of the punctuation mark ',' which can conflicting with m4 parameter separator. You have to replace your comma by `[,]` or add brackets surrounding the critical sentence. Test this code:
 ```

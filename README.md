@@ -21,11 +21,17 @@ Project directories:
 * src/xx: contains all my .m4 articles where xx is the desired language (fr, en, ...). You'll not need them for our web pages. They can serve you as example. You can delete all of them and place your own code. Do not forget to add the '-xx' in the filename (like foo-xx.m4) and do not delete Makefiles they are used for building the web site. Makefiles are different depending on the selected tongue (I did not make a global Makefile) for example, in french, it also call emacs script for converting accents.
 * build: is the directory generated containing final html code. You can delete it.
 
-### Steps for producing the webpage
-    cd src/fr
-    make
-    cd ../../build
-    firefox index-fr.html
+### Steps for producing the website
+```sh
+cd src/fr
+make
+```
+
+The index-fr.html page has been opened. If this is not the case, do:
+```sh
+cd ../../build
+firefox index-fr.html
+```
 
 ### Basic test
 

@@ -18,6 +18,7 @@ VPATH=$(BUILD):$(M4X_PATH)
 
 #################################################################
 all: $(OBJS)
+	@xdg-open ../../build/index-fr.html >/dev/null
 
 %.html: %.m4 Makefile $(M4X_FILES) $(LAYOUT)/layout.m4x
 	@echo "Generating file $@"

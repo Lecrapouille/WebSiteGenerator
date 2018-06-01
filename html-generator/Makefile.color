@@ -1,6 +1,6 @@
 # -*- mode: makefile -*-
 ##=====================================================================
-## WebSiteGenerator: a HTML websites generator.
+## WebSiteGenerator: a HTML websites generator. 
 ## Copyright 2018 Quentin Quadrat <lecrapouille@gmail.com>
 ##
 ## This file is part of WebSiteGenerator.
@@ -19,23 +19,21 @@
 ## along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
 ##=====================================================================
 
-#################################################################
-P=../..
+###################################################
+# Define colors
+CLR_DEFAULT = $(shell echo '\033[00m')
+CLR_RED     = $(shell echo '\033[31m')
+CLR_GREEN   = $(shell echo '\033[32m')
+CLR_YELLOW  = $(shell echo '\033[33m')
+CLR_BLUE    = $(shell echo '\033[34m')
+CLR_PURPLE  = $(shell echo '\033[35m')
+CLR_CYAN    = $(shell echo '\033[36m')
 
-#################################################################
-# Choose webpage name
-TARGET=MaPagePersoFree
-
-#################################################################
-# Choose your website style
-WHICH_LAYOUT=layout-01
-
-#################################################################
-# Give a name to the main page of your website. -$(LANG).html will
-# be automaticly append to it
-INDEX_PAGE=index
-
-#################################################################
-# Call the generic makefile
-include $(P)/html-generator/Makefile.generic
-
+###################################################
+# Display predefine colorful messages
+print-simple = \
+	@echo "$(CLR_PURPLE)*** $1:$(CLR_DEFAULT) $(CLR_CYAN)$2$(CLR_DEFAULT)"
+print-from = \
+	@echo "$(CLR_PURPLE)*** $1:$(CLR_DEFAULT) $(CLR_CYAN)$2$(CLR_DEFAULT) <= $(CLR_YELLOW)$3$(CLR_DEFAULT)"
+print-to = \
+	@echo "$(CLR_PURPLE)*** $1:$(CLR_DEFAULT) $(CLR_CYAN)$2$(CLR_DEFAULT) => $(CLR_YELLOW)$3$(CLR_DEFAULT) $4"

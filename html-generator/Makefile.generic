@@ -1,0 +1,100 @@
+# -*- mode: makefile -*-
+##=====================================================================
+## WebSiteGenerator: a HTML websites generator. 
+## Copyright 2018 Quentin Quadrat <lecrapouille@gmail.com>
+##
+## This file is part of WebSiteGenerator.
+##
+## WebSiteGenerator is free software: you can redistribute it and/or
+## modify it under the terms of the GNU General Public License as
+## published by the Free Software Foundation, either version 3 of the
+## License, or (at your option) any later version.
+##
+## This program is distributed in the hope that it will be useful, but
+## WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+## General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
+##=====================================================================
+
+include $(P)/html-generator/Makefile.color
+
+#################################################################
+# Langage of pages to generate is given by the directory name.
+CURDIR=$(shell pwd)
+LANG=$(shell basename $(CURDIR))
+#CURDIR=$(shell cd .. && pwd)
+#TARGET=$(shell basename $(CURDIR))
+
+#################################################################
+# Input: m4 files are the website articles in french (fr).
+# Output: html files
+SOURCES=$(patsubst %-$(LANG).m4,%-$(LANG).html,$(wildcard *-$(LANG).m4))
+OBJS=$(SOURCES:.m4=.html)
+
+#################################################################
+# Default path storing compiled files (*.html ...)
+ifeq ($(BUILD),)
+BUILD = $(P)/build/$(TARGET)
+endif
+
+#################################################################
+# Define the main page of the website
+INDEX=$(BUILD)/$(INDEX_PAGE)-$(LANG).html
+
+#################################################################
+# Pathes for tools
+M4X_PATH=$(P)/html-generator
+M4X_FILES=$(M4X_PATH)/main.m4x
+EMACS_SCRIPT_PATH=$(M4X_PATH)/emacs
+VPATH=$(BUILD):$(M4X_PATH)
+LAYOUT=$(P)/$(WHICH_LAYOUT)/layout.m4x
+INCLUDES=-I$(M4X_PATH) $(M4X_FILES) $(LAYOUT)
+
+#################################################################
+# Compilation defines
+DEFINES=-DTHISFILE=$(patsubst %-$(LANG).m4,%,$<) -DLANG=$(LANG)
+
+#################################################################
+# Launch your browser for opening the index page of the website
+.PHONY: all
+all: $(OBJS)
+	@$(call print-to,"Launch","$(TARGET)","$(INDEX)","")
+#	@xdg-open $(INDEX) > /dev/null
+
+#################################################################
+# Generate page
+%.html: %.m4 Makefile $(M4X_FILES) $(LAYOUT)
+	@$(call print-to,"Compile","$<","$@")
+	@m4 $(INCLUDES) $(DEFINES) $< | cat -s | awk 'NF {f=1} f' > $(BUILD)/$@
+	@$(call print-to,"Convert accents","$@","$@")
+	@emacs -batch --no-init-file --load $(EMACS_SCRIPT_PATH)/html-accent.el \
+	--file $(BUILD)/$@ --funcall html-accent --funcall save-buffer 2> /dev/null
+	@rm -fr $(BUILD)/*~
+
+#################################################################
+# Create the build directory before compiling the project
+# Copying css, images, data and other stuffs needed for the webpage
+$(OBJS): | $(BUILD)
+$(BUILD): langage
+	@mkdir -p $(BUILD)/css
+	@mkdir -p $(BUILD)/img
+	@$(call print-to,"Copy css","$(WHICH_LAYOUT)","$(BUILD)/css")
+	@cp -r $(P)/$(WHICH_LAYOUT)/css/* $(BUILD)/css/ 2> /dev/null || :
+	@$(call print-to,"Copy icons","$(TARGET)","$(BUILD)/img")
+	@cp -r $(P)/icons/$(TARGET)/* $(BUILD)/img/ 2> /dev/null || :
+	@$(call print-to,"Copy files","$(LANG)","$(BUILD)")
+	@cp -r *.html $(BUILD)/ 2> /dev/null || :
+
+#################################################################
+.PHONY: langage
+langage:
+	$(call print-from,"Langage","$(LANG)","$(TARGET)")
+
+#################################################################
+.PHONY: clean
+clean:
+	@$(call print-simple,"Cleaning","$(BUILD)")
+	@rm -fr *~ $(BUILD)/*-$(LANG).html $(BUILD)/*~

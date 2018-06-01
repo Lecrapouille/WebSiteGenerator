@@ -1,6 +1,5 @@
-# -*- mode: makefile -*-
 ##=====================================================================
-## WebSiteGenerator: a HTML websites generator.
+## WebSiteGenerator: a HTML websites generator. 
 ## Copyright 2018 Quentin Quadrat <lecrapouille@gmail.com>
 ##
 ## This file is part of WebSiteGenerator.
@@ -19,23 +18,13 @@
 ## along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
 ##=====================================================================
 
-#################################################################
-P=../..
+TOPTARGETS=all clean
+SUBDIRS=src/fr
 
-#################################################################
-# Choose webpage name
-TARGET=MaPagePersoFree
+.PHONY: $(TOPTARGETS) $(SUBDIRS)
+$(TOPTARGETS): $(SUBDIRS)
+$(SUBDIRS):
+	@$(MAKE) -C $@ $(MAKECMDGOALS)
 
-#################################################################
-# Choose your website style
-WHICH_LAYOUT=layout-01
-
-#################################################################
-# Give a name to the main page of your website. -$(LANG).html will
-# be automaticly append to it
-INDEX_PAGE=index
-
-#################################################################
-# Call the generic makefile
-include $(P)/html-generator/Makefile.generic
-
+veryclean:
+	@rm -fr build

@@ -1,8 +1,4 @@
 dnl -*- m4 -*- Coloration Syntaxique pour Emacs
-dnl #################################################################
-dnl HTML layout style 01
-dnl #################################################################
-
 dnl #####################################################################
 dnl Head menu.
 dnl The head menu is composed of two horizontal menus: the primary and
@@ -21,8 +17,8 @@ undefine([_which_menu_item_active_])
 </ul>
 </div>])dnl
 dnl ---------------------------------------------------------------------
-define([primary_head_menu],[<!-- Primary Memu --> HEAD_MENU(header2,rubriques2,actif2,$@)])
-define([secondary_head_menu],[<!-- Secondary Memu Haut --> HEAD_MENU(header3,rubriques3,actif3,$@)])
+define([primary_head_menu],[<!-- Primary Menu --> HEAD_MENU(header2,rubriques2,actif2,$@)])
+define([secondary_head_menu],[<!-- Secondary Menu --> HEAD_MENU(header3,rubriques3,actif3,$@)])
 dnl ---------------------------------------------------------------------
 dnl Define head menu items
 define([ITEM_HOME],[ICON_HOME[]TRANSLATE([Accueil],[Home])])
@@ -50,7 +46,8 @@ dnl An example of rubrique is the table of contents where items are links
 dnl to sections of the document.
 dnl #####################################################################
 dnl ---------------------------------------------------------------------
-define([display_all_items_],[ifelse($2,,,[<li><a href="$2"><img class="icone7" src="img/bullet.gif" alt=""/>$1.</a></li>
+define([ITEM_BULLET],[ifelse($1,,[],[<li><a href="$2"><img class="icone7" src="img/bullet.gif" alt=""/>$1.</a></li>])])
+define([display_all_items_],[ifelse($2,,,[ITEM_BULLET($1,$2)
 display_all_items_(shift(shift($@)))])])
 dnl ---------------------------------------------------------------------
 define([LEFT_RUBRIQUE],[<!-- Left Rubrique -->
@@ -58,86 +55,114 @@ ifelse($1,,[],[<h1>$1 :</h1>])
 <ul class="items">
 display_all_items_(shift($@))
 </ul>])
-dnl ---------------------------------------------------------------------
-define([display_all_rubriques_],[ifelse([$1],,,[$1 display_all_rubriques_(shift($@))])])
-dnl ---------------------------------------------------------------------
-define([LEFT_MENU],[<!-- Left menu -->
-<div id="menu">
-display_all_rubriques_($@)
-</div>])
 dnl #####################################################################
-dnl Banner, Logos, Licence
+dnl Banners, Logos, License, Validators ...
 dnl #####################################################################
-define([BANNIERES],[<hr/><!-- Bannieres menu -->
-CREATIVECOMMONS LICENSE_CODE <table width="10BA0%" align="center">
+define([BADGES],[<hr/>DISP_UPDATE
+<hr/><!-- Bannieres menu -->
+DISP_LICENSE CREATIVECOMMONS LICENSE_CODE
+<table width="10BA0%" align="center">
 <tr><td rowspan="3">LICENSE_LOGO</td><td>XHTML_VALIDATOR</td></tr>
 <tr><td>CSS_VALIDATOR</td></tr>
 <tr><td>PHPMYVISITE</td></tr>
-</table>DISP_UPDATE<hr/>])
+</table><hr/>])
 dnl #####################################################################
-dnl HTML template
+dnl HTML template: the page is a html table
+dnl --------------------
+dnl        title
+dnl --------------------
+dnl    Primary header
+dnl --------------------
+dnl   Secondary header
+dnl --------------------
+dnl left menu | article
+dnl --------------------
+dnl        Footer
 dnl #####################################################################
-define([BEGIN_BODY],[divert(DIVERT_BODY_CODE)])
-define([END_BODY],[divert(DIVERT_FOOTER_CODE)
+define([BEGIN_BODY],[divert(DIVERT_BODY)])
+define([END_BODY],[divert(DIVERT_FOOTER)
 divert
 HTML_HEADER
+<!-- BEGIN DOCUMENT -->
 <table id="page">
-  <!-- SKELETON BEGIN HEADER -->
+  <!-- BEGIN DOCUMENT HEADER -->
+
+  <!-- BEGIN ARTICLE [TITLE] -->
   <tr>
     <td colspan="2">
       <div id="header1">
-        <!-- BEGIN USER HEADER 1 -->
         _META_TITLE_
-        <!-- END USER HEADER 1 -->
-        </div>
+      </div>
     </td>
+    <td id="right_top_navigation"></td>
   </tr>
+  <!-- END ARTICLE [TITLE] -->
 
+  <!-- BEGIN WEBPAGE MAIN MENU -->
   <tr>
     <td colspan="2">
       _PRIMARY_HEAD_MENU_
     </td>
+    <td id="right_navigation"></td>
   </tr>
+  <!-- END WEBPAGE MAIN MENU -->
 
+  <!-- BEGIN WEBPAGE SUBMENU -->
   <tr>
     <td colspan="2">
       _SECONDARY_HEAD_MENU_
     </td>
+    <td id="right_navigation"></td>
   </tr>
-  <!-- SKELETON END HEADER -->
+  <!-- END WEBPAGE SUBMENU -->
+  <!-- END DOCUMENT HEADER -->
 
-  <!-- SKELETON BEGIN NAVIGATION MENU -->
+  <!-- BEGIN DOCUMENT BODY -->
   <tr>
-    <td id="navigation">
+    <!-- BEGIN LEFT MENU -->
+    <td id="left_navigation">
         <!-- BEGIN USER NAVIGATION MENU -->
-        undivert(DIVERT_NAVIGATION_CODE)
+        <div id="menu">
+           CHANGE_LANGUAGE
+           <!-- Begin sommaire -->
+           <h1>TOC:</h1>
+           <ul class="items">
+           TABLE_OF_CONTENTS
+           </ul>
+           <!-- end sommaire -->
+           undivert(DIVERT_LEFT_MENU)
+           BADGES
+        </div>
         <!-- END USER NAVIGATION MENU -->
     </td>
-    <!-- SKELETON END NAVIGATION MENU -->
+    <!-- END LEFT MENU -->
 
-
-    <!-- SKELETON BEGIN BODY -->
+    <!-- BEGIN ARTICLE BODY -->
     <td id="content">
         <!-- BEGIN USER BODY -->
-        undivert(DIVERT_BODY_CODE)
+        undivert(DIVERT_BODY)
         </div>
         <!-- END USER BODY -->
     </td>
-  </tr>
-  <!-- SKELETON END BODY -->
+    <!-- END ARTICLE BODY -->
 
-  <!-- SKELETON BEGIN FOOTER -->
+    <!-- BEGIN RIGHT MENU -->
+    <td id="right_navigation"></td>
+    <!-- END RIGHT MENU -->
+  </tr>
+  <!-- END DOCUMENT BODY -->
+
+  <!-- BEGIN DOCUMENT FOOTER -->
   <tr>
-    <td colspan="2" id="footer">
+    <td colspan="3" id="footer">
           <!-- BEGIN USER FOOTER -->
-          undivert(DIVERT_FOOTER_CODE)
+          undivert(DIVERT_FOOTER)
           FOOTER_BOX($@)
           <!-- END USER FOOTER -->
     </td>
   </tr>
-  <!-- SKELETON END FOOTER -->
-               undivert(DIVERT_TABLE_OF_CONTENT)
+  <!-- END DOCUMENT FOOTER -->
 </table>
+<!-- END DOCUMENT -->
 HTML_FOOTER
 <!-- EOF -->])dnl
-divert(DIVERT_HEADER_CODE)dnl

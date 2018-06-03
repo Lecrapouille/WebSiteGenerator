@@ -6,6 +6,7 @@ define([ICON_FR],[<img src="img/fr.png" style="border:0;" alt="fr"/>])dnl
 define([ICON_EN],[<img src="img/en.png" style="border:0;" alt="en"/>])dnl
 define([ICON_EXT_LINK],[<img src="img/externallink.png" height="12" width="12" border="0" alt="extlink"/>])dnl
 define([ICON_GITHUB],[<img src="img/github.png" alt="github" height="16" width="16" border="0"/>])dnl
+define([ICON_GITHUB2],[<img src="img/github.png" alt="github" height="40" width="40" border="0"/>])dnl
 define([ICON_PDF],[<img class="icone30" src="img/pdf.png" alt="pdf"/>])dnl
 define([ICON_TGZ],[<img class="icone30" src="img/tgz.png" alt="tarball"/>])dnl
 define([ICON_BUILD],[<img class="icone30" src="img/construction2.gif" alt="UPPER(DISP_IN_BUILDING)"/>])dnl

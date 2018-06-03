@@ -6,17 +6,19 @@ changequote([,])dnl
 changecom dnl
 undefine([format])dnl
 dnl FIXME: temporaire: implementer un divert_push divert_pop
-define([DIVERT_FOOTER_CODE],[42])dnl
-define([DIVERT_BODY_CODE],[43])dnl
-define([DIVERT_NAVIGATION_CODE],[44])dnl
-define([DIVERT_NAVIGATION_CODE2],[45])dnl
-define([DIVERT_HEADER_CODE],[46])dnl
+define([DIVERT_HEADER],[42])dnl
+define([DIVERT_LEFT_MENU],[43])dnl
+define([DIVERT_RIGHT_MENU],[44])dnl
+define([DIVERT_BODY],[45])dnl
+define([DIVERT_FOOTER],[46])dnl
+define([DIVERT_TABLE_OF_CONTENTS],[47])dnl
 dnl #################################################################
 dnl Includes
 dnl #################################################################
 include([m4-utils.m4x])dnl
 include([html-utils.m4x])dnl
-include([licensing.m4x])dnl
+include([links.m4x])dnl
+include([badges.m4x])dnl
 include([icons.m4x])dnl
 include([translation.m4x])dnl
 include([coding.m4x])dnl

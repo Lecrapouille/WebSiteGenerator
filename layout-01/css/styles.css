@@ -14,6 +14,10 @@ body {
      padding:           0;
      border-width:      0;
      border-collapse:   collapse;
+     border-top:        2px solid #2100ae;
+     border-left:       1px solid #2100ae;
+     border-right:      2px solid #2100ae;
+     border-bottom:     2px solid #2100ae;
 }
 
 td {
@@ -76,13 +80,13 @@ td {
 #header1, #header2, #header3, #footer {
      background-color:  #2165ae;
      color:             white;
-     border-right:      2px solid #2100ae;
      border-left:       2px solid #2100ae;
 }
 
 #footer {
      vertical-align:    bottom;
      border-bottom:     2px solid #2100ae;
+     border-right:      2px solid #2100ae;
 }
 
 #footer table {
@@ -105,7 +109,6 @@ td {
      text-align:        right;
      font-size:         25px;
      font-weight:       bold;
-     border-top:        2px solid #2100ae;
      height:            45px;
      margin-left:       -1px;
 }
@@ -131,7 +134,7 @@ td {
 
 .rubriques2 {
      list-style-type:   none;
-     font-size:         12px;
+     font-size:         16px;
      color:             black;
      margin:            0;
      margin-left:       -35px;
@@ -165,28 +168,29 @@ td {
      background-color:  #ccc;/*#2d16a3;*/
      color:             black;
      display:           block;
-     padding:           0.6em 12px;
+     padding:           0.2em 12px;
      border-left:       1px solid black;
      border-right:      1px solid black;
+     border-top:        1px solid black;
+     border-bottom:     1px solid #ccc;
 }
 
 .rubriques3 {
      list-style-type:   none;
-     font-size:         10px;
+     font-size:         12px;
      color:             black;
      margin:            0;
      margin-left:       -35px;
 }
 
 .rubriques3 li {
-     padding:           0.4em 12px;
+     padding:           0.1em 12px;
      background-color:  #2165ae;
      color:             #FFFFFF;
      text-decoration:   none;
      float:             right;
-     border-left:       1px solid white;
-     border-right:      1px solid white;
- /*    border-bottom:   1px solid black;*/
+     border-left:       1px solid #2d16a3;
+     border-right:      1px solid #2d16a3;
 }
 
 .rubriques3 a {
@@ -213,18 +217,19 @@ td {
 **
 */
 
-#navigation {
+#left_navigation {
      background-color:  #2165ae;
      width:             240px;
      text-align:        center;
      vertical-align:    top;
      padding-left:      0px;
      padding-right:     0px;
+     padding-top:       40px;
      border-left:       2px solid #2100ae;
      border-top:        1px solid #2165ae;
 }
 
-#navigation h1, #footer h1 {
+#left_navigation h1, #footer h1 {
 /*text-transform:uppercase;*/
      text-align:        right;
      color:             white;
@@ -232,16 +237,77 @@ td {
      font-size:         large;
 }
 
-#navigation a {
+#left_navigation a {
      color:             black;
      text-decoration:   none;
 }
 
-#navigation a:hover {
+#left_navigation a:hover {
      color:             #ff9900;
 }
 
-#navigation img {
+#left_navigation img {
+}
+
+.items {
+     width:             200px;
+     list-style-type:   none;
+     color:             black;
+     margin-top:        -15px;
+     margin-left:        10px;
+     padding:           5px;
+     border:            3px solid #2100ae;
+     background-color:  #ccc;
+}
+
+/*
+**
+** RIGHT TOP MENU
+**
+*/
+
+#right_top_navigation {
+     background-color:  #2165ae;
+     width:             60px;
+     text-align:        center;
+     vertical-align:    top;
+     padding-left:      0px;
+     padding-right:     0px;
+}
+
+/*
+**
+** RIGHT MENU
+**
+*/
+
+#right_navigation {
+     background-color:  #2165ae;
+     width:             60px;
+     text-align:        center;
+     vertical-align:    top;
+     padding-left:      0px;
+     padding-right:     0px;
+}
+
+#right_navigation h1, #footer h1 {
+/*text-transform:uppercase;*/
+     text-align:        right;
+     color:             white;
+     margin-right:      17px;
+     font-size:         large;
+}
+
+#right_navigation a {
+     color:             black;
+     text-decoration:   none;
+}
+
+#right_navigation a:hover {
+     color:             #ff9900;
+}
+
+#right_navigation img {
 }
 
 

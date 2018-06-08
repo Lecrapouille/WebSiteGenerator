@@ -18,13 +18,37 @@
 ## along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
 ##=====================================================================
 
-TOPTARGETS=all clean
-SUBDIRS=src/fr
+#################################################################
+# Root of the project
+ROOT=..
 
-.PHONY: $(TOPTARGETS) $(SUBDIRS)
-$(TOPTARGETS): $(SUBDIRS)
-$(SUBDIRS):
-	@$(MAKE) -C $@ $(MAKECMDGOALS)
+#################################################################
+# Default path storing generated websites
+ifeq ($(BUILD),)
+BUILD = $(ROOT)/build
+endif
 
+#################################################################
+# Get automatically the list of website projects
+WEBSITES=$(shell find $(ROOT) -type d -exec test -e '{}'/Makefile.prj \; -print)
+
+#################################################################
+# Makefile rules to be called for each website
+TOP_RULES=all clean
+
+# Call the rule for all websites
+.PHONY: $(TOP_RULES) $(WEBSITES)
+$(TOP_RULES): $(WEBSITES)
+$(WEBSITES):
+	@$(MAKE) -f html-generator/Makefile.generic $(MAKECMDGOALS) CURDIR=$@ WB=html-generator B=$(BUILD) WHICH_LAYOUT=.
+
+#################################################################
+# Display the list of websites
+list:
+	@echo "I found the following website projects:"
+	@echo $(WEBSITES)
+
+#################################################################
+# Clean the project
 veryclean:
-	@rm -fr build
+	@rm -fr $(BUILD)

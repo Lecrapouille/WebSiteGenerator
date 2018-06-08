@@ -19,39 +19,45 @@
 ## along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
 ##=====================================================================
 
-include $(P)/html-generator/Makefile.color
+include $(WB)/Makefile.color
 
 #################################################################
 # Langage of pages to generate is given by the directory name.
-CURDIR=$(shell pwd)
 LANG=$(shell basename $(CURDIR))
-#CURDIR=$(shell cd .. && pwd)
-#TARGET=$(shell basename $(CURDIR))
+PATH_TARGET=$(shell dirname $(CURDIR))
+TARGET=$(shell basename $(PATH_TARGET))
+BUILD:=$(B)/$(TARGET)
+INDEX_PAGE=index
+
+#################################################################
+# Default paths
+M4X_PATH=$(WB)
+M4X_FILES=$(M4X_PATH)/*.m4x
+MAIN_FILE=$(M4X_PATH)/main.m4x
+LAYOUT_PATH=$(M4X_PATH)/themes/default
+
+#################################################################
+# Override the layout.m4x file if present on the project else use
+# the default one.
+LAYOUT=$(shell (ls $(PATH_TARGET)/layout/layout.m4x || $(LAYOUT_PATH)/layout.m4x) 2> /dev/null)
+
+#################################################################
+# Pathes for tools
+M4X_FILES=$(M4X_PATH)/*.m4x
+MAIN_FILE=$(M4X_PATH)/main.m4x
+EMACS_SCRIPT_PATH=$(M4X_PATH)/emacs
+VPATH=$(BUILD):$(M4X_PATH):$(LAYOUT):$(CURDIR)
+INCLUDES=-I$(M4X_PATH) $(MAIN_FILE) $(LAYOUT)
 
 #################################################################
 # Input: m4 files are the website articles in french (fr).
 # Output: html files
-SOURCES=$(patsubst %-$(LANG).m4,%-$(LANG).html,$(wildcard *-$(LANG).m4))
-OBJS=$(SOURCES:.m4=.html)
-
-#################################################################
-# Default path storing compiled files (*.html ...)
-ifeq ($(BUILD),)
-BUILD = $(P)/build/$(TARGET)
-endif
+SOURCES=$(shell cd $(CURDIR) && ls *-$(LANG).m4)
+HTML=$(SOURCES:.m4=.html)
 
 #################################################################
 # Define the main page of the website
 INDEX=$(BUILD)/$(INDEX_PAGE)-$(LANG).html
-
-#################################################################
-# Pathes for tools
-M4X_PATH=$(P)/html-generator
-M4X_FILES=$(M4X_PATH)/main.m4x
-EMACS_SCRIPT_PATH=$(M4X_PATH)/emacs
-VPATH=$(BUILD):$(M4X_PATH)
-LAYOUT=$(P)/$(WHICH_LAYOUT)/layout.m4x
-INCLUDES=-I$(M4X_PATH) $(M4X_FILES) $(LAYOUT)
 
 #################################################################
 # Compilation defines
@@ -60,15 +66,20 @@ DEFINES=-DTHISFILE=$(patsubst %-$(LANG).m4,%,$<) -DLANG=$(LANG)
 #################################################################
 # Launch your browser for opening the index page of the website
 .PHONY: all
-all: $(OBJS)
+all: $(HTML)
 	@$(call print-to,"Launch","$(TARGET)","$(INDEX)","")
 #	@xdg-open $(INDEX) > /dev/null
 
 #################################################################
-# Generate page
-%.html: %.m4 Makefile $(M4X_FILES) $(LAYOUT)
+# Generate page FIXME $(M4X_FILES) $(LAYOUT)
+%.html: %.m4
 	@$(call print-to,"Compile","$<","$@")
+	# Delete empty lines
 	@m4 $(INCLUDES) $(DEFINES) $< | cat -s | awk 'NF {f=1} f' > $(BUILD)/$@
+# Delete HTML comments
+# | sed -e :a -re 's/<!--.*?-->//g;/<!--/N;//ba > $(BUILD)/$@'
+# Compress white spaces
+# | tr '\n' ' ' | sed 's/ [ ]*/ /g;s/> />/g > $(BUILD)/$@'
 	@$(call print-to,"Convert accents","$@","$@")
 	@emacs -batch --no-init-file --load $(EMACS_SCRIPT_PATH)/html-accent.el \
 	--file $(BUILD)/$@ --funcall html-accent --funcall save-buffer 2> /dev/null
@@ -77,15 +88,32 @@ all: $(OBJS)
 #################################################################
 # Create the build directory before compiling the project
 # Copying css, images, data and other stuffs needed for the webpage
-$(OBJS): | $(BUILD)
-$(BUILD): langage
+$(HTML): | $(BUILD)
+$(BUILD): langage css icons files
+
+#################################################################
+# Copy the website theme. Try from the website and if not present
+# use the default one.
+.PHONY: css
+css:
+	@$(call print-to,"Copy css","$(TARGET)","$(BUILD)/css")
 	@mkdir -p $(BUILD)/css
+	@cp -r $(PATH_TARGET)/layout/css/* $(BUILD)/css/ 2> /dev/null || \
+	cp -r html-generator/themes/default/css/* $(BUILD)/css/ || :
+
+#################################################################
+# Copy icons (if present)
+.PHONY: icons
+icons:
 	@mkdir -p $(BUILD)/img
-	@$(call print-to,"Copy css","$(WHICH_LAYOUT)","$(BUILD)/css")
-	@cp -r $(P)/$(WHICH_LAYOUT)/css/* $(BUILD)/css/ 2> /dev/null || :
 	@$(call print-to,"Copy icons","$(TARGET)","$(BUILD)/img")
-	@cp -r $(P)/icons/$(TARGET)/* $(BUILD)/img/ 2> /dev/null || :
-	@$(call print-to,"Copy files","$(LANG)","$(BUILD)")
+	@cp -r $(PATH_TARGET)/icons/* $(BUILD)/img/ || :
+
+#################################################################
+# Copy html files (if present)
+.PHONY: files
+files:
+	@$(call print-to,"Copy files","$(TARGET)","$(BUILD)")
 	@cp -r *.html $(BUILD)/ 2> /dev/null || :
 
 #################################################################

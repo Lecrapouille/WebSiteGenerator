@@ -68,16 +68,16 @@ DISP_LICENSE CREATIVECOMMONS LICENSE_CODE
 </table><hr/>])
 dnl #####################################################################
 dnl HTML template: the page is a html table
-dnl --------------------
-dnl        title
-dnl --------------------
-dnl    Primary header
-dnl --------------------
-dnl   Secondary header
-dnl --------------------
-dnl left menu | article
-dnl --------------------
-dnl        Footer
+dnl -------------------------------------
+dnl            title
+dnl -------------------------------------
+dnl        Primary header
+dnl -------------------------------------
+dnl        Secondary header
+dnl -------------------------------------
+dnl left border | article | right border
+dnl -------------------------------------
+dnl           Footer
 dnl #####################################################################
 define([BEGIN_BODY],[divert(DIVERT_BODY)])
 define([END_BODY],[divert(DIVERT_FOOTER)
@@ -98,28 +98,28 @@ HTML_HEADER
   </tr>
   <!-- END ARTICLE [TITLE] -->
 
-  <!-- BEGIN WEBPAGE MAIN MENU -->
+  <!-- BEGIN MAIN MENU -->
   <tr>
     <td colspan="2">
       _PRIMARY_HEAD_MENU_
     </td>
     <td id="right_navigation"></td>
   </tr>
-  <!-- END WEBPAGE MAIN MENU -->
+  <!-- END MAIN MENU -->
 
-  <!-- BEGIN WEBPAGE SUBMENU -->
+  <!-- BEGIN SUBMENU -->
   <tr>
     <td colspan="2">
       _SECONDARY_HEAD_MENU_
     </td>
     <td id="right_navigation"></td>
   </tr>
-  <!-- END WEBPAGE SUBMENU -->
+  <!-- END SUBMENU -->
   <!-- END DOCUMENT HEADER -->
 
   <!-- BEGIN DOCUMENT BODY -->
   <tr>
-    <!-- BEGIN LEFT MENU -->
+    <!-- BEGIN LEFT BORDER -->
     <td id="left_navigation">
         <!-- BEGIN USER NAVIGATION MENU -->
         <div id="menu">
@@ -130,12 +130,12 @@ HTML_HEADER
            TABLE_OF_CONTENTS
            </ul>
            <!-- end sommaire -->
-           undivert(DIVERT_LEFT_MENU)
+           undivert(DIVERT_LEFT_BORDER)
            BADGES
         </div>
         <!-- END USER NAVIGATION MENU -->
     </td>
-    <!-- END LEFT MENU -->
+    <!-- END LEFT BORDER -->
 
     <!-- BEGIN ARTICLE BODY -->
     <td id="content">
@@ -146,9 +146,9 @@ HTML_HEADER
     </td>
     <!-- END ARTICLE BODY -->
 
-    <!-- BEGIN RIGHT MENU -->
+    <!-- BEGIN RIGHT BORDER -->
     <td id="right_navigation"></td>
-    <!-- END RIGHT MENU -->
+    <!-- END RIGHT BORDER -->
   </tr>
   <!-- END DOCUMENT BODY -->
 
@@ -157,7 +157,7 @@ HTML_HEADER
     <td colspan="3" id="footer">
           <!-- BEGIN USER FOOTER -->
           undivert(DIVERT_FOOTER)
-          FOOTER_BOX($@)
+          PREV_NEXT_ARTICLE($@)
           <!-- END USER FOOTER -->
     </td>
   </tr>

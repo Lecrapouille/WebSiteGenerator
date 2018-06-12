@@ -1,52 +1,44 @@
 dnl -*- m4 -*- Coloration Syntaxique pour Emacs
+dnl #####################################################################
+dnl Banners, Logos, License, Validators ...
+dnl #####################################################################
+define([BADGES],[<!-- Begin Badges -->
+<p>TRANS_LICENSE</p>
+<table width="100%" align="center">
+<tr><td colspan="2">CREATIVE_COMMON</td><td>GPL3</td></tr>
+<tr><td>XHTML_VALIDATOR</td><td>CSS_VALIDATOR</td><td>VISITORS_COUNTER</td></tr>
+</table><hr/><!-- End Badges -->])dnl
 dnl #################################################################
 dnl Define your license here
 dnl #################################################################
-define([CREATIVECOMMONS],[TRANSLATE([<a href="https://www.gnu.org/licenses/gpl-3.0.fr.html">CC-GNU GPL</a>],dnl
-[<a href="https://www.gnu.org/licenses/gpl-3.0.en.html">CC-GNU GPL</a>])])
 dnl ---------------------------------------------------------------------
-define([LICENSE_LOGO],[<!-- Creative Commons License -->
-<a href="http://creativecommons.org/licenses/GPL/3.0/">
-<img alt="CC-GNU GPL" style="border:0;" src="http://creativecommons.org/images
-/public/cc-GPL-a.png" /></a>
-<!-- /Creative Commons License -->])dnl
+define([LICENSE_CREATIVE_COMMON],[TRANSLATE([LINK(https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.fr,$1)],dnl
+[LINK(https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode,$1)])])
+define([LOGO_CREATIVE_COMMON],[<img alt="CC" style="border:0;" height="60" width="128" dnl
+src="https://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc-sa.png">])
+define([CREATIVE_COMMON],[LICENSE_CREATIVE_COMMON(LOGO_CREATIVE_COMMON)])
 dnl ---------------------------------------------------------------------
-define([LICENSE_CODE],[<!--
-<rdf:RDF xmlns="http://web.resource.org/cc/"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-<Work rdf:about="">
-   <license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
-   <dc:type rdf:resource="http://purl.org/dc/dcmitype/Software" />
-</Work>
-
-<License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-<permits rdf:resource="http://web.resource.org/cc/Reproduction" />
-   <permits rdf:resource="http://web.resource.org/cc/Distribution" />
-   <requires rdf:resource="http://web.resource.org/cc/Notice" />
-   <permits rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
-   <requires rdf:resource="http://web.resource.org/cc/ShareAlike" />
-   <requires rdf:resource="http://web.resource.org/cc/SourceCode" />
-</License>
-</rdf:RDF> -->])dnl
+define([LICENSE_GPL3],[TRANSLATE([LINK(https://www.gnu.org/licenses/gpl-3.0.fr.html,$1)],dnl
+[LINK(https://www.gnu.org/licenses/gpl-3.0.en.html,$1)])])
+define([LOGO_GPL3],[<img alt="GNU GPL" style="border:0;" src="http://creativecommons.org/images/public/cc-GPL-a.png" />])
+define([GPL3],[LICENSE_GPL3(LOGO_GPL3)])
 dnl #####################################################################
 dnl HTML validator
 dnl #####################################################################
-define([PHPMYVISITE],[<!-- phpmyvisites -->
+define([VISITORS_COUNTER],[<!-- phpmyvisites -->
 <a href="http://st.free.fr/" title="phpMyVisites | Open source web analytics"
 onclick="window.open(this.href);return(false);"><script type="text/javascript">
 <!--
 var a_vars = Array();
 var pagename='';
-
-var phpmyvisitesSite = 21477;
+var phpmyvisitesSite = 21477; dnl le code PhpMyVisites de votre site;
 var phpmyvisitesURL = "http://st.free.fr/phpmyvisites.php";
 //-->
 </script>
 <script language="javascript" src="http://st.free.fr/phpmyvisites.js" type="text/javascript"></script>
-<object><noscript>
-<img src="img/phpmyvisites.png" alt="Statistics" style="border:0" />
-</noscript></object></a>
+<object><noscript><p>phpMyVisites | Open source web analytics
+<img src="http://st.free.fr/phpmyvisites.php" alt="Statistics" style="border:0" />
+</p></noscript></object></a>
 <!-- /phpmyvisites -->])dnl
 dnl #####################################################################
 dnl HTML validator

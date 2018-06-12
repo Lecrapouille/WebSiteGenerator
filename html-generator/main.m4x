@@ -1,19 +1,22 @@
 dnl -*- m4 -*- Coloration Syntaxique pour Emacs
 dnl #################################################################
-dnl M4 syntax preferences
+dnl M4 syntax preferences. Use [ ] as delimiters instead of ` '
 dnl #################################################################
 changequote([,])dnl
 changecom dnl
 undefine([format])dnl
+dnl #################################################################
+dnl Diversions are temporary files to store macro-processed code
+dnl #################################################################
 dnl FIXME: temporaire: implementer un divert_push divert_pop
 define([DIVERT_HEADER],[42])dnl
-define([DIVERT_LEFT_MENU],[43])dnl
-define([DIVERT_RIGHT_MENU],[44])dnl
+define([DIVERT_LEFT_BORDER],[43])dnl
+define([DIVERT_RIGHT_BORDER],[44])dnl
 define([DIVERT_BODY],[45])dnl
 define([DIVERT_FOOTER],[46])dnl
 define([DIVERT_TABLE_OF_CONTENTS],[47])dnl
 dnl #################################################################
-dnl Includes
+dnl Includes macro definitions
 dnl #################################################################
 include([m4-utils.m4x])dnl
 include([html-utils.m4x])dnl

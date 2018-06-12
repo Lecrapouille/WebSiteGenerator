@@ -30,7 +30,7 @@ endif
 
 #################################################################
 # Get automatically the list of website projects
-WEBSITES=$(shell find $(ROOT) -type d -exec test -e '{}'/Makefile.prj \; -print)
+# WEBSITES=$(shell find $(ROOT) -type d -exec test -e '{}'/Makefile.prj \; -print)
 
 #################################################################
 # Makefile rules to be called for each website
@@ -40,7 +40,7 @@ TOP_RULES=all clean
 .PHONY: $(TOP_RULES) $(WEBSITES)
 $(TOP_RULES): $(WEBSITES)
 $(WEBSITES):
-	@$(MAKE) -f html-generator/Makefile.generic $(MAKECMDGOALS) CURDIR=$@ WB=html-generator B=$(BUILD) WHICH_LAYOUT=.
+	@$(MAKE) -f html-generator/Makefile.generic $(MAKECMDGOALS) CURDIR=$(ROOT)/$@ WB=html-generator B=$(BUILD)
 
 #################################################################
 # Display the list of websites

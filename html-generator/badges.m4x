@@ -7,7 +7,8 @@ define([BADGES],[<!-- Begin Badges -->
 <table width="100%" align="center">
 <tr><td colspan="2">CREATIVE_COMMON</td><td>GPL3</td></tr>
 <tr><td>XHTML_VALIDATOR</td><td>CSS_VALIDATOR</td><td>VISITORS_COUNTER</td></tr>
-</table><hr/><!-- End Badges -->])dnl
+</table><hr/>
+<!-- End Badges -->])dnl
 dnl #################################################################
 dnl Define your license here
 dnl #################################################################
@@ -15,7 +16,7 @@ dnl ---------------------------------------------------------------------
 define([LICENSE_CREATIVE_COMMON],[TRANSLATE([LINK(https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.fr,$1)],dnl
 [LINK(https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode,$1)])])
 define([LOGO_CREATIVE_COMMON],[<img alt="CC" style="border:0;" height="60" width="128" dnl
-src="https://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc-sa.png">])
+src="https://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc-sa.png" />])
 define([CREATIVE_COMMON],[LICENSE_CREATIVE_COMMON(LOGO_CREATIVE_COMMON)])
 dnl ---------------------------------------------------------------------
 define([LICENSE_GPL3],[TRANSLATE([LINK(https://www.gnu.org/licenses/gpl-3.0.fr.html,$1)],dnl

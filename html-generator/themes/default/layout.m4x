@@ -6,19 +6,24 @@ dnl the secondary. The primary showdisplays the website categories while
 dnl the secondary displays differents articles.
 dnl #####################################################################
 dnl Helper macros for building head menu (primary and secondary)
-define([display_all_menu_elements_],[ifelse($2,,,$2,THISFILE,[<li id="_which_menu_item_active_">$1</li> display_all_menu_elements_(shift(shift($@)))],
+define([display_all_menu_elements_],[ifelse($2,,,$2,THISFILE,[<li id="_which_menu_item_active_">$1</li>
+display_all_menu_elements_(shift(shift($@)))],
 [<li><a href="$2-]LANG[.html">$1</a></li>
 display_all_menu_elements_(shift(shift($@)))])])dnl
 define([HEAD_MENU],[<div id="$1">
 <ul class="$2">
-define([_which_menu_item_active_],[$3])
-display_all_menu_elements_(shift(shift(shift($@))))
-undefine([_which_menu_item_active_])
+define([_which_menu_item_active_],[$3])dnl
+display_all_menu_elements_(shift(shift(shift($@))))dnl
+undefine([_which_menu_item_active_])dnl
 </ul>
 </div>])dnl
 dnl ---------------------------------------------------------------------
-define([primary_head_menu],[<!-- Primary Menu --> HEAD_MENU(header2,rubriques2,actif2,$@)])
-define([secondary_head_menu],[<!-- Secondary Menu --> HEAD_MENU(header3,rubriques3,actif3,$@)])
+define([primary_head_menu],[<!-- Begin Menu -->
+HEAD_MENU(primary_header,rubriques2,actif2,$@)
+<!-- End Menu -->])dnl
+define([secondary_head_menu],[<!-- Begin Menu -->
+HEAD_MENU(secondary_header,rubriques3,actif3,$@)
+<!-- End Menu -->])dnl
 dnl ---------------------------------------------------------------------
 dnl Define head menu items
 define([ITEM_HOME],[ICON_HOME[]TRANSLATE([Accueil],[Home])])
@@ -47,25 +52,28 @@ dnl to sections of the document.
 dnl #####################################################################
 dnl ---------------------------------------------------------------------
 define([ITEM_BULLET],[ifelse($1,,[],[<li><a href="$2"><img class="icone7" src="img/bullet.gif" alt=""/>$1.</a></li>])])
-define([display_all_items_],[ifelse($2,,,[ITEM_BULLET($1,$2)
-display_all_items_(shift(shift($@)))])])
+define([display_all_items_],[ifelse($2,,,[dnl Do not include item self referencing itself
+ifelse($2,THISFILE-LANG.html,[<!--],[]) ITEM_BULLET($1,$2) ifelse($2,THISFILE-LANG.html,[-->],[])
+display_all_items_(shift(shift($@)))])])dnl
 dnl ---------------------------------------------------------------------
-define([LEFT_RUBRIQUE],[<!-- Left Rubrique -->
+define([HEADING],[<!-- Left Heading -->
 ifelse($1,,[],[<h1>$1 :</h1>])
 <ul class="items">
-display_all_items_(shift($@))
-</ul>])
+display_all_items_(shift($@))dnl
+</ul>
+])
 dnl #####################################################################
-dnl Banners, Logos, License, Validators ...
+dnl Left Heading: is a box with links located on the left of the page
 dnl #####################################################################
-define([BADGES],[<hr/>DISP_UPDATE
-<hr/><!-- Bannieres menu -->
-DISP_LICENSE CREATIVECOMMONS LICENSE_CODE
-<table width="10BA0%" align="center">
-<tr><td rowspan="3">LICENSE_LOGO</td><td>XHTML_VALIDATOR</td></tr>
-<tr><td>CSS_VALIDATOR</td></tr>
-<tr><td>PHPMYVISITE</td></tr>
-</table><hr/>])
+define([LEFT_HEADINGS],[divert(DIVERT_LEFT_BORDER)
+$@])
+dnl #####################################################################
+dnl Left heading specific for the page
+dnl #####################################################################
+define([HEADING_3D_GAME],[HEADING(TRANS_SAME_PROJ,Speedway,speedway-LANG.html,Ecstasy,ecstasy-LANG.html)])
+define([HEADING_SIMATDYN_LIKE],[HEADING(TRANS_SAME_PROJ,Spreadsheet-based GIS Models,dnl
+[https://scholarworks.umb.edu/cgi/viewcontent.cgi?referer=&httpsredir=1&article=1004&context=management_wp],dnl
+Rocs,https://github.com/KDE/rocs)])dnl
 dnl #####################################################################
 dnl HTML template: the page is a html table
 dnl -------------------------------------
@@ -80,79 +88,74 @@ dnl -------------------------------------
 dnl           Footer
 dnl #####################################################################
 define([BEGIN_BODY],[divert(DIVERT_BODY)])
-define([END_BODY],[divert(DIVERT_FOOTER)
+define([END_BODY],[create_toc[]divert(DIVERT_FOOTER)
 divert
 HTML_HEADER
-<!-- BEGIN DOCUMENT -->
-<table id="page">
-  <!-- BEGIN DOCUMENT HEADER -->
+<table id="document">
 
-  <!-- BEGIN ARTICLE [TITLE] -->
+  <!-- DOCUMENT HEADER -->
+
+  <!-- Page Title -->
   <tr>
     <td colspan="2">
-      <div id="header1">
+      <div id="main_title">
         _META_TITLE_
       </div>
     </td>
-    <td id="right_top_navigation"></td>
+    <td id="right_top_border"></td>
   </tr>
-  <!-- END ARTICLE [TITLE] -->
 
-  <!-- BEGIN MAIN MENU -->
+  <!-- Primary Menu -->
   <tr>
     <td colspan="2">
       _PRIMARY_HEAD_MENU_
     </td>
-    <td id="right_navigation"></td>
+    <td id="right_border"> <!-- empty --> </td>
   </tr>
-  <!-- END MAIN MENU -->
 
-  <!-- BEGIN SUBMENU -->
+  <!-- Secondary Menu -->
   <tr>
     <td colspan="2">
       _SECONDARY_HEAD_MENU_
     </td>
-    <td id="right_navigation"></td>
+    <td id="right_border"> <!-- empty --> </td>
   </tr>
-  <!-- END SUBMENU -->
-  <!-- END DOCUMENT HEADER -->
 
-  <!-- BEGIN DOCUMENT BODY -->
+  <!-- DOCUMENT BODY -->
   <tr>
     <!-- BEGIN LEFT BORDER -->
-    <td id="left_navigation">
-        <!-- BEGIN USER NAVIGATION MENU -->
+    <td id="left_border">
         <div id="menu">
+           <!-- Translated Pages -->
            CHANGE_LANGUAGE
-           <!-- Begin sommaire -->
-           <h1>TOC:</h1>
-           <ul class="items">
+
            TABLE_OF_CONTENTS
-           </ul>
-           <!-- end sommaire -->
+
+           <!-- BEGIN LEFT BORDER DIVERSION -->
            undivert(DIVERT_LEFT_BORDER)
-           BADGES
+           <!-- END LEFT BORDER DIVERSION -->
+
+<br/><hr/>BADGES
+PROJ_WEBGENERATOR(ICON_GITHUB2)
+HEADING(TRANS_UPDATED,DATE,https://github.com/Lecrapouille/WebSiteGenerator)
+<hr/>
         </div>
-        <!-- END USER NAVIGATION MENU -->
     </td>
     <!-- END LEFT BORDER -->
 
-    <!-- BEGIN ARTICLE BODY -->
-    <td id="content">
-        <!-- BEGIN USER BODY -->
+    <!-- BEGIN ARTICLE -->
+    <td id="article">
         undivert(DIVERT_BODY)
         </div>
-        <!-- END USER BODY -->
     </td>
     <!-- END ARTICLE BODY -->
 
     <!-- BEGIN RIGHT BORDER -->
-    <td id="right_navigation"></td>
+    <td id="right_border"> <!-- empty --> </td>
     <!-- END RIGHT BORDER -->
   </tr>
-  <!-- END DOCUMENT BODY -->
 
-  <!-- BEGIN DOCUMENT FOOTER -->
+  <!-- DOCUMENT FOOTER -->
   <tr>
     <td colspan="3" id="footer">
           <!-- BEGIN USER FOOTER -->
@@ -161,8 +164,7 @@ HTML_HEADER
           <!-- END USER FOOTER -->
     </td>
   </tr>
-  <!-- END DOCUMENT FOOTER -->
 </table>
-<!-- END DOCUMENT -->
 HTML_FOOTER
-<!-- EOF -->])dnl
+
+<!-- This page was generated by script DATE -->])dnl

@@ -39,7 +39,7 @@ LAYOUT_PATH=$(M4X_PATH)/themes/default
 #################################################################
 # Override the layout.m4x file if present on the project else use
 # the default one.
-LAYOUT=$(shell (ls $(PATH_TARGET)/layout/layout.m4x || $(LAYOUT_PATH)/layout.m4x) 2> /dev/null)
+LAYOUT=$(shell (ls $(PATH_TARGET)/layout/layout.m4x || ls $(LAYOUT_PATH)/layout.m4x) 2> /dev/null)
 
 #################################################################
 # Pathes for tools
@@ -61,7 +61,8 @@ INDEX=$(BUILD)/$(INDEX_PAGE)-$(LANG).html
 
 #################################################################
 # Compilation defines
-DEFINES=-DTHISFILE=$(patsubst %-$(LANG).m4,%,$<) -DLANG=$(LANG)
+THISFILE=$(shell basename $(patsubst %-$(LANG).m4,%,$<))
+DEFINES=-DTHISFILE=$(THISFILE) -DLANG=$(LANG)
 
 #################################################################
 # Launch your browser for opening the index page of the website
@@ -73,9 +74,9 @@ all: $(HTML)
 #################################################################
 # Generate page FIXME $(M4X_FILES) $(LAYOUT)
 %.html: %.m4
-	@$(call print-to,"Compile","$<","$@")
-	# Delete empty lines
-	@m4 $(INCLUDES) $(DEFINES) $< | cat -s | awk 'NF {f=1} f' > $(BUILD)/$@
+	@$(call print-to,"Compile ${THISFILE}","$<","$@")
+# Delete empty lines
+	m4 $(INCLUDES) $(DEFINES) $< | cat -s | awk 'NF {f=1} f' > $(BUILD)/$@
 # Delete HTML comments
 # | sed -e :a -re 's/<!--.*?-->//g;/<!--/N;//ba > $(BUILD)/$@'
 # Compress white spaces

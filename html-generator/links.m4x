@@ -1,4 +1,4 @@
 dnl -*- m4 -*- Coloration Syntaxique pour Emacs
 dnl #####################################################################
 dnl My personal links
-define([PROJ_WEBGENERATOR],[LINK(https://github.com/Lecrapouille/WebSiteGenerator,<p>ICON_GITHUB2</p><p>WebSiteGenerator</p>)])
+define([PROJ_WEBGENERATOR],[MYGITHUB(WebSiteGenerator,$1)])

@@ -1,6 +1,6 @@
 # -*- mode: makefile -*-
 ##=====================================================================
-## WebSiteGenerator: a HTML websites generator. 
+## WebSiteGenerator: a HTML websites generator.
 ## Copyright 2018 Quentin Quadrat <lecrapouille@gmail.com>
 ##
 ## This file is part of WebSiteGenerator.
@@ -61,6 +61,7 @@ INDEX=$(BUILD)/$(INDEX_PAGE)-$(LANG).html
 
 #################################################################
 # Compilation defines
+M4FILE=$(shell basename %-$(LANG).m4,%,$<)
 THISFILE=$(shell basename $(patsubst %-$(LANG).m4,%,$<))
 DEFINES=-DTHISFILE=$(THISFILE) -DLANG=$(LANG)
 
@@ -74,14 +75,13 @@ all: $(HTML)
 #################################################################
 # Generate page FIXME $(M4X_FILES) $(LAYOUT)
 %.html: %.m4
-	@$(call print-to,"Compile ${THISFILE}","$<","$@")
+	@$(call print-to,"Convert","$(M4FILE)","$(BUILD)/$@")
 # Delete empty lines
-	m4 $(INCLUDES) $(DEFINES) $< | cat -s | awk 'NF {f=1} f' > $(BUILD)/$@
+	@m4 $(INCLUDES) $(DEFINES) $< | cat -s | awk 'NF {f=1} f' > $(BUILD)/$@
 # Delete HTML comments
 # | sed -e :a -re 's/<!--.*?-->//g;/<!--/N;//ba > $(BUILD)/$@'
 # Compress white spaces
 # | tr '\n' ' ' | sed 's/ [ ]*/ /g;s/> />/g > $(BUILD)/$@'
-	@$(call print-to,"Convert accents","$@","$@")
 	@emacs -batch --no-init-file --load $(EMACS_SCRIPT_PATH)/html-accent.el \
 	--file $(BUILD)/$@ --funcall html-accent --funcall save-buffer 2> /dev/null
 	@rm -fr $(BUILD)/*~
@@ -97,7 +97,7 @@ $(BUILD): langage css icons files
 # use the default one.
 .PHONY: css
 css:
-	@$(call print-to,"Copy css","$(TARGET)","$(BUILD)/css")
+	@$(call print-to,"Copy","css","$(BUILD)")
 	@mkdir -p $(BUILD)/css
 	@cp -r $(PATH_TARGET)/layout/css/* $(BUILD)/css/ 2> /dev/null || \
 	cp -r html-generator/themes/default/css/* $(BUILD)/css/ || :
@@ -107,20 +107,20 @@ css:
 .PHONY: icons
 icons:
 	@mkdir -p $(BUILD)/img
-	@$(call print-to,"Copy icons","$(TARGET)","$(BUILD)/img")
+	@$(call print-to,"Copy","icons","$(BUILD)")
 	@cp -r $(PATH_TARGET)/icons/* $(BUILD)/img/ || :
 
 #################################################################
 # Copy html files (if present)
 .PHONY: files
 files:
-	@$(call print-to,"Copy files","$(TARGET)","$(BUILD)")
+	@$(call print-to,"Copy","files","$(BUILD)")
 	@cp -r *.html $(BUILD)/ 2> /dev/null || :
 
 #################################################################
 .PHONY: langage
 langage:
-	$(call print-from,"Langage","$(LANG)","$(TARGET)")
+	$(call print-from,"Lang","$(LANG)","$(TARGET)")
 
 #################################################################
 .PHONY: clean

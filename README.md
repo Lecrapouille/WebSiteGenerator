@@ -205,9 +205,7 @@ LIST(1,2,3)
 LIST([1,2,3])
 ```
 
-### Copying
+### Copying/License
 
-* .m4x files are public domain (I'm the author).
-* The .el file is not mine, see its licence.
-* The generated html pages are under the Creative Commons licence, as well as there sources (.m4 files in src/ directory).
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/fr/"><img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/3.0/fr/88x31.png" /></a><br />Ce(tte) œuvre est mise à disposition selon les termes de la <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/fr/">Licence Creative Commons Attribution - Pas d’Utilisation Commerciale - Partage dans les Mêmes Conditions 3.0 France</a>.
+* The emacs/html-accent.el file does not belong to me, see its licence inside the file.
+* .m4x files (I'm the author) are in public domain use and adapt them in the way you want.

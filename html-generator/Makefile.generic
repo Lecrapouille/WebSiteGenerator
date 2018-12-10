@@ -108,7 +108,7 @@ css:
 icons:
 	@mkdir -p $(BUILD)/img
 	@$(call print-to,"Copy","icons","$(BUILD)")
-	@cp -r $(PATH_TARGET)/icons/* $(BUILD)/img/ || :
+	@cp -r $(PATH_TARGET)/data/icons/* $(BUILD)/img/ || :
 
 #################################################################
 # Copy html files (if present)

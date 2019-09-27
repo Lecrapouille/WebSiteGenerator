@@ -16,16 +16,16 @@ define([CHANGE_LANGUAGE],[<p>ifelse(LANG,fr,[ICON_FR LINK(THISFILE-en.html,ICON_
 [LINK(THISFILE-fr.html,ICON_FR) DRAP_EN])</p>])dnl
 dnl ---------------------------------------------------------------------
 define([FRENCH_PAGE],[ifelse(LANG,fr,
-[<a href="$1.html"><img src="img/fr.png" style="border:0;" alt="fr"/></a>],
-[<img src="img/fr.png" style="border:0;" alt="FR" />]) ifelse(LANG,en,
-[<a href="$1.html"><img src="img/en.png" style="border:0;" alt="en"/></a>],
-[<img src="img/en.png" style="border:0;" alt="EN" />])])dnl
+[<a href="$1.html"><img src="icons/fr.png" style="border:0;" alt="fr"/></a>],
+[<img src="icons/fr.png" style="border:0;" alt="FR" />]) ifelse(LANG,en,
+[<a href="$1.html"><img src="icons/en.png" style="border:0;" alt="en"/></a>],
+[<img src="icons/en.png" style="border:0;" alt="EN" />])])dnl
 dnl ---------------------------------------------------------------------
 define([ENGLISH_PAGE],[ifelse(LANG,en,
-[<a href="$1.html"><img src="img/en.png" style="border:0;" alt="en"/></a>],
-[<img src="img/en.png" style="border:0;" alt="EN" />]) ifelse(LANG,fr,
-[<a href="$1.html"><img src="img/fr.png" style="border:0;" alt="fr"/></a>],
-[<img src="img/fr.png" style="border:0;" alt="FR" />])])dnl
+[<a href="$1.html"><img src="icons/en.png" style="border:0;" alt="en"/></a>],
+[<img src="icons/en.png" style="border:0;" alt="EN" />]) ifelse(LANG,fr,
+[<a href="$1.html"><img src="icons/fr.png" style="border:0;" alt="fr"/></a>],
+[<img src="icons/fr.png" style="border:0;" alt="FR" />])])dnl
 dnl ---------------------------------------------------------------------
 define([TRANSLATE],[ifelse(LANG,fr,[$1],[$2])])dnl
 dnl #####################################################################

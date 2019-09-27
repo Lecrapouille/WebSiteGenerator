@@ -110,7 +110,7 @@ define([GITHUB],[<a href="https://github.com/$1" target="_blank">ifelse([$2],,[h
 dnl ---------------------------------------------------------------------
 define([MYGITHUB],[GITHUB(Lecrapouille/$1,ifelse($2,,GitHub,$2))])dnl
 dnl ---------------------------------------------------------------------
-define([FORKME],[<a href="https://github.com/Lecrapouille/$1"><img style="position: absolute; top: 0; left: 0; border: 0; width: 149px; height: 149px;" src="img/forkme.png" alt="Fork me on GitHub"></a>])dnl
+define([FORKME],[<a href="https://github.com/Lecrapouille/$1"><img style="position: absolute; top: 0; left: 0; border: 0; width: 149px; height: 149px;" src="icons/forkme.png" alt="Fork me on GitHub"></a>])dnl
 dnl #####################################################################
 dnl HTML Link to media (pictures or video)
 dnl #####################################################################

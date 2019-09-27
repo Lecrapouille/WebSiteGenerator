@@ -2,26 +2,26 @@ dnl -*- m4 -*- Coloration Syntaxique pour Emacs
 dnl #####################################################################
 dnl Icons. Define your icons here
 dnl #####################################################################
-define([ICON_FR],[<img src="img/fr.png" style="border:0;" alt="fr"/>])dnl
-define([ICON_EN],[<img src="img/en.png" style="border:0;" alt="en"/>])dnl
-define([ICON_EXT_LINK],[<img src="img/externallink.png" height="12" width="12" border="0" alt="extlink"/>])dnl
-define([ICON_GITHUB],[<img src="img/github.png" alt="github" height="16" width="16" border="0"/>])dnl
-define([ICON_GITHUB2],[<img src="img/github.png" alt="github" height="40" width="40" border="0"/>])dnl
-define([ICON_PDF],[<img class="icone30" src="img/pdf.png" alt="pdf"/>])dnl
-define([ICON_TGZ],[<img class="icone30" src="img/tgz.png" alt="tarball"/>])dnl
-define([ICON_BUILD],[<img class="icone30" src="img/construction2.gif" alt="UPPER(TRANS_IN_BUILDING)"/>])dnl
-define([ICON_DOWNLOAD],[<img class="icone20" src="img/tgz.png" alt="download"/>])dnl
-define([ICON_READ],[<img class="icone20" src="img/read.png" alt=""/>])dnl
-define([ICON_EYES],[<img class="icone20" src="img/eyes.png" alt=""/>])dnl
-define([ICON_GEAR],[<img class="icone20" src="img/gear.png" alt=""/>])dnl
-define([ICON_HOME],[<img class="icone20" src="img/home.png" alt=""/>])dnl
-define([ICON_H2G2],[<img class="icone20" src="img/h2g2.png" alt=""/>])dnl
-define([ICON_NEW],[<img class="icone30" src="img/new.gif" alt="new"/>])dnl
-define([ICON_UPDATE],[<img src="img/updated.gif" alt=""/>])dnl
-define([ICON_ARROW_HOME],[<img class="icone5" src="img/home.png" alt="home"/>])dnl
-define([ICON_ARROW_UP],[<img class="icone5" src="img/2uparrow.png" alt="up"/>])dnl
-define([ICON_ARROW_DOWN],[<img style="border:0" src="bimg/as.gif" alt="down"/>])dnl
-define([ICON_ARROW_LEFT],[<img class="icone5" src="img/leftarrowgris.png" alt="Prev"/>])dnl
-define([ICON_ARROW_LLEFT],[<img class="icone5" src="img/2leftarrow.png" alt="ext Prev"/>])dnl
-define([ICON_ARROW_RIGHT],[<img class="icone5" src="img/rightarrowgris.png" alt="Next"/>])dnl
-define([ICON_ARROW_RRIGHT],[<img class="icone5" src="img/2rightarrow.png" alt="Next"/>])dnl
+define([ICON_FR],[<img src="icons/fr.png" style="border:0;" alt="fr"/>])dnl
+define([ICON_EN],[<img src="icons/en.png" style="border:0;" alt="en"/>])dnl
+define([ICON_EXT_LINK],[<img src="icons/externallink.png" height="12" width="12" border="0" alt="extlink"/>])dnl
+define([ICON_GITHUB],[<img src="icons/github.png" alt="github" height="16" width="16" border="0"/>])dnl
+define([ICON_GITHUB2],[<img src="icons/github.png" alt="github" height="40" width="40" border="0"/>])dnl
+define([ICON_PDF],[<img class="icone30" src="icons/pdf.png" alt="pdf"/>])dnl
+define([ICON_TGZ],[<img class="icone30" src="icons/tgz.png" alt="tarball"/>])dnl
+define([ICON_BUILD],[<img class="icone30" src="icons/construction2.gif" alt="UPPER(TRANS_IN_BUILDING)"/>])dnl
+define([ICON_DOWNLOAD],[<img class="icone20" src="icons/tgz.png" alt="download"/>])dnl
+define([ICON_READ],[<img class="icone20" src="icons/read.png" alt=""/>])dnl
+define([ICON_EYES],[<img class="icone20" src="icons/eyes.png" alt=""/>])dnl
+define([ICON_GEAR],[<img class="icone20" src="icons/gear.png" alt=""/>])dnl
+define([ICON_HOME],[<img class="icone20" src="icons/home.png" alt=""/>])dnl
+define([ICON_H2G2],[<img class="icone20" src="icons/h2g2.png" alt=""/>])dnl
+define([ICON_NEW],[<img class="icone30" src="icons/new.gif" alt="new"/>])dnl
+define([ICON_UPDATE],[<img src="icons/updated.gif" alt=""/>])dnl
+define([ICON_ARROW_HOME],[<img class="icone5" src="icons/home.png" alt="home"/>])dnl
+define([ICON_ARROW_UP],[<img class="icone5" src="icons/2uparrow.png" alt="up"/>])dnl
+define([ICON_ARROW_DOWN],[<img style="border:0" src="bicons/as.gif" alt="down"/>])dnl
+define([ICON_ARROW_LEFT],[<img class="icone5" src="icons/leftarrowgris.png" alt="Prev"/>])dnl
+define([ICON_ARROW_LLEFT],[<img class="icone5" src="icons/2leftarrow.png" alt="ext Prev"/>])dnl
+define([ICON_ARROW_RIGHT],[<img class="icone5" src="icons/rightarrowgris.png" alt="Next"/>])dnl
+define([ICON_ARROW_RRIGHT],[<img class="icone5" src="icons/2rightarrow.png" alt="Next"/>])dnl

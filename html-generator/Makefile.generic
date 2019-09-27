@@ -90,30 +90,20 @@ all: $(HTML)
 # Create the build directory before compiling the project
 # Copying css, images, data and other stuffs needed for the webpage
 $(HTML): | $(BUILD)
-$(BUILD): langage css icons files
+$(BUILD): langage data
 
 #################################################################
 # Copy the website theme. Try from the website and if not present
 # use the default one.
-.PHONY: css
-css:
+.PHONY: data
+data:
 	@$(call print-to,"Copy","css","$(BUILD)")
 	@mkdir -p $(BUILD)/css
 	@cp -r $(PATH_TARGET)/layout/css/* $(BUILD)/css/ 2> /dev/null || \
 	cp -r html-generator/themes/default/css/* $(BUILD)/css/ || :
-
-#################################################################
-# Copy icons (if present)
-.PHONY: icons
-icons:
-	@mkdir -p $(BUILD)/img
-	@$(call print-to,"Copy","icons","$(BUILD)")
-	@cp -r $(PATH_TARGET)/data/icons/* $(BUILD)/img/ || :
-
-#################################################################
-# Copy html files (if present)
-.PHONY: files
-files:
+	@$(call print-to,"Copy","data","$(BUILD)")
+	@mv $(PATH_TARGET)/data/icons $(BUILD)/icons || :
+	@mv $(PATH_TARGET)/data/tuto $(BUILD)/tuto || :
 	@$(call print-to,"Copy","files","$(BUILD)")
 	@cp -r *.html $(BUILD)/ 2> /dev/null || :
 

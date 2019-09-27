@@ -193,8 +193,9 @@ Ok this is not done and you will have to call `<p>` and `</p>`.
   finishing with the `dnl` token. I add some shell commands in the
   Makefile to kill them.
 
-* Be sure m4x files are coded in iso-latin-1 but not UTF-8, Emacs
-  script will not correctly convert accents.
+* Be sure m4x files are coded in iso-latin-1 but not UTF-8 else Emacs
+  script will not correctly convert accents. For example in Emacs type
+  `M-x set-buffer-file-coding-system`.
 
 * Beware of the punctuation mark ',' which can conflicting with m4
   parameter separator. You have to replace your comma by `[,]` or add

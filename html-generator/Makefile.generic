@@ -24,29 +24,24 @@ include $(WB)/Makefile.color
 #################################################################
 # Langage of pages to generate is given by the directory name.
 LANG=$(shell basename $(CURDIR))
+M4X_PATH=$(WB)
 PATH_TARGET=$(shell dirname $(CURDIR))
 TARGET=$(shell basename $(PATH_TARGET))
 BUILD:=$(B)/$(TARGET)
 INDEX_PAGE=index
 
 #################################################################
-# Default paths
-M4X_PATH=$(WB)
-M4X_FILES=$(M4X_PATH)/*.m4x
-MAIN_FILE=$(M4X_PATH)/main.m4x
-LAYOUT_PATH=$(M4X_PATH)/themes/default
-
-#################################################################
 # Override the layout.m4x file if present on the project else use
 # the default one.
-LAYOUT=$(shell (ls $(PATH_TARGET)/layout/layout.m4x || ls $(LAYOUT_PATH)/layout.m4x) 2> /dev/null)
+LAYOUT=$(shell (ls $(PATH_TARGET)/layout/layout.m4x || ls $(M4X_PATH)/themes/default/layout.m4x) 2> /dev/null)
 
 #################################################################
-# Pathes for tools
-M4X_FILES=$(M4X_PATH)/*.m4x
+# Pathes for tools and macros
+MAKEFILES=$(M4X_PATH)/Makefile*
+M4X_FILES=$(M4X_PATH)/*.m4x $(LAYOUT)
 MAIN_FILE=$(M4X_PATH)/main.m4x
 EMACS_SCRIPT_PATH=$(M4X_PATH)/emacs
-VPATH=$(BUILD):$(M4X_PATH):$(LAYOUT):$(CURDIR)
+VPATH=$(BUILD):$(M4X_PATH):$(CURDIR)
 INCLUDES=-I$(M4X_PATH) $(MAIN_FILE) $(LAYOUT)
 
 #################################################################
@@ -74,7 +69,7 @@ all: $(HTML)
 
 #################################################################
 # Generate page FIXME $(M4X_FILES) $(LAYOUT)
-%.html: %.m4
+%.html: %.m4 $(M4X_FILES) $(MAIN_FILE) $(MAKEFILES)
 	@$(call print-to,"Convert","$(M4FILE)","$(BUILD)/$@")
 # Delete empty lines
 	@m4 $(INCLUDES) $(DEFINES) $< | cat -s | awk 'NF {f=1} f' > $(BUILD)/$@

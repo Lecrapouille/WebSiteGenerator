@@ -9,7 +9,7 @@ define([ICON_GITHUB],[<img src="icons/github.png" alt="github" height="16" width
 define([ICON_GITHUB2],[<img src="icons/github.png" alt="github" height="40" width="40" border="0"/>])dnl
 define([ICON_PDF],[<img class="icone30" src="icons/pdf.png" alt="pdf"/>])dnl
 define([ICON_TGZ],[<img class="icone30" src="icons/tgz.png" alt="tarball"/>])dnl
-define([ICON_BUILD],[<img class="icone30" src="icons/construction2.gif" alt="UPPER(TRANS_IN_BUILDING)"/>])dnl
+define([ICON_BUILD],[<img class="icone30" src="icons/construction.gif" alt="UPPER(TRANS_IN_BUILDING)"/>])dnl
 define([ICON_DOWNLOAD],[<img class="icone20" src="icons/tgz.png" alt="download"/>])dnl
 define([ICON_READ],[<img class="icone20" src="icons/read.png" alt=""/>])dnl
 define([ICON_EYES],[<img class="icone20" src="icons/eyes.png" alt=""/>])dnl

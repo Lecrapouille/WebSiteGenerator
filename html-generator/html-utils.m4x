@@ -170,17 +170,18 @@ TABLE_OF_CONTENTS
 dnl #####################################################################
 dnl HTML SECTION and SUBSECTIONS
 dnl #####################################################################
-dnl html_section macro is a private macro for creating sections, subsections
+dnl _html_section macro is a private macro for creating sections, subsections
 dnl $1: h1 h2 h3
 dnl $2: icon
 dnl $3: title
 dnl $4: anchor (add the '#' for internal links)
 dnl $5: link
-define([html_section],[toc_append($3,#$4)dnl First: add section in the table of contents
+define([_html_section_5param],[ifelse($4,,[<$1><a href="$5-]LANG[.html">$2$3</a></$1>],dnl
+[<a id="$4" name="$4"></a><$1><a href="$5-]LANG[.html">$2$3</a></$1>])])dnl
+define([_html_section_4param],[ifelse($4,,[<$1>$2</$1>],[<a id="$4" name="$4"></a><$1>$2$3</$1>])])dnl
+define([_html_section],[toc_append($3,#$4)dnl First: add section in the table of contents
 dnl Second: create the html h1 or h2 ...
-ifelse($5,,[ifelse($4,,[<$1>$2</$1>],[<a id="$4" name="$4"></a><$1>$2$3</$1>])],
-[ifelse($4,,[<$1><a href="$5-]LANG[.html">$2$3</a></$1>],dnl
-[<a id="$4" name="$4"></a><$1><a href="$5-]LANG[.html">$2$3</a></$1>])])])dnl
+ifelse($5,,_html_section_4param($@),_html_section_5param($@))])dnl
 dnl ---------------------------------------------------------------------
 dnl Section state: if 0 do not add END_BOX, else add END_BOX
 define([_reset_state_section_],[define([_state_section_],[0])])dnl
@@ -190,12 +191,12 @@ _reset_state_section_
 dnl ---------------------------------------------------------------------
 define([_subsection_],[_close_section_
 <!-- Subsection: ifelse($3,,$2,$3) -->
-html_section($@)
+_html_section($@)
 _start_section_])
 dnl ---------------------------------------------------------------------
 define([_section_],[_close_section_
 <!-- Section: ifelse($3,,$2,$3) -->
-html_section($@)
+_html_section($@)
 _reset_state_section_])
 dnl ---------------------------------------------------------------------
 dnl Public macros

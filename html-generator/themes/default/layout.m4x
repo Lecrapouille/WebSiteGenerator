@@ -51,7 +51,7 @@ dnl An example of rubrique is the table of contents where items are links
 dnl to sections of the document.
 dnl #####################################################################
 dnl ---------------------------------------------------------------------
-define([ITEM_BULLET],[ifelse($1,,[],[<li><a href="$2"><img class="icone7" src="img/bullet.gif" alt=""/>$1.</a></li>])])
+define([ITEM_BULLET],[ifelse($1,,[],[<li><a href="$2"><img class="icone7" src="icons/bullet.gif" alt=""/>$1.</a></li>])])
 define([display_all_items_],[ifelse($2,,,[dnl Do not include item self referencing itself
 ifelse($2,THISFILE-LANG.html,[<!--],[]) ITEM_BULLET($1,$2) ifelse($2,THISFILE-LANG.html,[-->],[])
 display_all_items_(shift(shift($@)))])])dnl

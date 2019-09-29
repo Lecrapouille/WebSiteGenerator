@@ -65,8 +65,7 @@ display_all_items_(shift($@))dnl
 dnl #####################################################################
 dnl Left Heading: is a box with links located on the left of the page
 dnl #####################################################################
-define([LEFT_BORDER],[divert(DIVERT_LEFT_BORDER)
-$@])
+define([LEFT_BORDER],[divert(DIVERT_LEFT_BORDER)$@])
 dnl #####################################################################
 dnl Left heading specific for the page
 dnl #####################################################################

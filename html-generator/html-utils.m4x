@@ -148,7 +148,8 @@ dnl #####################################################################
 dnl HTML Table of section
 dnl #####################################################################
 define([_toc_header],[<!-- Begin Table of Contents -->
-<h1>TRANS_TOC:</h1><ul class="items">])
+<h1>TRANS_TOC:</h1>
+<ul class="items">])
 define([_toc_footer],[</ul><!-- End Table of Contents -->])
 dnl Create a table of contents is automaticly created "on the fly" from
 dnl all sections and subsections found in the page during the macro-process.
@@ -157,8 +158,11 @@ dnl ---------------------------------------------------------------------
 dnl Private macros
 dnl ---------------------------------------------------------------------
 dnl Append a text and its link in the table of contents
-define([toc_append],[define([_toc_lines],_toc_lines[]ITEM_BULLET($1,$2))dnl
-define([TABLE_OF_CONTENTS],_toc_header[]_toc_lines[]_toc_footer)])
+define([toc_append],[define([_toc_lines],ifelse([$1],,[ITEM_BULLET($1,$2)],dnl
+[_toc_lines
+ITEM_BULLET($1,$2)]))dnl
+define([TABLE_OF_CONTENTS],_toc_header[]_toc_lines
+_toc_footer)])dnl
 dnl #####################################################################
 dnl HTML SECTION and SUBSECTIONS
 dnl #####################################################################

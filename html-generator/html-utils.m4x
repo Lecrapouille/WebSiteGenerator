@@ -1,16 +1,21 @@
 dnl -*- m4 -*- Coloration Syntaxique pour Emacs
-dnl #####################################################################
+dnl =====================================================================
+dnl has its own definition because Emacs is confused balacing parenthesis and
+dnl brackets
+define([ANCHOR],[#$1])dnl
+define([QUOTE],['])dnl
+dnl =====================================================================
 dnl HTML Meta and title
-dnl #####################################################################
+dnl =====================================================================
 define([KEYWORDS],[define([_META_KEYWORDS_],[$@])])dnl
 define([DESCRIPTION],[define([_META_DESCRIPTION_],[$1])])dnl
 define([TITLE],[define([_META_TITLE_],[$1])])dnl
 define([_META_AUTHOR_],[])dnl
 define([_META_COPYRIGHT_],[])dnl
 define([AUTHOR],[define([_META_AUTHOR_],[$1])define([_META_COPYRIGHT_],[$2])])dnl
-dnl #####################################################################
+dnl =====================================================================
 dnl HTML header and footer
-dnl #####################################################################
+dnl =====================================================================
 define([PAGE_REDIRECTION],[<meta http-equiv=refresh content="0;URL=$1">])dnl
 define([HTML_FOOTER],[<!-- HTML EOF -->
 </body>
@@ -36,9 +41,9 @@ ifelse(_META_COPYRIGHT_,,,<meta name="copyright" content="_META_COPYRIGHT_" />)
 
 <!-- HTML BODY -->
 <body><a id="top_page" name="top_page"></a>])dnl
-dnl #####################################################################
+dnl =====================================================================
 dnl HTML text emphasis
-dnl #####################################################################
+dnl =====================================================================
 define([STRONG],[<strong>$1</strong>])dnl
 alias([BOLD],[STRONG])dnl
 define([MATHS],[<strong>$1</strong>])dnl
@@ -47,11 +52,11 @@ define([REMARK],[<strong>Remarque :</strong>])dnl
 define([CENTER],[<div class="centrer">$@</div>])dnl
 define([RIGHT],[<div class="right">$@</div>])dnl
 define([HUDGE],[<div class="hudge">$@</div>])dnl
-dnl #####################################################################
+dnl =====================================================================
 dnl HTML text color
-dnl #####################################################################
+dnl =====================================================================
 define([COLOR_],[<font color="$1"><strong>$2</strong></font>])dnl
-define([COLOR],[<font color="#$1"><strong>$2</strong></font>])dnl
+define([COLOR],[<font color="ANCHOR($1)"><strong>$2</strong></font>])dnl
 define([BLACK],[COLOR_(black,$1)])dnl
 define([BLUE],[COLOR_(2100ae,$1)])dnl
 define([PINK],[COLOR_(fuchsia,$1)])dnl
@@ -63,17 +68,17 @@ define([YELLOW],[COLOR_(yellow,$1)])dnl
 define([ORANGE],[COLOR_(ff9900,$1)])dnl
 define([WHITE],[COLOR_(white,$1)])dnl
 define([RED],[COLOR_(red,$1)])dnl
-dnl #####################################################################
+dnl =====================================================================
 dnl HTML box for displaying programming code. Color can be used for
 dnl highlighting the syntax. See coding.m4x file.
-dnl #####################################################################
+dnl =====================================================================
 define([CODE],[define([CODE_],[$1])][<div class="code"><pre><code>])dnl
 define([END_CODE],[</code></pre></div>define([CODE_],)])dnl
-dnl #####################################################################
+dnl =====================================================================
 dnl HTML boxes for delimiting the text of the article between sections.
-dnl #####################################################################
+dnl =====================================================================
 dnl Button for going back to the top of the page
-define([GOTO_TOP_ARTICLE],[RIGHT(LINK(#top_page,ICON_ARROW_UP))])dnl
+define([GOTO_TOP_ARTICLE],[RIGHT(LINK(ANCHOR(top_page),ICON_ARROW_UP))])dnl
 define([BOX],[<div class="boite">])dnl
 define([END_BOX],[GOTO_TOP_ARTICLE</div>])dnl
 dnl ---------------------------------------------------------------------
@@ -85,15 +90,15 @@ define([PREV_NEXT_ARTICLE],[TABLE(4,dnl
 dnl Go to previous article, go to index.html, go to begin of page, go to next article
 <h3>TRANS_PREV_ARTICLE:</h3>,<h3>TRANS_HOME_PAGE</h3>,<h3>TRANS_BOTTOM_PAGE</h3>,<h3>TRANS_NEXT_ARTICLE:</h3>,dnl
 dnl ---
-ICON_PREV_ARTICLE($1,$2),ICON_LINK_ARTICLE(index,ICON_ARROW_HOME),LINK(#top_page,ICON_ARROW_UP),ICON_NEXT_ARTICLE($3,$4),dnl
+ICON_PREV_ARTICLE($1,$2),ICON_LINK_ARTICLE(index,ICON_ARROW_HOME),LINK(ANCHOR(top_page),ICON_ARROW_UP),ICON_NEXT_ARTICLE($3,$4),dnl
 $2,,,$4)])dnl
-dnl #####################################################################
+dnl =====================================================================
 dnl HTML links
-dnl #####################################################################
+dnl =====================================================================
 dnl Generic external link
 define([LINK],[ifelse([$2],,[<a href="$1">$1</a>],[<a href="$1">$2</a>])])dnl
 dnl Generic link inside the page
-define([ILINK],[ifelse([$2],,[<a href="#$1">$1</a>],[<a href="#$1">$2</a>])])dnl
+define([ILINK],[ifelse([$2],,[<a href="ANCHOR($1)">$1</a>],[<a href="ANCHOR($1)">$2</a>])])dnl
 dnl ---------------------------------------------------------------------
 dnl Local link (refering to a page of the website)
 define([MYLINK],[ifelse([$2],,[<a href="$1-LANG.html">$1</a>],[<a href="$1-LANG.html">$2</a>])])dnl
@@ -107,17 +112,17 @@ dnl ---------------------------------------------------------------------
 define([MYGITHUB],[GITHUB(Lecrapouille/$1,ifelse($2,,GitHub,$2))])dnl
 dnl ---------------------------------------------------------------------
 define([FORKME],[<a href="https://github.com/Lecrapouille/$1"><img style="position: absolute; top: 0; left: 0; border: 0; width: 149px; height: 149px;" src="icons/forkme.png" alt="Fork me on GitHub"></a>])dnl
-dnl #####################################################################
+dnl =====================================================================
 dnl HTML Link to media (pictures or video)
-dnl #####################################################################
+dnl =====================================================================
 define([MOVIE],[<a href="$2"><img class="caption" src="$1" alt="movie"/></a>])dnl
 define([PICTURE],[<a href="$1"><img class="caption" src="$1" alt="picture"/></a>])dnl
 define([LOW_PICTURE],[<a href="$1_big.jpg"><img class="caption" src="$1.jpg" alt="low_picture"/></a>])dnl
 define([CAPTION_PICTURE],[CENTER(PICTURE($1)<p>$2</p>)])dnl
 define([LOW_CAPTION_PICTURE],[CENTER(LOW_PICTURE($1)<p>$2</p>)])dnl
-dnl #####################################################################
+dnl =====================================================================
 dnl HTML table $1 is the number of columns
-dnl #####################################################################
+dnl =====================================================================
 define([table_head],[$1[]define([table_list],[shift($@)])])dnl
 dnl ---------------------------------------------------------------------
 define([TABLE],[define([table_columns],[$1])dnl Number of columns
@@ -129,9 +134,9 @@ forloop(jjj,1,table_columns,[        <td align="center">table_head(table_list)</
 ])    </tr>
 ])dnl
 </table>])dnl
-dnl #####################################################################
+dnl =====================================================================
 dnl HTML List and enum
-dnl #####################################################################
+dnl =====================================================================
 define([list_recurse],[ifelse([$1],,,[<li>$1</li>
 list_recurse(shift($@))])])dnl
 define([LIST],[<!-- Begin List -->
@@ -144,9 +149,9 @@ dnl ---------------------------------------------------------------------
 define([ENUM],[<!-- Begin enum -->
 <ol>list_recurse($@)</ol>
 <!-- End enum -->])dnl
-dnl #####################################################################
+dnl =====================================================================
 dnl HTML Table of section
-dnl #####################################################################
+dnl =====================================================================
 define([_toc_header],[<!-- Begin Table of Contents -->
 <h1>TRANS_TOC:</h1>
 <ul class="items">])
@@ -163,19 +168,19 @@ define([toc_append],[define([_toc_lines],ifelse([$1],,[ITEM_BULLET($1,$2)],dnl
 ITEM_BULLET($1,$2)]))dnl
 define([TABLE_OF_CONTENTS],_toc_header[]_toc_lines
 _toc_footer)])dnl
-dnl #####################################################################
+dnl =====================================================================
 dnl HTML SECTION and SUBSECTIONS
-dnl #####################################################################
+dnl =====================================================================
 dnl _html_section macro is a private macro for creating sections, subsections
 dnl $1: h1 h2 h3
 dnl $2: icon
 dnl $3: title
-dnl $4: anchor (add the '#' for internal links)
+dnl $4: anchor
 dnl $5: link
 define([_html_section_5param],[ifelse($4,,[<$1><a href="$5-]LANG[.html">$2$3</a></$1>],dnl
 [<a id="$4" name="$4"></a><$1><a href="$5-]LANG[.html">$2$3</a></$1>])])dnl
 define([_html_section_4param],[ifelse($4,,[<$1>$2</$1>],[<a id="$4" name="$4"></a><$1>$2$3</$1>])])dnl
-define([_html_section],[toc_append($3,#$4)dnl First: add section in the table of contents
+define([_html_section],[toc_append($3,ANCHOR($4))dnl First: add section in the table of contents
 dnl Second: create the html h1 or h2 ...
 ifelse($5,,_html_section_4param($@),_html_section_5param($@))])dnl
 dnl ---------------------------------------------------------------------

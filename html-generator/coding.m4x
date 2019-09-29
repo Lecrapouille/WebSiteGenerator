@@ -1,19 +1,19 @@
 dnl -*- m4 -*- Coloration Syntaxique pour Emacs
-dnl #####################################################################
+dnl =====================================================================
 dnl Code source coloration. Define here the color and shape of the
 dnl targeted language tokens. Several languages are managed: C, Forth
 dnl and generic language (when not specified).
-dnl #####################################################################
+dnl =====================================================================
 dnl ---------------------------------------------------------------------
 dnl Private macros
 dnl ---------------------------------------------------------------------
-dnl Define color for the token 'for'
+dnl Define color for the token for
 dnl ---------------------------------------------------------------------
 define([_FOR],[STRONG(for)])dnl genric form
 define([C_FOR],[BLUE(_FOR)])dnl C code
 define([FORTH_FOR],[RED(_FOR)])dnl Forth code
 dnl ---------------------------------------------------------------------
-dnl Define color for the token 'while'
+dnl Define color for the token while
 dnl ---------------------------------------------------------------------
 define([_WHILE],[STRONG(for)])dnl genric form
 define([C_WHILE],[BLUE(_WHILE)])dnl C code

@@ -1,7 +1,7 @@
 dnl -*- m4 -*- Coloration Syntaxique pour Emacs
-dnl #####################################################################
+dnl =====================================================================
 dnl Icons. Define your icons here
-dnl #####################################################################
+dnl =====================================================================
 define([ICON_FR],[<img src="icons/fr.png" style="border:0;" alt="fr"/>])dnl
 define([ICON_EN],[<img src="icons/en.png" style="border:0;" alt="en"/>])dnl
 define([ICON_EXT_LINK],[<img src="icons/externallink.png" height="12" width="12" border="0" alt="extlink"/>])dnl

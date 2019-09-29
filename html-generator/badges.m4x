@@ -1,7 +1,7 @@
 dnl -*- m4 -*- Coloration Syntaxique pour Emacs
-dnl #####################################################################
+dnl =====================================================================
 dnl Banners, Logos, License, Validators ...
-dnl #####################################################################
+dnl =====================================================================
 define([BADGES],[<!-- Begin Badges -->
 <p>TRANS_LICENSE</p>
 <table width="100%" align="center">
@@ -23,9 +23,9 @@ define([LICENSE_GPL3],[TRANSLATE([LINK(https://www.gnu.org/licenses/gpl-3.0.fr.h
 [LINK(https://www.gnu.org/licenses/gpl-3.0.en.html,$1)])])
 define([LOGO_GPL3],[<img alt="GNU GPL" style="border:0;" src="http://creativecommons.org/images/public/cc-GPL-a.png" />])
 define([GPL3],[LICENSE_GPL3(LOGO_GPL3)])
-dnl #####################################################################
+dnl =====================================================================
 dnl HTML validator
-dnl #####################################################################
+dnl =====================================================================
 define([VISITORS_COUNTER],[<!-- phpmyvisites -->
 <a href="http://st.free.fr/" title="phpMyVisites | Open source web analytics"
 onclick="window.open(this.href);return(false);"><script type="text/javascript">
@@ -41,9 +41,9 @@ var phpmyvisitesURL = "http://st.free.fr/phpmyvisites.php";
 <img src="http://st.free.fr/phpmyvisites.php" alt="Statistics" style="border:0" />
 </p></noscript></object></a>
 <!-- /phpmyvisites -->])dnl
-dnl #####################################################################
+dnl =====================================================================
 dnl HTML validator
-dnl #####################################################################
+dnl =====================================================================
 define([CSS_VALIDATOR],[<a href="http://jigsaw.w3.org/css-validator/check/referer">
 <img src="icons/css.gif" alt="Valid CSS!" style="border:0" height="15" width="66" /></a>])dnl
 define([XHTML_VALIDATOR],[<a href="http://validator.w3.org/check?uri=referer">

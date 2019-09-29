@@ -1,14 +1,14 @@
 dnl -*- m4 -*- Coloration Syntaxique pour Emacs
-dnl #####################################################################
+dnl =====================================================================
 dnl The default language for my website is french and I have a single
 dnl foreign language (english). Generated HTML pages have a link to their
 dnl translated version (icon of flags).
 dnl Note 01: pass LANG within Makefile parameter: -DLANG=fr this will be
 dnl easier for you.
-dnl Note 02: If you need multiple translations for your website you'll have
-dnl to use another solution: create several files like trans-fr.m4,
+dnl Note 02: If you need multiple translations for your website you will
+dnl have to use another solution: create several files like trans-fr.m4,
 dnl trans-en.m4 with translations.
-dnl #####################################################################
+dnl =====================================================================
 ifdef([LANG],,[define([LANG],[fr])])dnl Default language is french
 dnl ---------------------------------------------------------------------
 dnl Draw an icon for the translated page
@@ -28,15 +28,15 @@ define([ENGLISH_PAGE],[ifelse(LANG,en,
 [<img src="icons/fr.png" style="border:0;" alt="FR" />])])dnl
 dnl ---------------------------------------------------------------------
 define([TRANSLATE],[ifelse(LANG,fr,[$1],[$2])])dnl
-dnl #####################################################################
+dnl =====================================================================
 dnl Translations
-dnl #####################################################################
+dnl =====================================================================
 define([DATE],[TRANSLATE([FR_DATE],[EN_DATE])])dnl
 define([TRANS_SAME_PROJ],[TRANSLATE([Projets similaires],[Similar projects])])dnl
 define([TRANS_TOC],[TRANSLATE([Table des matières],[Table of contents])])dnl
 define([TRANS_PREV_ARTICLE],[TRANSLATE([Article précédent],[Previous article])])dnl
 define([TRANS_NEXT_ARTICLE],[TRANSLATE([Article suivant],[Next article])])dnl
-define([TRANS_HOME_PAGE],[TRANSLATE([Page d'accueil],[Home page])])dnl
+define([TRANS_HOME_PAGE],[TRANSLATE([Page d[]QUOTE[]accueil],[Home page])])dnl
 define([TRANS_BOTTOM_PAGE],[TRANSLATE([Aller en haut],[Page bottom])])dnl
 define([TRANS_UPDATED],[<!-- Update -->
 TRANSLATE([Page auto-générée le],[Pages auto-generated on])])dnl

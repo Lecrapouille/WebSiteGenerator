@@ -1,5 +1,5 @@
 dnl -*- m4 -*- Coloration Syntaxique pour Emacs
-dnl #####################################################################
+dnl =====================================================================
 dnl My personal links
 define([PROJ_WEBGENERATOR],[MYGITHUB(WebSiteGenerator,$1)])
 define([SYNDEX],[LINK(http://www.syndex.org/download.htm,SynDEx)])

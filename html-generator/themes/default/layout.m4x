@@ -33,11 +33,11 @@ define([ITEM_CV],[ICON_READ[]TRANSLATE([Stages &amp; CV],[Internships &amp; CV])
 define([ITEM_TUTO],[ICON_READ[]TRANSLATE([Tutoriels],[Tutorials])])
 dnl ---------------------------------------------------------------------
 dnl Define different menus
-define([PRIMARY_HEAD_MENU_1],[primary_head_menu(ITEM_HOME,index,ITEM_EMBARQUE,helico_intro,ITEM_3D,ecstasy,ITEM_TUTO,tuto_scicos)])
+define([PRIMARY_HEAD_MENU_1],[primary_head_menu(ITEM_EMBARQUE,helico_intro,ITEM_TUTO,dyna,ITEM_3D,simtadyn,ITEM_HOME,index)])
 define([SECONDARY_HEAD_MENU_HOME],[secondary_head_menu(Home,index,Plan du site,plansite,Mises à jour,maj,C.V.,cv)])
-define([SECONDARY_HEAD_MENU_EMBARQUE],[secondary_head_menu(Hélicoptère 4 rotors,helico_intro,Voiture CyCab,stages_travail2)])
-define([SECONDARY_HEAD_MENU_3D],[secondary_head_menu(Ecstasy,ecstasy,SpeedWay,speedway,SimTaDyn,simtadyn,Interpréteur Forth,forth)])
-define([SECONDARY_HEAD_MENU_TUTO],[secondary_head_menu(Logiciels Scilab/Scicos,tuto_scicos,Logiciel SynDEx,tuto_syndex,BSP,tuto_bsp,Dynamique d'une voiture,tuto_dyna,)])
+define([SECONDARY_HEAD_MENU_EMBARQUE],[secondary_head_menu(Voiture CyCab,stages_travail2,Hélicoptère 4 rotors,helico_intro)])
+define([SECONDARY_HEAD_MENU_3D],[secondary_head_menu(Chess,chessneuneu,Ecstasy,ecstasy,SpeedWay,speedway,SimTaDyn,simtadyn)])
+define([SECONDARY_HEAD_MENU_TUTO],[secondary_head_menu(BSP,bsp,SynDEX,syndex,Boîte à outils Max+,maxplus,Interpréteur Forth,forth,Dynamique d'une voiture,dyna)])
 define([SECONDARY_HEAD_MENU_CV],[secondary_head_menu(Mon C.V.,cv,Mes stages à l'INRIA,stages_travail2)])
 dnl ---------------------------------------------------------------------
 dnl Select the desired menu with this macro
@@ -51,7 +51,7 @@ dnl An example of rubrique is the table of contents where items are links
 dnl to sections of the document.
 dnl #####################################################################
 dnl ---------------------------------------------------------------------
-define([ITEM_BULLET],[ifelse($1,,[],[<li><a href="$2"><img class="icone7" src="icons/bullet.gif" alt=""/>$1.</a></li>])])
+define([ITEM_BULLET],[ifelse($1,,[],[<li><a href="$2"><img class="icone7" src="img/bullet.gif" alt=""/>$1.</a></li>])])
 define([display_all_items_],[ifelse($2,,,[dnl Do not include item self referencing itself
 ifelse($2,THISFILE-LANG.html,[<!--],[]) ITEM_BULLET($1,$2) ifelse($2,THISFILE-LANG.html,[-->],[])
 display_all_items_(shift(shift($@)))])])dnl
@@ -65,7 +65,7 @@ display_all_items_(shift($@))dnl
 dnl #####################################################################
 dnl Left Heading: is a box with links located on the left of the page
 dnl #####################################################################
-define([LEFT_HEADINGS],[divert(DIVERT_LEFT_BORDER)
+define([LEFT_BORDER],[divert(DIVERT_LEFT_BORDER)
 $@])
 dnl #####################################################################
 dnl Left heading specific for the page
@@ -73,22 +73,23 @@ dnl #####################################################################
 define([HEADING_3D_GAME],[HEADING(TRANS_SAME_PROJ,Speedway,speedway-LANG.html,Ecstasy,ecstasy-LANG.html)])
 define([HEADING_SIMATDYN_LIKE],[HEADING(TRANS_SAME_PROJ,Spreadsheet-based GIS Models,dnl
 [https://scholarworks.umb.edu/cgi/viewcontent.cgi?referer=&httpsredir=1&article=1004&context=management_wp],dnl
-Rocs,https://github.com/KDE/rocs)])dnl
+SimCity engine,[http://www.andrewwillmott.com/talks/inside-glassbox],dnl
+KDE Rocs,https://github.com/KDE/rocs)])dnl
 dnl #####################################################################
 dnl HTML template: the page is a html table
 dnl -------------------------------------
-dnl            title
+dnl            Title
 dnl -------------------------------------
 dnl        Primary header
 dnl -------------------------------------
 dnl        Secondary header
 dnl -------------------------------------
-dnl left border | article | right border
+dnl Left border | Article | Right border
 dnl -------------------------------------
-dnl           Footer
+dnl            Footer
 dnl #####################################################################
 define([BEGIN_BODY],[divert(DIVERT_BODY)])
-define([END_BODY],[create_toc[]divert(DIVERT_FOOTER)
+define([END_BODY],[divert(DIVERT_FOOTER)
 divert
 HTML_HEADER
 <table id="document">
@@ -128,8 +129,6 @@ HTML_HEADER
         <div id="menu">
            <!-- Translated Pages -->
            CHANGE_LANGUAGE
-
-           TABLE_OF_CONTENTS
 
            <!-- BEGIN LEFT BORDER DIVERSION -->
            undivert(DIVERT_LEFT_BORDER)

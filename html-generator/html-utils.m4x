@@ -80,7 +80,7 @@ dnl =====================================================================
 dnl Button for going back to the top of the page
 define([GOTO_TOP_ARTICLE],[RIGHT(LINK(ANCHOR(top_page),ICON_ARROW_UP))])dnl
 define([BOX],[<div class="boite">])dnl
-define([END_BOX],[GOTO_TOP_ARTICLE</div>])dnl
+define([END_BOX],[<!--GOTO_TOP_ARTICLE--></div>])dnl
 dnl ---------------------------------------------------------------------
 define([ICON_LINK_ARTICLE],[LINK($1-LANG.html,$2)])dnl
 define([ICON_PREV_ARTICLE],[ICON_LINK_ARTICLE($1,ifelse([$2],,[ICON_ARROW_LEFT],[ICON_ARROW_LLEFT]))])dnl

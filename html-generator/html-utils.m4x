@@ -77,20 +77,16 @@ define([GOTO_TOP_ARTICLE],[RIGHT(LINK(#top_page,ICON_ARROW_UP))])dnl
 define([BOX],[<div class="boite">])dnl
 define([END_BOX],[GOTO_TOP_ARTICLE</div>])dnl
 dnl ---------------------------------------------------------------------
-dnl Display 4 buttons for going to next/previous articles
+define([ICON_LINK_ARTICLE],[LINK($1-LANG.html,$2)])dnl
+define([ICON_PREV_ARTICLE],[ICON_LINK_ARTICLE($1,ifelse([$2],,[ICON_ARROW_LEFT],[ICON_ARROW_LLEFT]))])dnl
+define([ICON_NEXT_ARTICLE],[ICON_LINK_ARTICLE($1,ifelse([$2],,[ICON_ARROW_RIGHT],[ICON_ARROW_RRIGHT]))])dnl
+dnl Display 4 buttons for going to next/previous articles up,index pages
 define([PREV_NEXT_ARTICLE],[TABLE(4,dnl
-<h3>TRANS_PREV_ARTICLE</h3>,dnl Go to the previous article
-<h3>TRANS_HOME_PAGE</h3>,dnl Go to the index page
-<h3>TRANS_BOTTOM_PAGE</h3>,dnl
-<h3>TRANS_NEXT_ARTICLE</h3>,dnl Go to the next article
-ifelse([$1],,[ICON_ARROW_LEFT],[ICON_ARROW_LLEFT]),
-LINK(index-LANG.html,ICON_ARROW_HOME),
-LINK(#top_page,ICON_ARROW_UP),
-ifelse([$3],,[ICON_ARROW_RIGHT],[ICON_ARROW_RRIGHT]),
-ifelse([$1],,,[MYLINK($1,$2)]),
-,,
-ifelse([$3],,,[MYLINK($3,$4)]))
-])dnl
+dnl Go to previous article, go to index.html, go to begin of page, go to next article
+<h3>TRANS_PREV_ARTICLE:</h3>,<h3>TRANS_HOME_PAGE</h3>,<h3>TRANS_BOTTOM_PAGE</h3>,<h3>TRANS_NEXT_ARTICLE:</h3>,dnl
+dnl ---
+ICON_PREV_ARTICLE($1,$2),ICON_LINK_ARTICLE(index,ICON_ARROW_HOME),LINK(#top_page,ICON_ARROW_UP),ICON_NEXT_ARTICLE($3,$4),dnl
+$2,,,$4)])dnl
 dnl #####################################################################
 dnl HTML links
 dnl #####################################################################

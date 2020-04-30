@@ -23,3 +23,5 @@ dnl Public macros: use them for coloring your code
 dnl ---------------------------------------------------------------------
 define([FOR],[CONCAT(CODE_,[_FOR])])dnl
 define([WHILE],[CONCAT(CODE_,[_WHILE])])dnl
+dnl ---------------------------------------------------------------------
+define([COLORFORTH],[RED(color)GREEN(Forth)])dnl
